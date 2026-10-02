@@ -50,6 +50,7 @@ Ziel: maw sieht Ergebnisse schnell und kann früh die Richtung ändern.
 - **Auf der Startseite verlinken:** Jede neue `/lab`-Seite, jedes Moodboard und jede Design-Seite wird in der zentralen Registry eingetragen, damit sie auf `/` erscheint.
 - **Ergebnis mit Bild:** Zum Abschluss einer Scheibe ein Kommentar im Bead mit Screenshot, 2–3 Sätzen «worauf achten» und offenen Fragen.
 - **Feedback lesen:** Vor jeder Scheibe die Kommentare im Bead, im Eltern-Epic und in der vorherigen Scheibe lesen – dort steht maws Rückmeldung.
+- **Art-Director-Review:** Visuelle Ergebnisse (Welt, UI, Moodboards) werden gegen die [Art Bible](docs/art/README.md) geprüft. In Claude-Sessions per Subagent `art-director` (`.claude/agents/art-director.md`); Reviews sind Vorschläge, maw entscheidet. Polecats rufen ihn nur auf, wenn ihr Bead es verlangt.
 - **Suchen und Gestalten** geschieht in interaktiven Studio-Sessions (Mensch + Agent mit Live-Preview); deren Entscheidungen landen im Bead bzw. in einer ADR, klar umrissene Folgearbeit geht als Beads an die Polecats.
 
 ## Arbeitsablauf für Agents (Gas City + Refinery)

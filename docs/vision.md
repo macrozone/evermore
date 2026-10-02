@@ -100,7 +100,7 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 
 ## 5. Look & Feel
 
-Verbindlich: [ADR 0010](adr/0010-art-direction-welt-pixel-art-ui-offen.md).
+Verbindlich: [ADR 0010](adr/0010-art-direction-welt-pixel-art-ui-offen.md). Details und Review-Massstab: [Art Bible](art/README.md).
 
 - **Welt:** Pixel-Art, die an 16-Bit-SNES-Rollenspiele erinnert, darf aber moderner sein (dynamisches Licht, Schatten, Partikel, flüssige Animation). Pixel-Art stilisiert und hält generierte Welten einheitlich. Perspektive wie klassische Action-RPGs, aber mit echter Vertikalität.
 - **Licht und Schatten sind zentral:** Lichtquellen (Feuer, Laternen, Fenster, Magie) erhellen ihre Umgebung sichtbar; Schatten geben Tiefe. Möglicherweise **Tag/Nacht-Wechsel** (*offen*).
