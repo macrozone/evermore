@@ -103,6 +103,8 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 Verbindlich: [ADR 0010](adr/0010-art-direction-welt-pixel-art-ui-offen.md).
 
 - **Welt:** Pixel-Art, die an 16-Bit-SNES-Rollenspiele erinnert, darf aber moderner sein (dynamisches Licht, Schatten, Partikel, flüssige Animation). Pixel-Art stilisiert und hält generierte Welten einheitlich. Perspektive wie klassische Action-RPGs, aber mit echter Vertikalität.
+- **Licht und Schatten sind zentral:** Lichtquellen (Feuer, Laternen, Fenster, Magie) erhellen ihre Umgebung sichtbar; Schatten geben Tiefe. Möglicherweise **Tag/Nacht-Wechsel** (*offen*).
+- **Cozy Zuhause:** Spieler sollen sich in *ihrem* Zuhause geborgen und wohl fühlen – warmes Licht, vertraute Dinge –, sofern sie sich nicht ausdrücklich etwas anderes wünschen. Gerade dieser Ort ist in der Schattenwelt der gefährlichste; der Kontrast ist gewollt.
 - **Referenzen Welt:** SNES-RPGs, *Children of Morta*, *Stardew Valley* – weitere folgen (*offen*).
 - **Stimmungen:** **eigene Welt** (warm, vertraut, je nach Beschreibung des Spielers), **Traumwelt** (leer, schwebend, schmale Pfade im Nichts, Referenz Chaos in *Hades*), **Schattenwelt** (vertraut, aber verzerrt und bedrohlich, Referenzen Dark World in *Zelda: A Link to the Past*, Upside Down in *Stranger Things*).
 - **UI** (Website, Menüs, HUD, Buch-Oberfläche): Stil noch *offen* (Entscheidung `evermore-azi`), nicht automatisch Pixel-Look. Erste Richtung: **Formensprache von Büchern** – schlicht, elegant, Einband verschnörkelt.
@@ -130,6 +132,7 @@ Diese Punkte folgen direkt aus der Vision und gelten als Richtschnur für Archit
 - Wie tritt die Entität mit Spielern in Kontakt, und wie ist ihre Stärke an die Spieler gekoppelt?
 - Wie viel Inspiration kostet welche Änderung, und wer oder was bewertet das?
 - Bestimmt die Distanz zum Zuhause auch Kosten oder maximale Grösse eines Wunsches?
+- Tag/Nacht-Wechsel: ja/nein, und wie wirkt er auf Gefahren und Stimmung?
 
 ## 8. Wie die Vision wächst
 
