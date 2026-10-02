@@ -37,6 +37,8 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 - Jeder Spieler beginnt vor dem Buch. Es fragt: **«Who are you and where are you?»** und **«Where do you sleep?»**. Am Schlafplatz erwacht der Spieler – zu Beginn und nach dem Tod.
 - Aus den Antworten entsteht das **Zuhause** des Spielers und die Welt um ihn herum – und **die Spielfigur selbst**: Aussehen gemäss «Who are you?», als Pixel-Art-Sprite mit allen Blickrichtungen und Laufanimation.
 - Danach ist das Buch das Werkzeug für **Wünsche**: Der Spieler schreibt hinein, was sich ändern soll.
+- **Die Geschichte des Spielers spielt sich im Buch ab.** Seine Aktionen – Laufen, besuchte Orte, Kämpfe, Attacken, Funde und weitere Erlebnisse – werden als Geschichte niedergeschrieben. Grundlage ist ein Aktions-/Ereignisprotokoll (Abschnitt 6).
+- Geschichten sind **neutral bezüglich leerer Seiten**: Sie füllen Seiten, fügen am Ende aber entsprechend viele leere Seiten hinzu; der Umfang wird jeweils auf ganze Seiten aufgerundet.
 
 ### 3.2 Aufbau der Welt
 
@@ -61,6 +63,14 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 - Jede Nutzung des Buches kostet Inspiration; **grössere Änderungen kosten mehr**. Reicht die Inspiration nicht, wird der Wunsch nicht erfüllt – der Spieler formuliert ihn kleiner oder wartet.
 - Inspiration **füllt sich langsam** wieder auf. **Besuche in anderen Welten** geben etwas Inspiration zurück.
 - Inspiration ist bewusst knapp: Sie steuert, wie viel Spieler ändern können, und begrenzt die Last auf KI-Modelle.
+
+### 3.3.1 Seiten und Kapitel
+
+- **Leere Buchseiten sind eine weitere Ressource.** Irgendwann hat das Buch keine leeren Seiten mehr zum Beschreiben. Der Spieler muss neue finden und dem Buch hinzufügen.
+- Seiten tauchen **ab und zu in der Spielwelt auf, wenn gerade niemand in der Nähe ist**, und werden gegebenenfalls beschützt.
+- Funde können **einzelne Seiten oder leere Kapitel** sein. Ein Kapitel bringt mehrere leere Seiten, benötigt aber einen **Titel** und eventuell eine **Kurzbeschreibung**.
+- Der **Kapiteltitel beeinflusst alles, was das Buch für dieses Kapitel generiert**. Damit setzt sich der Spieler gewissermassen ein Ziel.
+- Wie viele Seiten ein Wunsch benötigt und wie Seitenverbrauch und Inspirationskosten zusammenwirken: *offen*. Die automatisch geschriebene Geschichte verbraucht netto keine leeren Seiten (Abschnitt 3.1).
 
 ### 3.4 Die Schattenwelt
 
@@ -87,8 +97,8 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 
 ### 3.7 Fortschritt und Belohnungen
 
-- Ressourcen/Stats: **HP** (sicher), **Inspiration** und **maximale Inspiration**, vermutlich **Erfahrung** (könnte klassische Stats wie HP beeinflussen).
-- Belohnungen sind vor allem Boosts dieser Ressourcen: Erfahrung, höhere maximale Inspiration, Inspiration auffüllen.
+- Ressourcen/Stats: **HP** (sicher), **Inspiration** und **maximale Inspiration**, vermutlich **Erfahrung** (könnte klassische Stats wie HP beeinflussen), dazu **leere Buchseiten** (einzeln oder als Kapitel, Abschnitt 3.3.1).
+- Belohnungen sind vor allem Boosts dieser Ressourcen: Erfahrung, höhere maximale Inspiration, Inspiration auffüllen. Dazu kommen Funde von Seiten und leeren Kapiteln, die dem Buch neuen Platz zum Beschreiben geben.
 - Weitere Stats und wie Spieler stärker werden: *offen*.
 
 ## 4. Kern-Loop (Arbeitsstand)
@@ -121,6 +131,7 @@ Diese Punkte folgen direkt aus der Vision und gelten als Richtschnur für Archit
 - **Wünsche sind Änderungen an der Welt.** Ein Wunsch wird zu einer Änderung (Diff) am Weltmodell. Gespeichert werden Ausgangsbeschreibung + Seed + Änderungen – passt zu User Generated Content und hält die Speicherung klein.
 - **Kosten vor Ausführung schätzen.** Damit Inspiration Last begrenzen kann, muss die Grösse eines Wunsches *vor* der teuren Generierung bekannt sein (z.B. günstiges Modell schätzt Umfang und Inspirationskosten). Zu grosse Wünsche werden abgelehnt, bevor teure Modelle laufen.
 - **KI-Nutzung ist budgetiert.** Inspiration (Spieler) und ein Budget für die Entität begrenzen Modellaufrufe. Die Entität agiert in Zügen (z.B. periodisch oder bei Ereignissen), nicht pro Frame.
+- **Aktionen als Ereignisse protokollieren.** Ein Aktions-/Ereignisprotokoll pro Spieler hält Laufen, Orte, Kämpfe, Attacken und Funde als strukturierte Ereignisse fest, nicht als Freitext. Ein Modell verdichtet diese budgetiert zur Geschichte im Buch; Granularität und Schreibzeitpunkt bleiben offen. Das passt zur budgetierten KI-Nutzung und erfordert keinen Modellaufruf pro Aktion.
 - **Welten sind Einheiten.** Jede Spielerwelt ist eine abgeschlossene Einheit; Traumpfade sind Übergänge zwischen Welten. Das erlaubt, Welten getrennt zu laden, zu speichern und zu betreiben.
 
 ## 7. Offene Fragen
@@ -135,6 +146,13 @@ Diese Punkte folgen direkt aus der Vision und gelten als Richtschnur für Archit
 - Bestimmt die Distanz zum Zuhause auch Kosten oder maximale Grösse eines Wunsches?
 - Tag/Nacht-Wechsel: ja/nein, und wie wirkt er auf Gefahren und Stimmung?
 - Spielfigur: Wie viele Sprites/Animationen braucht es (4 oder 8 Richtungen, Laufen, Angriff …), und wie bleiben generierte Figuren konsistent und bezahlbar?
+
+- Seitenverbrauch: Kostet ein Wunsch eine Seite oder hängt der Verbrauch vom Umfang ab? Wie verhält sich das zu Inspiration?
+- Seiten und Kapitel: Wie oft und wo tauchen sie auf, und wer oder was beschützt sie?
+- Kapitel: Wie wirken Titel und optionale Kurzbeschreibung auf die Generierung und auf die Entität?
+- Aktionsprotokoll: Welche Ereignisse werden in welcher Granularität festgehalten?
+- Geschichte im Buch: Wird sie live, pro Session oder pro Kapitel geschrieben?
+- Multiplayer / Netcode: Architektur, Server-Autorität und Hosting sind in der Entscheidung `evermore-kl1` offen; Recherche als [ADR-Entwurf 0011](adr/0011-multiplayer-netcode.md) (*proposed*).
 
 ## 8. Wie die Vision wächst
 
