@@ -18,6 +18,8 @@
     "pixi.js": "^8.21.0",
     "react": "catalog:nextjs",
     "react-dom": "catalog:nextjs",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "three": "^0.186.1"
   },
   "devDependencies": {

@@ -3,14 +3,16 @@ export type CatalogEntry = {
   name: string;
   description: string;
   href: string;
-  category: "experiment" | "design" | "moodboard";
+  category: "experiment" | "design" | "moodboard" | "vision";
+  screenshot?: string;
   status: "ready" | "in-progress" | "planned";
 };
 
-/** Shared by /lab and the future homepage overview. Only ready routes are linked. */
+/** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
     id: "book",
+    screenshot: "/catalog/book-desktop.png",
     name: "Book of Evermore",
     description: "Write your beginning in a book: two questions, page turns and adjustable typography.",
     href: "/lab/book",
@@ -27,6 +29,7 @@ export const catalog: readonly CatalogEntry[] = [
   },
   {
     id: "r1-voxel",
+    screenshot: "/catalog/r1-voxel-static.png",
     name: "R1 · Orthographic voxels",
     description: "Inspect the whole meadow-house world in Three.js with adjustable camera angles.",
     href: "/lab/r1-voxel",
@@ -47,6 +50,14 @@ export const catalog: readonly CatalogEntry[] = [
     description: "Typography, palette and the first UI building blocks.",
     href: "/design",
     category: "design",
+    status: "ready",
+  },
+  {
+    id: "vision",
+    name: "Product vision",
+    description: "The living vision: wishes, connected worlds and the shadow world.",
+    href: "/vision",
+    category: "vision",
     status: "ready",
   },
 ];

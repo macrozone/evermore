@@ -1,0 +1,14 @@
+.document { max-width: 56rem; margin: auto; padding: 3rem 1.5rem; font: 1rem/1.8 system-ui, sans-serif; overflow-wrap: anywhere; }
+.document h1 { font-size: 2.25rem; }
+.document h2 { font-size: 1.6rem; margin-top: 2.5rem; }
+.document h3 { font-size: 1.2rem; margin-top: 2rem; }
+.document p, .document ul, .document ol, .document blockquote { margin-block: 1rem; }
+.document ul, .document ol { padding-left: 1.5rem; }
+.document ul { list-style: disc; }
+.document ol { list-style: decimal; }
+.document a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+.document pre { overflow-x: auto; padding: 1rem; background: var(--color-dusk); }
+.document blockquote { border-left: 2px solid var(--color-gold); padding-left: 1rem; color: var(--color-mist); }
+
+.document table { display: block; overflow-x: auto; border-collapse: collapse; }
+.document th, .document td { border: 1px solid var(--color-dusk); padding: .5rem; text-align: left; }
