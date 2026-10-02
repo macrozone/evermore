@@ -1,0 +1,8 @@
+{
+  "extends": "@evermore/tsconfig/base.json",
+  "compilerOptions": {
+    // for console in tests; src must stay platform-neutral (browser + Node)
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

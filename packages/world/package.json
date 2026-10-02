@@ -1,0 +1,27 @@
+{
+  "name": "@evermore/world",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Framework-agnostic world model: chunked 3D cell grid, materials, structures, seeded RNG and serialization.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "fflate": "catalog:compression"
+  },
+  "devDependencies": {
+    "@evermore/eslint-config": "workspace:*",
+    "@evermore/tsconfig": "workspace:*",
+    "@types/node": "catalog:typescript-types",
+    "eslint": "catalog:linting",
+    "typescript": "catalog:build-tools",
+    "vite": "catalog:testing",
+    "vitest": "catalog:testing"
+  }
+}

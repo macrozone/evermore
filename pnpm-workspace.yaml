@@ -7,6 +7,8 @@ catalogs:
     turbo: ^2.11.6
     # typescript-eslint 8 supports TypeScript <6.1 – bump both together
     typescript: ~6.0.3
+  compression:
+    fflate: ^0.8.3
   linting:
     "@eslint/js": ^9.39.5
     # keep the major in sync with next in catalog:nextjs
