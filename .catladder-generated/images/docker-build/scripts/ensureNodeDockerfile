@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# the default dockerfile includes node alpine
+
+# the dockerignore ignores node_modules as these have to be rebuilt anyway
+# as well as __snapshots__ are used for unitests (if any)
+
+if [ ! -f $APP_DIR/.dockerignore ]; then
+
+    cat >$APP_DIR/.dockerignore <<EOF
+**/node_modules
+**/__snapshots__/**
+.git
+
+EOF
+
+fi
+
+if [ -f $APP_DIR/.nvmrc ]; then
+    NODE_VERSION="$(cat $APP_DIR/.nvmrc | sed '/^$/d' | sed 's/[a-z-]//g')"
+elif [ -f .nvmrc ]; then
+    NODE_VERSION="$(cat .nvmrc | sed '/^$/d' | sed 's/[a-z-]//g')"
+else
+    NODE_VERSION=14
+fi
+
+if [ ! -f $APP_DIR/Dockerfile ]; then
+    echo "Creating Dockerfile"
+
+    cat >$APP_DIR/Dockerfile <<EOF
+FROM node:$NODE_VERSION-alpine
+
+
+
+$DOCKERFILE_ADDITIONS
+
+RUN apk add --no-cache git curl
+# package-manager setup (e.g. installing pnpm globally) and the
+# workspace-file copy run as root: pnpm ADDs a tar whose extracted
+# parent dirs come out root-owned (ADD --chown only covers the files),
+# so it needs a root chown before the node user can write node_modules.
+# The actual install below still runs as the unprivileged node user.
+$DOCKER_SETUP_PACKAGE_MANAGER
+
+$DOCKER_COPY_WORKSPACE_FILES
+
+USER node
+
+WORKDIR /app/$APP_DIR
+
+$DOCKER_COPY_AND_INSTALL_APP
+
+
+$DOCKERFILE_ADDITIONS_END
+
+EOF
+fi

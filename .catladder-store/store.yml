@@ -1,0 +1,6 @@
+# managed by catladder - written by `catladder project setup`.
+# Non-secret, machine-fetched values needed to generate the pipeline.
+# Check this file in. If it is missing, rerun `catladder project setup`.
+gcloudProjects:
+  maw-evermore:
+    projectNumber: "209161739498"
