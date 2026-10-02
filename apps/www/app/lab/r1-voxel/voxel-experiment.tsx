@@ -3,7 +3,7 @@
 import { MEADOW_HOUSE_SEED } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3 } from "three";
-import { DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
+import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
 
 import { DEFAULT_LOOK, LOOK_FRAGMENT, renderDimensions, type LookSettings } from "./pixel-look";
 
@@ -150,8 +150,18 @@ export default function VoxelExperiment() {
       <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · rendered on demand</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
         <legend className="px-2">Camera settings</legend>
+        <div className="flex w-full flex-wrap gap-2" role="group" aria-label="Camera presets">
+          {CAMERA_PRESETS.map((preset, index) => (
+            <button key={preset.label} type="button"
+              className="rounded border border-gold px-3 py-1"
+              aria-pressed={Object.entries(preset.settings).every(([key, value]) => settings[key as keyof CameraSettings] === value)}
+              onClick={() => setSettings({ ...preset.settings })}>
+              {preset.label}{index === 0 ? " (default)" : ""}
+            </button>
+          ))}
+        </div>
         <label>Inclination ({settings.inclination}°)
-          <input aria-label="Camera inclination" className="ml-2" type="range" min={15} max={80} step={1} value={settings.inclination} onChange={(event) => setSettings({ ...settings, inclination: Number(event.target.value) })} />
+          <input aria-label="Camera inclination" className="ml-2" type="range" min={0} max={90} step={1} value={settings.inclination} onChange={(event) => setSettings({ ...settings, inclination: Number(event.target.value) })} />
         </label>
         <label>Rotation ({settings.rotation}°)
           <input aria-label="Camera rotation" className="ml-2" type="range" min={-180} max={180} step={1} value={settings.rotation} onChange={(event) => setSettings({ ...settings, rotation: Number(event.target.value) })} />

@@ -2,7 +2,12 @@ import { AIR, CHUNK_SIZE_X, CHUNK_SIZE_Y, CHUNK_SIZE_Z, getMaterial, type Chunk,
 import { type Box3, BufferGeometry, Color, Float32BufferAttribute, MathUtils, type OrthographicCamera, Vector3 } from "three";
 
 export type CameraSettings = { inclination: number; rotation: number; zoom: number };
-export const DEFAULT_CAMERA: CameraSettings = { inclination: 38, rotation: 25, zoom: 1 };
+export const CAMERA_PRESETS = [
+  { label: "2D look", settings: { inclination: 45, rotation: 0, zoom: 1 } },
+  { label: "Top-down", settings: { inclination: 90, rotation: 0, zoom: 1 } },
+  { label: "Original", settings: { inclination: 38, rotation: 25, zoom: 1 } },
+] satisfies { label: string; settings: CameraSettings }[];
+export const DEFAULT_CAMERA: CameraSettings = CAMERA_PRESETS[0]!.settings;
 
 // World axes are east/south/up; Three uses east/north/up here (camera.up = Z).
 const FACES = [
@@ -72,7 +77,9 @@ export function fitCamera(camera: OrthographicCamera, bounds: Box3, aspect: numb
   const distance = bounds.getSize(new Vector3()).length() * 2;
   const tilt = MathUtils.degToRad(settings.inclination);
   const angle = MathUtils.degToRad(settings.rotation);
-  camera.up.set(0, 0, 1);
+  // At the zenith, Z is parallel to the viewing direction. Use north as
+  // screen-up to keep the top-down view stable and its axes aligned.
+  camera.up.set(0, settings.inclination === 90 ? 1 : 0, settings.inclination === 90 ? 0 : 1);
   camera.position.copy(center).add(new Vector3(
     Math.sin(angle) * Math.cos(tilt), -Math.cos(angle) * Math.cos(tilt), Math.sin(tilt),
   ).multiplyScalar(distance));

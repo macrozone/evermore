@@ -1,7 +1,7 @@
 import { createMeadowHouseWorld, M, World } from "@evermore/world";
 import { Box3, OrthographicCamera, Vector3 } from "three";
 import { describe, expect, it } from "vitest";
-import { boundsCorners, DEFAULT_CAMERA, fitCamera, meshChunk } from "./voxel-model";
+import { boundsCorners, CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk } from "./voxel-model";
 
 function triangleCount(world: World) {
   return [...world.chunks()].reduce((sum, chunk) => {
@@ -71,7 +71,7 @@ describe("orthographic camera framing", () => {
 
   it("keeps all bounds inside the frustum at zoom 1 for portrait and landscape views", () => {
     for (const aspect of [0.5, 4 / 3, 16 / 9, 3]) {
-      for (const inclination of [15, 38, 80]) {
+      for (const inclination of [0, 15, 38, 45, 80, 90]) {
         for (const rotation of [-180, -90, 0, 25, 90, 180]) {
           const camera = new OrthographicCamera();
           fitCamera(camera, bounds, aspect, { inclination, rotation, zoom: 1 });
@@ -83,6 +83,21 @@ describe("orthographic camera framing", () => {
           }
         }
       }
+    }
+  });
+
+  it("aligns the 2D and top-down presets with screen axes", () => {
+    for (const preset of CAMERA_PRESETS.slice(0, 2)) {
+      const camera = new OrthographicCamera();
+      fitCamera(camera, bounds, 16 / 9, preset.settings);
+      const center = bounds.getCenter(new Vector3());
+      const origin = center.clone().project(camera);
+      const east = center.clone().add(new Vector3(1, 0, 0)).project(camera);
+      const north = center.clone().add(new Vector3(0, 1, 0)).project(camera);
+      expect(east.x).toBeGreaterThan(origin.x);
+      expect(east.y).toBeCloseTo(origin.y);
+      expect(north.x).toBeCloseTo(origin.x);
+      expect(north.y).toBeGreaterThan(origin.y);
     }
   });
 
