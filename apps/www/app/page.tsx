@@ -1,8 +1,12 @@
+import { getGameInfo } from "@evermore/core";
+
 export default function HomePage() {
+  const { name, tagline } = getGameInfo();
+
   return (
     <main>
-      <h1>Evermore</h1>
-      <p>An online action RPG in 16-bit style. Coming soon.</p>
+      <h1>{name}</h1>
+      <p>{tagline}</p>
     </main>
   );
 }

@@ -1,0 +1,23 @@
+{
+  "name": "@evermore/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared, framework-agnostic business logic for Evermore apps and services.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@evermore/eslint-config": "workspace:*",
+    "@evermore/tsconfig": "workspace:*",
+    "eslint": "catalog:linting",
+    "typescript": "catalog:build-tools",
+    "vite": "catalog:testing",
+    "vitest": "catalog:testing"
+  }
+}

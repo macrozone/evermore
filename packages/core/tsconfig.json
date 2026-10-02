@@ -1,0 +1,4 @@
+{
+  "extends": "@evermore/tsconfig/base.json",
+  "include": ["src"]
+}
