@@ -13,6 +13,37 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 > source of truth; don't `bd import` during normal operation; don't
 > reach for third-party Dolt hosting before trying the default).
 
+# Evermore – Projektrichtlinien
+
+Evermore ist ein Online-Action-Rollenspiel im 16-Bit-Look mit starkem User Generated Content (Experimentierphase). Turborepo-Monorepo (`apps/*`, `packages/*`), Code auf GitHub, CI/CD via catladder auf Google Cloud Run. Code und UI-Texte englisch, Beads und Doku deutsch.
+
+Diese Richtlinien gelten für alle Menschen und Agents und gehen den generierten Beads-Blöcken weiter unten vor.
+
+## Entscheidungen festhalten
+
+Vor der Arbeit: relevante ADRs in [`docs/adr/`](docs/adr/README.md) lesen. Ihnen nicht widersprechen.
+
+- **Projektweite Entscheidungen** (Architektur, Technologie, Prozess, Produkt-Scope) werden als ADR in `docs/adr/NNNN-titel.md` festgehalten (MADR, Vorlage `docs/adr/template.md`, Index in `docs/adr/README.md` nachführen). Angenommene ADRs nicht umschreiben – eine Änderung ist eine neue ADR, die die alte ablöst (`superseded by`).
+- **Aufgabenspezifische Entscheidungen** gehören ins betroffene Bead (`bd update <id> --design/--notes`).
+- **Projektweite Konventionen**, die jede Session kennen muss, zusätzlich als `bd remember` (mit Verweis auf die ADR).
+- **Offene Entscheidung entdeckt?** Nicht selbst entscheiden, wenn sie über die eigene Aufgabe hinausgeht oder einer ADR widerspricht: Bead anlegen (`bd create "Entscheidung: …" -t decision -d "<Kontext, Optionen, Empfehlung>"`), danach separat `bd label add <neu> human`, die eigene Aufgabe damit blockieren (`bd dep add <eigene> --blocked-by <neu>`), eigene Aufgabe auf `open` zurücksetzen und mit der nächsten Arbeit weitermachen.
+- **Planungs- und Chat-Sessions:** Jede Entscheidung, die im Gespräch fällt, wird vor Ende der Session als ADR bzw. ins Bead zurückgeschrieben. Was nur im Chat steht, gilt als nicht entschieden.
+
+## Arbeitsablauf für Agents (Bead → PR → Merge)
+
+Dieses Repository wählt für die Umsetzung von Beads ausdrücklich das Profil **Team-maintainer**: Agents committen, pushen, mergen ihre eigenen PRs und schliessen ihre Beads – gemäss [ADR 0006](docs/adr/0006-pr-pro-bead-agents-mergen.md) und nur nach diesem Ablauf. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor.
+
+1. **Arbeit holen:** `bd ready --exclude-label human --exclude-type epic --json`, dann `bd update <id> --claim` (bei Fehler «already claimed»: nächstes nehmen). Zugeteilte Arbeit: `bd ready --assignee <ich> --json`.
+2. **Kontext lesen:** `bd show <id>` inkl. Akzeptanzkriterien und Design-Notes, Kommentare geschlossener Blocker (dort stehen Antworten auf Fragen), relevante ADRs.
+3. **Branch:** `bead/<id>-<slug>` vom aktuellen `main`, eigener Worktree.
+4. **Umsetzen:** Akzeptanzkriterien erfüllen, Tests gehören dazu. Generierte catladder-Dateien nie von Hand ändern (`catladder.ts` + `pnpm catenv`).
+5. **Rückfragen:** wie oben unter «Offene Entscheidung» – Frage-Bead mit Label `human`, eigene Aufgabe blockieren, nicht raten.
+6. **PR:** Titel `<id>: <titel>`, Commits enthalten die Bead-ID, Beschreibung verweist auf Bead und ADRs.
+7. **Merge:** Squash-Merge erst, wenn alle Pflicht-Checks grün sind (Build, Lint, Typecheck, Test; prüfen mit `gh pr checks`). Deploy-Jobs zählen nicht, solange evermore-b4t.1 offen ist. Nie mit roten oder übersprungenen Checks mergen, nie Force-Push auf `main`; Fehler auf `main` per Revert-PR.
+8. **Abschluss:** `bd close <id> --reason "PR #<n> gemerged"`, Folgearbeit als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen), Worktree entfernen.
+
+Abhängigkeiten immer mit `bd dep add <issue> --blocked-by <vorgänger>` setzen (`--deps blocks:X` bedeutet das Gegenteil).
+
 ## Quick Reference
 
 ```bash

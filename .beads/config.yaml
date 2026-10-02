@@ -68,3 +68,12 @@
 sync.remote: "git+https://github.com/macrozone/evermore.git"
 
 dolt.shared-server: true
+
+# --- Dezentraler Betrieb (Modell B: Lanes pro Knoten, Sync via Git) ---
+# Explizit setzen: bd bootstrap auf frischen Clones verliert sonst den Prefix (bd 1.0.5)
+issue-prefix: "evermore"
+# Jede Schreiboperation sofort als Dolt-Commit (verhindert "local changes would be stomped" beim Pull)
+dolt.auto-commit: "on"
+# Änderungen automatisch zum Git-Remote pushen, damit andere Knoten sie schnell sehen
+dolt.auto-push: false  # aktivieren, sobald der Sync-Weg feststeht
+dolt.auto-push-interval: "30s"
