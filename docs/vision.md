@@ -35,7 +35,7 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 ### 3.1 Das Book of Evermore
 
 - Jeder Spieler beginnt vor dem Buch. Es fragt: **«Who are you and where are you?»** und **«Where do you sleep?»**. Am Schlafplatz erwacht der Spieler – zu Beginn und nach dem Tod.
-- Aus den Antworten entsteht das **Zuhause** des Spielers und die Welt um ihn herum.
+- Aus den Antworten entsteht das **Zuhause** des Spielers und die Welt um ihn herum – und **die Spielfigur selbst**: Aussehen gemäss «Who are you?», als Pixel-Art-Sprite mit allen Blickrichtungen und Laufanimation.
 - Danach ist das Buch das Werkzeug für **Wünsche**: Der Spieler schreibt hinein, was sich ändern soll.
 
 ### 3.2 Aufbau der Welt
@@ -133,6 +133,7 @@ Diese Punkte folgen direkt aus der Vision und gelten als Richtschnur für Archit
 - Wie viel Inspiration kostet welche Änderung, und wer oder was bewertet das?
 - Bestimmt die Distanz zum Zuhause auch Kosten oder maximale Grösse eines Wunsches?
 - Tag/Nacht-Wechsel: ja/nein, und wie wirkt er auf Gefahren und Stimmung?
+- Spielfigur: Wie viele Sprites/Animationen braucht es (4 oder 8 Richtungen, Laufen, Angriff …), und wie bleiben generierte Figuren konsistent und bezahlbar?
 
 ## 8. Wie die Vision wächst
 
