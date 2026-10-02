@@ -36,3 +36,7 @@ tsconfig.tsbuildinfo
 
 # Logs
 *.log
+
+# Gas City
+.beads/*
+!.beads/identity.toml
