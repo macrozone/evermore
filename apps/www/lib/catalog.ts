@@ -10,6 +10,14 @@ export type CatalogEntry = {
 /** Shared by /lab and the future homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "book",
+    name: "Book of Evermore",
+    description: "Write your beginning in a book: two questions, page turns and adjustable typography.",
+    href: "/lab/book",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "controls",
     name: "Controls & diagnostics",
     description: "Try the shared movement controls, frame counter and player coordinates.",
