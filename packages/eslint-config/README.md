@@ -35,6 +35,8 @@ export default base;
 
 Next.js-Apps erweitern `@evermore/tsconfig/nextjs.json` und ergänzen `include`
 (`next-env.d.ts`, `**/*.ts`, `**/*.tsx`, `.next/types/**/*.ts`).
+Weil damit auch `next.config.ts` im Projekt liegt, verzichtet das `nextjs`-Preset
+auf `allowDefaultProject`: jede TS-Datei der App muss vom `tsconfig.json` erfasst sein.
 
 TypeScript 6 setzt `types` standardmässig auf `[]`: wer Node-APIs nutzt, ergänzt
 `"types": ["node"]` (und `@types/node` aus `catalog:typescript-types`).

@@ -9,7 +9,7 @@ catalogs:
     typescript: ~6.0.3
   linting:
     "@eslint/js": ^9.39.5
-    # keep the major in sync with next in apps/*
+    # keep the major in sync with next in catalog:nextjs
     "@next/eslint-plugin-next": ^16.3.8
     # eslint-plugin-react does not support ESLint 10 yet
     eslint: ^9.39.5
@@ -17,5 +17,12 @@ catalogs:
     eslint-plugin-react-hooks: ^7.1.1
     globals: ^17.13.0
     typescript-eslint: ^8.71.0
+  nextjs:
+    # keep the major in sync with @next/eslint-plugin-next in catalog:linting
+    next: ^16.3.8
+    react: ^19.3.0
+    react-dom: ^19.3.0
+    "@types/react": ^19.3.0
+    "@types/react-dom": ^19.3.0
   typescript-types:
     "@types/node": ^22.20.4

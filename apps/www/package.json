@@ -1,0 +1,27 @@
+{
+  "name": "@evermore/www",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port ${BASE_PORT:-3000}",
+    "build": "next build",
+    "start": "next start --port ${BASE_PORT:-3000}",
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc"
+  },
+  "dependencies": {
+    "next": "catalog:nextjs",
+    "react": "catalog:nextjs",
+    "react-dom": "catalog:nextjs"
+  },
+  "devDependencies": {
+    "@evermore/eslint-config": "workspace:*",
+    "@evermore/tsconfig": "workspace:*",
+    "@types/node": "catalog:typescript-types",
+    "@types/react": "catalog:nextjs",
+    "@types/react-dom": "catalog:nextjs",
+    "eslint": "catalog:linting",
+    "typescript": "catalog:build-tools"
+  }
+}

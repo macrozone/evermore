@@ -8,7 +8,7 @@ Online-Action-Rollenspiel im 16-Bit-Look mit starkem User Generated Content. Tur
 2. pnpm in der Version aus `packageManager` aktivieren: `corepack enable`
 3. Abhängigkeiten installieren: `pnpm install`
 4. Lokale Dienste (Postgres, Cloud-Tasks-Emulator) starten: `pnpm --filter @evermore/local-development services:up` (Docker nötig, siehe [`apps/local-development`](apps/local-development/README.md))
-5. Entwickeln: `pnpm dev`
+5. Entwickeln: `pnpm dev` – die Web-App [`apps/www`](apps/www) läuft auf `http://localhost:${BASE_PORT:-3000}`
 6. Prüfen: `pnpm build`, `pnpm lint`, `pnpm typecheck`, `pnpm test`
 
 Entscheidungen stehen in [`docs/adr/`](docs/adr/README.md), Aufgaben in Beads (`bd ready`).

@@ -41,4 +41,15 @@ export default defineConfig(
       react: { version: "detect" },
     },
   },
+  {
+    // Next.js apps include all TS files in their tsconfig (next.config.ts
+    // too), so base's allowDefaultProject would make the project service
+    // reject root-level config files as included twice.
+    files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
 );

@@ -5,7 +5,8 @@
     "dev": {
       "description": "Starts all apps locally in development mode.",
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "passThroughEnv": ["BASE_PORT"]
     },
     "build": {
       "description": "Builds the project for production (ci/cd).",
