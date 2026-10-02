@@ -1,0 +1,38 @@
+{
+  "name": "@evermore/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared ESLint flat configs: base for libraries and services, nextjs for Next.js apps.",
+  "type": "module",
+  "exports": {
+    "./base": "./base.js",
+    "./nextjs": "./nextjs.js"
+  },
+  "files": [
+    "base.js",
+    "nextjs.js"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@eslint/js": "catalog:linting",
+    "@next/eslint-plugin-next": "catalog:linting",
+    "eslint-plugin-react": "catalog:linting",
+    "eslint-plugin-react-hooks": "catalog:linting",
+    "globals": "catalog:linting",
+    "typescript-eslint": "catalog:linting"
+  },
+  "peerDependencies": {
+    "eslint": "^9.39.0",
+    "typescript": ">=5.8.0 <6.1.0"
+  },
+  "devDependencies": {
+    "@evermore/tsconfig": "workspace:*",
+    "@types/node": "catalog:typescript-types",
+    "eslint": "catalog:linting",
+    "typescript": "catalog:build-tools"
+  }
+}

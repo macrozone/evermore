@@ -1,0 +1,3 @@
+{
+  "extends": "@evermore/tsconfig/base.json"
+}

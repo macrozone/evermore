@@ -1,0 +1,4 @@
+{
+  "extends": "@evermore/tsconfig/nextjs.json",
+  "include": ["**/*.ts", "**/*.tsx"]
+}

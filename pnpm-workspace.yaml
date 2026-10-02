@@ -5,3 +5,17 @@ packages:
 catalogs:
   build-tools:
     turbo: ^2.11.6
+    # typescript-eslint 8 supports TypeScript <6.1 – bump both together
+    typescript: ~6.0.3
+  linting:
+    "@eslint/js": ^9.39.5
+    # keep the major in sync with next in apps/*
+    "@next/eslint-plugin-next": ^16.3.8
+    # eslint-plugin-react does not support ESLint 10 yet
+    eslint: ^9.39.5
+    eslint-plugin-react: ^7.37.5
+    eslint-plugin-react-hooks: ^7.1.1
+    globals: ^17.13.0
+    typescript-eslint: ^8.71.0
+  typescript-types:
+    "@types/node": ^22.20.4
