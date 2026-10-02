@@ -47,6 +47,7 @@ Ziel: maw sieht Ergebnisse schnell und kann früh die Richtung ändern.
 
 - **Scheiben statt grosser Beads:** Experimente und Design-Aufgaben in Scheiben schneiden, die einzeln mergebar und in unter einer Stunde sichtbar sind (z.B. erst statisch rendern, dann Look, dann Bewegung). Zu grosse Beads beim Planen aufteilen; merkt ein Polecat, dass sein Bead zu gross ist, liefert er die erste sinnvolle Scheibe und legt den Rest als Folge-Beads an.
 - **Regler statt Rückfragen:** Experimentseiten unter `/lab` bekommen ein Einstell-Panel (z.B. Tweakpane) für die wichtigen Parameter; die aktuellen Werte sind als JSON kopierbar.
+- **Auf der Startseite verlinken:** Jede neue `/lab`-Seite, jedes Moodboard und jede Design-Seite wird in der zentralen Registry eingetragen, damit sie auf `/` erscheint.
 - **Ergebnis mit Bild:** Zum Abschluss einer Scheibe ein Kommentar im Bead mit Screenshot, 2–3 Sätzen «worauf achten» und offenen Fragen.
 - **Feedback lesen:** Vor jeder Scheibe die Kommentare im Bead, im Eltern-Epic und in der vorherigen Scheibe lesen – dort steht maws Rückmeldung.
 - **Suchen und Gestalten** geschieht in interaktiven Studio-Sessions (Mensch + Agent mit Live-Preview); deren Entscheidungen landen im Bead bzw. in einer ADR, klar umrissene Folgearbeit geht als Beads an die Polecats.
