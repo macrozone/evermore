@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start --port ${BASE_PORT:-3000}",
     "lint": "eslint .",
-    "typecheck": "next typegen && tsc"
+    "typecheck": "next typegen && tsc",
+    "test": "vitest run"
   },
   "dependencies": {
     "@evermore/core": "workspace:*",
@@ -19,10 +20,14 @@
   "devDependencies": {
     "@evermore/eslint-config": "workspace:*",
     "@evermore/tsconfig": "workspace:*",
+    "@tailwindcss/postcss": "catalog:styling",
     "@types/node": "catalog:typescript-types",
     "@types/react": "catalog:nextjs",
     "@types/react-dom": "catalog:nextjs",
     "eslint": "catalog:linting",
-    "typescript": "catalog:build-tools"
+    "tailwindcss": "catalog:styling",
+    "typescript": "catalog:build-tools",
+    "vite": "catalog:testing",
+    "vitest": "catalog:testing"
   }
 }
