@@ -47,6 +47,8 @@ importers:
         specifier: catalog:build-tools
         version: 2.11.6
 
+  apps/local-development: {}
+
   packages/eslint-config:
     dependencies:
       '@eslint/js':

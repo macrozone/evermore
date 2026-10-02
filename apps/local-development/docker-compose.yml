@@ -1,0 +1,34 @@
+# Local backing services for development. Host ports come from the env
+# (DB_PORT, TASK_QUEUE_PORT); the defaults match the main checkout's port slot.
+# COMPOSE_PROJECT_NAME overrides `name` so each worktree gets its own stack.
+name: evermore
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: evermore
+      POSTGRES_PASSWORD: evermore
+      POSTGRES_DB: evermore
+    ports:
+      - "${DB_PORT:-3030}:5432"
+    volumes:
+      # Named volume, scoped to the compose project: survives `down`, removed by `down -v`.
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evermore -d evermore"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  task-queue:
+    image: ghcr.io/aertje/cloud-tasks-emulator:latest
+    command: -host 0.0.0.0 -port 8123 -queue projects/evermore/locations/local/queues/default
+    ports:
+      - "${TASK_QUEUE_PORT:-3031}:8123"
+    extra_hosts:
+      # Lets queued tasks call back into apps running on the host (needed on Linux).
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  db-data:
