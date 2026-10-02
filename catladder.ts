@@ -1,4 +1,5 @@
 import type { Config } from "@catladder/cli";
+import { LOCAL_BASE_PORT, WWW_PORT, DB_PORT, TASK_QUEUE_PORT, COMPOSE_PROJECT_NAME } from "./catladder/localPorts";
 
 // CI/CD and deployment config (ADR 0004). After every change run
 // `pnpm catenv` and commit the regenerated files – never edit
@@ -16,6 +17,17 @@ const config = {
   appName: "evermore",
   pipelines: { github: true },
   components: {
+    "local-development": {
+      dir: "apps/local-development",
+      build: false,
+      deploy: false,
+      env: {
+        local: {
+          port: false,
+          vars: { public: { DB_PORT, TASK_QUEUE_PORT, COMPOSE_PROJECT_NAME } },
+        },
+      },
+    },
     www: {
       dir: "apps/www",
       build: { type: "node" },
@@ -25,6 +37,10 @@ const config = {
         region: GCP_REGION,
       },
       env: {
+        local: {
+          port: WWW_PORT,
+          vars: { public: { BASE_PORT: LOCAL_BASE_PORT, DATABASE_URL: `postgresql://evermore:evermore@localhost:${DB_PORT}/evermore`, TASK_QUEUE_PORT } },
+        },
         review: {},
         dev: {},
         stage: {},

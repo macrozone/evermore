@@ -211,6 +211,9 @@ jobs:
             packages/tsconfig/__build_info.json
             packages/tsconfig/.next
             packages/tsconfig/dist
+            packages/world/__build_info.json
+            packages/world/.next
+            packages/world/dist
           if-no-files-found: warn
           include-hidden-files: true
   www-docker-stage:

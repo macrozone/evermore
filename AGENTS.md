@@ -195,3 +195,30 @@ Read `docs/README.md` inside that installed package first, then read the relevan
 
 This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
 <!-- END:turborepo-agent-rules -->
+
+## Lokale Ports und Worktrees
+
+`pnpm catenv` vergibt vor der Env-Generierung einen stabilen `BASE_PORT` und
+speichert ihn in der ignorierten Root-Datei `.env.local`. Der Hauptcheckout
+nutzt 3000, verlinkte Worktrees einen freien 100er-Slot zwischen 4000 und 9900
+(Hash des absoluten Pfads, bei belegtem Slot nächster freier Slot). Gespeicherte
+Slots anderer Worktrees und lauschende Ports werden bei der Erstvergabe
+ausgelassen. Ein vorhandener Slot bleibt auch bei laufenden Diensten erhalten.
+Ein expliziter `BASE_PORT` hat Vorrang; nach einem manuellen Wechsel `pnpm catenv`
+erneut ausführen. Zur Neuvergabe den Eintrag in `.env.local` löschen.
+
+| Dienst | Port |
+|---|---|
+| www | `BASE_PORT + 0` |
+| Postgres | `BASE_PORT + 30` |
+| Cloud-Tasks-Emulator | `BASE_PORT + 31` |
+| Dev-Index (reserviert) | `BASE_PORT + 90` |
+
+`catladder/localPorts.ts` ist die zentrale Offset-Definition. catladder schreibt
+die lokalen Variablen in `apps/www/.env` und `apps/local-development/.env`.
+Compose nutzt `evermore-<BASE_PORT>` als Projektname und damit ein eigenes
+DB-Volume je Slot. `pnpm dev` führt `catenv` aus und lädt den Root-Port vor Turbo.
+Für die einzelnen `services:up/down/reset`-Befehle zuerst `pnpm catenv` im Root
+ausführen. Unterschiedliche Worktrees dürfen nicht denselben manuellen Slot
+verwenden; die automatische Erstvergabe parallel neu angelegter Worktrees
+bitte nacheinander ausführen.

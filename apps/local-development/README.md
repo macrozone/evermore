@@ -7,11 +7,12 @@ Local helper services via `docker compose` (file: [`docker-compose.yml`](docker-
 | `db`         | `postgres:17`                               | `DB_PORT`         | `3030`  | `5432`         |
 | `task-queue` | `ghcr.io/aertje/cloud-tasks-emulator` (gRPC) | `TASK_QUEUE_PORT` | `3031`  | `8123`         |
 
-The defaults match the port slot of the main checkout (`BASE_PORT=3000`, DB `+30`, task queue `+31`). Worktrees set their own ports and their own `COMPOSE_PROJECT_NAME` (see evermore-ab1.2); without `COMPOSE_PROJECT_NAME` the project is named `evermore`.
+The defaults match the main checkout slot (`BASE_PORT=3000`, DB `+30`, task queue `+31`). `pnpm catenv` assigns a stable slot per worktree and generates `.env` here with the ports and `COMPOSE_PROJECT_NAME=evermore-<BASE_PORT>`. Each slot also has its own DB volume. Without a generated environment the project is named `evermore`.
 
 ## Commands
 
 ```bash
+pnpm catenv  # run from the root; repeat after changing BASE_PORT
 pnpm --filter @evermore/local-development services:up     # start both services in the background, waits until ready
 pnpm --filter @evermore/local-development services:down   # stop, data is kept
 pnpm --filter @evermore/local-development services:reset  # stop and delete data

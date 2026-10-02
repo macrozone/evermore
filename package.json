@@ -7,16 +7,19 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "pnpm catenv && node --env-file=.env.local --run dev:apps",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "turbo run test",
-    "catenv": "catenv",
-    "catladder": "catladder"
+    "test": "pnpm test:ports && turbo run test",
+    "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv",
+    "catladder": "catladder",
+    "dev:apps": "turbo run dev",
+    "test:ports": "node --test scripts/ensure-base-port.test.mjs"
   },
   "devDependencies": {
     "@catladder/cli": "catalog:build-tools",
+    "dotenv": "^18.0.5",
     "turbo": "catalog:build-tools"
   }
 }
