@@ -1,6 +1,6 @@
 # 0006 – PR pro Bead, Agents mergen bei grüner CI
 
-- Status: accepted
+- Status: superseded by [0008](0008-gas-city-refinery-merge-queue.md)
 - Datum: 2026-10-02
 - Entscheider: maw
 

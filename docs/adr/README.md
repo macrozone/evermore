@@ -19,5 +19,6 @@ Projektweite Entscheidungen (Architektur, Technologie, Prozess, Produkt-Scope) w
 | [0003](0003-turborepo-pnpm-monorepo.md) | Monorepo mit Turborepo und pnpm | accepted |
 | [0004](0004-cicd-catladder-github-cloud-run.md) | CI/CD mit catladder, GitHub Actions und Cloud Run | accepted |
 | [0005](0005-prisma-als-orm.md) | Prisma als ORM | accepted |
-| [0006](0006-pr-pro-bead-agents-mergen.md) | PR pro Bead, Agents mergen bei grüner CI | accepted |
+| [0006](0006-pr-pro-bead-agents-mergen.md) | PR pro Bead, Agents mergen bei grüner CI | superseded by 0008 |
 | [0007](0007-landing-page-v1-englisch-ohne-datenspeicherung.md) | Landing Page v1: Englisch, ohne Datenspeicherung | accepted |
+| [0008](0008-gas-city-refinery-merge-queue.md) | Gas City mit Gastown-Refinery als Merge-Queue | accepted |

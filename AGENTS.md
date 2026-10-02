@@ -29,18 +29,19 @@ Vor der Arbeit: relevante ADRs in [`docs/adr/`](docs/adr/README.md) lesen. Ihnen
 - **Offene Entscheidung entdeckt?** Nicht selbst entscheiden, wenn sie über die eigene Aufgabe hinausgeht oder einer ADR widerspricht: Bead anlegen (`bd create "Entscheidung: …" -t decision -d "<Kontext, Optionen, Empfehlung>"`), danach separat `bd label add <neu> human`, die eigene Aufgabe damit blockieren (`bd dep add <eigene> --blocked-by <neu>`), eigene Aufgabe auf `open` zurücksetzen und mit der nächsten Arbeit weitermachen.
 - **Planungs- und Chat-Sessions:** Jede Entscheidung, die im Gespräch fällt, wird vor Ende der Session als ADR bzw. ins Bead zurückgeschrieben. Was nur im Chat steht, gilt als nicht entschieden.
 
-## Arbeitsablauf für Agents (Bead → PR → Merge)
+## Arbeitsablauf für Agents (Gas City + Refinery)
 
-Dieses Repository wählt für die Umsetzung von Beads ausdrücklich das Profil **Team-maintainer**: Agents committen, pushen, mergen ihre eigenen PRs und schliessen ihre Beads – gemäss [ADR 0006](docs/adr/0006-pr-pro-bead-agents-mergen.md) und nur nach diesem Ablauf. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor.
+Umgesetzt wird über **Gas City mit dem Gastown-Pack** ([ADR 0008](docs/adr/0008-gas-city-refinery-merge-queue.md)). Polecats bearbeiten je ein Bead in einem eigenen Worktree und Feature-Branch; die **Refinery** ist die einzige Instanz, die nach `main` merged (eins nach dem anderen, nach Rebase und lokalen Checks). Für diese Arbeit gilt das Profil **Team-maintainer**: Polecats committen und pushen ihren Branch, die Refinery merged und schliesst das Bead. Die Schritte der Gas-City-Formula (`mol-polecat-work`, `mol-refinery-patrol`) gehen für die Mechanik vor; diese Richtlinien ergänzen sie. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor. Interaktive Sessions mit Menschen (Planung, Chat) bleiben beim konservativen Profil: committen/pushen nur auf Anweisung.
 
-1. **Arbeit holen:** `bd ready --exclude-label human --exclude-type epic --json`, dann `bd update <id> --claim` (bei Fehler «already claimed»: nächstes nehmen). Zugeteilte Arbeit: `bd ready --assignee <ich> --json`.
-2. **Kontext lesen:** `bd show <id>` inkl. Akzeptanzkriterien und Design-Notes, Kommentare geschlossener Blocker (dort stehen Antworten auf Fragen), relevante ADRs.
-3. **Branch:** `bead/<id>-<slug>` vom aktuellen `main`, eigener Worktree.
-4. **Umsetzen:** Akzeptanzkriterien erfüllen, Tests gehören dazu. Generierte catladder-Dateien nie von Hand ändern (`catladder.ts` + `pnpm catenv`).
-5. **Rückfragen:** wie oben unter «Offene Entscheidung» – Frage-Bead mit Label `human`, eigene Aufgabe blockieren, nicht raten.
-6. **PR:** Titel `<id>: <titel>`, Commits enthalten die Bead-ID, Beschreibung verweist auf Bead und ADRs.
-7. **Merge:** Squash-Merge erst, wenn alle Pflicht-Checks grün sind (Build, Lint, Typecheck, Test; prüfen mit `gh pr checks`). Deploy-Jobs zählen nicht, solange evermore-b4t.1 offen ist. Nie mit roten oder übersprungenen Checks mergen, nie Force-Push auf `main`; Fehler auf `main` per Revert-PR.
-8. **Abschluss:** `bd close <id> --reason "PR #<n> gemerged"`, Folgearbeit als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen), Worktree entfernen.
+Für Polecats:
+
+1. **Kontext lesen:** `bd show <id>` inkl. Akzeptanzkriterien und Design-Notes, Kommentare geschlossener Blocker (dort stehen Antworten auf Fragen), relevante ADRs.
+2. **Umsetzen:** Akzeptanzkriterien erfüllen, Tests gehören dazu. Generierte catladder-Dateien nie von Hand ändern (`catladder.ts` + `pnpm catenv`).
+3. **Rückfragen:** wie oben unter «Offene Entscheidung» – Frage-Bead mit Label `human`, eigene Aufgabe blockieren, nicht raten.
+4. **Commits** enthalten die Bead-ID. Nie selbst nach `main` mergen oder pushen – Übergabe an die Refinery gemäss Formula.
+5. **Folgearbeit** als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen).
+
+Die GitHub-CI (catladder) ist optional und keine Merge-Voraussetzung. Fehler auf `main` per Revert, nie Force-Push.
 
 Abhängigkeiten immer mit `bd dep add <issue> --blocked-by <vorgänger>` setzen (`--deps blocks:X` bedeutet das Gegenteil).
 
