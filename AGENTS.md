@@ -17,6 +17,8 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 
 Evermore ist ein Online-Action-Rollenspiel im 16-Bit-Look mit starkem User Generated Content (Experimentierphase). Turborepo-Monorepo (`apps/*`, `packages/*`), Code auf GitHub, CI/CD via catladder auf Google Cloud Run. Code und UI-Texte englisch, Beads und Doku deutsch.
 
+Die Produktvision steht in [`docs/vision.md`](docs/vision.md) – vor grösseren Features lesen; offene Punkte dort nicht selbst entscheiden.
+
 Diese Richtlinien gelten für alle Menschen und Agents und gehen den generierten Beads-Blöcken weiter unten vor.
 
 ## Entscheidungen festhalten
@@ -29,6 +31,16 @@ Vor der Arbeit: relevante ADRs in [`docs/adr/`](docs/adr/README.md) lesen. Ihnen
 - **Offene Entscheidung entdeckt?** Nicht selbst entscheiden, wenn sie über die eigene Aufgabe hinausgeht oder einer ADR widerspricht: Bead anlegen (`bd create "Entscheidung: …" -t decision -d "<Kontext, Optionen, Empfehlung>"`), danach separat `bd label add <neu> human`, die eigene Aufgabe damit blockieren (`bd dep add <eigene> --blocked-by <neu>`), eigene Aufgabe auf `open` zurücksetzen und mit der nächsten Arbeit weitermachen.
 - **Planungs- und Chat-Sessions:** Jede Entscheidung, die im Gespräch fällt, wird vor Ende der Session als ADR bzw. ins Bead zurückgeschrieben. Was nur im Chat steht, gilt als nicht entschieden.
 
+## Ideen einbringen
+
+Evermore soll organisch um die [Vision](docs/vision.md) wachsen. Eigene Ideen und Inspirationen von Agents sind ausdrücklich erwünscht.
+
+- **In Experimenten frei:** In `/lab`-Aufgaben (Label `experiment`) dürfen Agents eigene Ansätze und Varianten ausprobieren, solange die Akzeptanzkriterien erfüllt sind. Erkenntnisse gehören in die Notiz des Beads.
+- **Ideen festhalten:** Was über die eigene Aufgabe hinausgeht (Spielmechanik, Story, Look, Technik), als Idee-Bead erfassen: `bd create "Idee: …" -t feature -p 4 -d "<Idee; Bezug zur Vision (Abschnitt); warum sie passt; grobe Umsetzung>" --deps discovered-from:<eigene>`, danach separat `bd label add <neu> idee` und `bd defer <neu>` (zurückgestellt, damit sie nicht automatisch umgesetzt wird).
+- **Passung benennen:** Ideen sollen zu den Säulen der Vision passen. Ideen, die die Vision erweitern oder ihr widersprechen, sind willkommen – das aber ausdrücklich so benennen.
+- **Nicht selbst umsetzen:** Umgesetzt wird erst, was maw annimmt. `docs/vision.md` ändern Agents nur, wenn ein Bead das ausdrücklich verlangt.
+- Vor dem Erfassen kurz `bd list -l idee --all` prüfen, um Duplikate zu vermeiden; bestehende Ideen lieber per Kommentar ergänzen.
+
 ## Arbeitsablauf für Agents (Gas City + Refinery)
 
 Umgesetzt wird über **Gas City mit dem Gastown-Pack** ([ADR 0008](docs/adr/0008-gas-city-refinery-merge-queue.md)). Polecats bearbeiten je ein Bead in einem eigenen Worktree und Feature-Branch; die **Refinery** ist die einzige Instanz, die nach `main` merged (eins nach dem anderen, nach Rebase und lokalen Checks). Für diese Arbeit gilt das Profil **Team-maintainer**: Polecats committen und pushen ihren Branch, die Refinery merged und schliesst das Bead. Die Schritte der Gas-City-Formula (`mol-polecat-work`, `mol-refinery-patrol`) gehen für die Mechanik vor; diese Richtlinien ergänzen sie. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor. Interaktive Sessions mit Menschen (Planung, Chat) bleiben beim konservativen Profil: committen/pushen nur auf Anweisung.
@@ -39,7 +51,7 @@ Für Polecats:
 2. **Umsetzen:** Akzeptanzkriterien erfüllen, Tests gehören dazu. Generierte catladder-Dateien nie von Hand ändern (`catladder.ts` + `pnpm catenv`).
 3. **Rückfragen:** wie oben unter «Offene Entscheidung» – Frage-Bead mit Label `human`, eigene Aufgabe blockieren, nicht raten.
 4. **Commits** enthalten die Bead-ID. Nie selbst nach `main` mergen oder pushen – Übergabe an die Refinery gemäss Formula.
-5. **Folgearbeit** als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen).
+5. **Folgearbeit** als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen); eigene Ideen siehe «Ideen einbringen».
 
 Die GitHub-CI (catladder) ist optional und keine Merge-Voraussetzung. Fehler auf `main` per Revert, nie Force-Push.
 

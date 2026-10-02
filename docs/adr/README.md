@@ -22,3 +22,4 @@ Projektweite Entscheidungen (Architektur, Technologie, Prozess, Produkt-Scope) w
 | [0006](0006-pr-pro-bead-agents-mergen.md) | PR pro Bead, Agents mergen bei grüner CI | superseded by 0008 |
 | [0007](0007-landing-page-v1-englisch-ohne-datenspeicherung.md) | Landing Page v1: Englisch, ohne Datenspeicherung | accepted |
 | [0008](0008-gas-city-refinery-merge-queue.md) | Gas City mit Gastown-Refinery als Merge-Queue | accepted |
+| [0009](0009-vision-und-ideenpool.md) | Produktvision als lebendes Dokument, Ideen als Beads | accepted |
