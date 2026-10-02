@@ -4,6 +4,7 @@ packages:
 
 catalogs:
   build-tools:
+    "@catladder/cli": ^5.4.0
     turbo: ^2.11.6
     # typescript-eslint 8 supports TypeScript <6.1 – bump both together
     typescript: ~6.0.3
@@ -35,3 +36,8 @@ catalogs:
     vitest: ^5.0.3
   typescript-types:
     "@types/node": ^22.20.4
+
+# dependency build scripts pnpm may run (pnpm 11 fails the install on unapproved ones)
+allowBuilds:
+  # esbuild (via tsx, used by @catladder/cli) installs its platform binary
+  esbuild: true
