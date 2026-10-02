@@ -18,6 +18,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "r2-tilemap",
+    name: "R2 · Layered tilemap",
+    description: "Explore the meadow, house, bridge and tower in a PixiJS 3/4 tilemap.",
+    href: "/lab/r2-tilemap",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "design",
     name: "Design foundations",
     description: "Typography, palette and the first UI building blocks.",

@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@evermore/core": "workspace:*",
+    "@evermore/world": "workspace:*",
     "next": "catalog:nextjs",
+    "pixi.js": "^8.21.0",
     "react": "catalog:nextjs",
     "react-dom": "catalog:nextjs"
   },
