@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalogs:
+  build-tools:
+    turbo: ^2.11.6

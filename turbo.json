@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "dev": {
+      "description": "Starts all apps locally in development mode.",
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "description": "Builds the project for production (ci/cd).",
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "lint": {
+      "description": "Runs linting on the project.",
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "typecheck": {
+      "description": "Runs type checking on the project.",
+      "dependsOn": ["^typecheck"],
+      "outputs": []
+    },
+    "test": {
+      "description": "Runs tests on the project.",
+      "dependsOn": ["^build"],
+      "outputs": []
+    }
+  }
+}
