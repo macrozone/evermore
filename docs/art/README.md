@@ -17,7 +17,7 @@
 | Referenzen | SNES-RPGs, *Children of Morta*, *Stardew Valley* (weitere *offen*) |
 | Farben | Keine feste 16-Farben-Beschränkung. Harmonische, eher warme Grundstimmung in der eigenen Welt; Paletten pro Welt/Biom erlaubt |
 | Pixeldichte | Einheitlich innerhalb einer Szene (Figuren, Objekte, Terrain gleiche Pixelgrösse); keine gemischten Auflösungen |
-| Perspektive | Klassische Action-RPG-Draufsicht (schräg von oben), mit echter Vertikalität |
+| Perspektive | **Achsenparallele Draufsicht** wie *Stardew Valley*, *Secret of Mana*, *Zelda: ALttP* (orthografisch, Blick von Süden, Kanten horizontal/vertikal), mit echter Vertikalität. 45°-isometrisch bleibt eine spätere Option. |
 | Licht | Lichtquellen (Feuer, Laternen, Fenster, Magie) mit sichtbarem Lichtkegel/-abfall; Schatten mit Richtung; Tag/Nacht möglich (*offen*) |
 | Lesbarkeit | Begehbares vs. unpassierbares Terrain auf einen Blick unterscheidbar; Spielerfigur hebt sich immer ab; Verdeckung durch Bäume/Gebäude halbtransparent statt verschluckend |
 
@@ -58,4 +58,5 @@
 
 ## 6. Änderungslog
 
+- 2026-10-03: Perspektive festgelegt: achsenparallele Draufsicht statt 45°-isometrisch (maw). Begründung u.a.: generierte Bilder lassen sich so leichter in Tiles/Sprites/Voxel umwandeln. Moodboards sind append-only (Iterationen bleiben sichtbar).
 - 2026-10-02: Erstfassung aus ADR 0010 und Vision (Licht, Tag/Nacht, cozy Zuhause, UI-Richtung Buch).
