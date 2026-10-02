@@ -17,7 +17,8 @@
     "next": "catalog:nextjs",
     "pixi.js": "^8.21.0",
     "react": "catalog:nextjs",
-    "react-dom": "catalog:nextjs"
+    "react-dom": "catalog:nextjs",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@evermore/eslint-config": "workspace:*",
@@ -26,6 +27,7 @@
     "@types/node": "catalog:typescript-types",
     "@types/react": "catalog:nextjs",
     "@types/react-dom": "catalog:nextjs",
+    "@types/three": "^0.186.0",
     "eslint": "catalog:linting",
     "tailwindcss": "catalog:styling",
     "typescript": "catalog:build-tools",

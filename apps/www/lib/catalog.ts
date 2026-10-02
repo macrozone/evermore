@@ -18,6 +18,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "r1-voxel",
+    name: "R1 · Orthographic voxels",
+    description: "Inspect the whole meadow-house world in Three.js with adjustable camera angles.",
+    href: "/lab/r1-voxel",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "r2-tilemap",
     name: "R2 · Layered tilemap",
     description: "Explore the meadow, house, bridge and tower in a PixiJS 3/4 tilemap.",
