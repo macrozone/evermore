@@ -65,6 +65,8 @@ Für Polecats:
 4. **Commits** enthalten die Bead-ID. Nie selbst nach `main` mergen oder pushen – Übergabe an die Refinery gemäss Formula.
 5. **Folgearbeit** als neue Beads (`--deps discovered-from:<id>`, Labels separat setzen); eigene Ideen siehe «Ideen einbringen».
 
+Nach jedem Merge löst die City ein **Code-Review** aus (Review-Bead «Code-Review: <id> …», Label `review`; Kernbausteine mit Label `area:infra`/`core` reviewt der jeweils andere Anbieter). Reviewer schreiben nur Berichte; Folge-Beads aus Reviews legt die Planung an. Wer Kernbausteine baut (Weltmodell, Bewegung, Generator, Infrastruktur), setzt das Label `core`.
+
 Die GitHub-CI (catladder) ist optional und keine Merge-Voraussetzung. Fehler auf `main` per Revert, nie Force-Push.
 
 Abhängigkeiten immer mit `bd dep add <issue> --blocked-by <vorgänger>` setzen (`--deps blocks:X` bedeutet das Gegenteil).
