@@ -4,7 +4,7 @@ import { M } from "../materials";
 import { measureWorld, serializeWorld } from "../serialization";
 import type { World } from "../world";
 import { MAX_STEP_HEIGHT } from "../world";
-import { createMeadowHouseWorld } from "./meadow-house";
+import { MEADOW_HOUSE_LIGHTS, createMeadowHouseWorld } from "./meadow-house";
 
 /** Standing positions reachable on foot from the spawn (4-neighbourhood). */
 function reachable(world: World): Set<string> {
@@ -142,6 +142,17 @@ describe("meadow-house test world", () => {
     }
     expect(trunks).toBeGreaterThan(10);
     expect(leaves).toBeGreaterThan(100);
+  });
+
+  it("adds home details without blocking room access or the garden gate", () => {
+    expect(world.getCell(10, 32, 6)).toBe(M.bed);
+    expect(world.getCell(13, 38, 3)).toBe(M.table);
+    expect(world.getCell(10, 31, 3)).toBe(M.hearth);
+    expect(world.getCell(6, 40, 3)).toBe(M.fence);
+    expect(world.getCell(9, 46, 2)).toBe(M.flowers);
+    expect(canReach(12, 52, 3)).toBe(true);
+    expect(canReach(10, 35, 6)).toBe(true);
+    expect(MEADOW_HOUSE_LIGHTS.every((light) => light.radius > 0)).toBe(true);
   });
 
   it("reports its serialized size", () => {

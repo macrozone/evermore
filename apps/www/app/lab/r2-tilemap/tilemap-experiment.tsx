@@ -1,12 +1,14 @@
 "use client";
 
-import { createMeadowHouseWorld, getMaterial } from "@evermore/world";
+import { createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS } from "@evermore/world";
 import { Application, Container, Graphics } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { useMovement } from "../../../components/lab/use-movement";
 import { columnTiles, overlapsPlayer, project, RISE, stepPlayer, TILE, type Layer, type Tile } from "./tilemap-model";
+
+import { tilePattern } from "./tile-pattern";
 
 const WIDTH = 800;
 const HEIGHT = 480;
@@ -17,12 +19,9 @@ function drawTile(graphics: Graphics, tile: Tile, alpha: number) {
   // A short front face conveys height without turning the map into voxel art.
   if (tile.z > 3) graphics.rect(x, y + TILE, TILE, RISE).fill({ color: material.color, alpha: alpha * 0.6 });
   graphics.rect(x, y, TILE, TILE).fill({ color: material.color, alpha });
-  const pattern = (tile.x * 17 + tile.y * 31 + material.tileIndex) % 5;
-  graphics.rect(x + 3 + pattern, y + 5, 3, 2).fill({ color: 0xffffff, alpha: alpha * 0.14 });
-  if (material.key === "stairs" || material.key === "planks") {
-    for (let line = 4; line < TILE; line += 5) graphics.rect(x, y + line, TILE, 1).fill({ color: 0x211b20, alpha: alpha * 0.35 });
+  for (const mark of tilePattern(tile.material, tile.x, tile.y)) {
+    graphics.rect(x + mark.x, y + mark.y, mark.width, mark.height).fill({ color: mark.color, alpha });
   }
-  if (material.key === "water") graphics.rect(x + 4, y + 12, 10, 1).fill({ color: 0xd4ecff, alpha: alpha * 0.5 });
 }
 
 export default function TilemapExperiment() {
@@ -66,10 +65,11 @@ export default function TilemapExperiment() {
       const objects = new Graphics();
       const avatar = new Graphics();
       const overhead = new Graphics();
-      scene.addChild(ground, objects, avatar, overhead);
+      const light = new Graphics();
+      scene.addChild(ground, objects, light, avatar, overhead);
       app.stage.addChild(scene);
       function redraw() {
-        ground.clear(); objects.clear(); overhead.clear(); avatar.clear();
+        ground.clear(); objects.clear(); overhead.clear(); avatar.clear(); light.clear();
         const center = project({ x: player.x + 0.5, y: player.y + 0.5, z: player.z });
         scene.position.set(Math.round(WIDTH / 2 - center.x), Math.round(HEIGHT / 2 - center.y));
         const tiles: Tile[] = [];
@@ -84,6 +84,15 @@ export default function TilemapExperiment() {
           // Objects behind the player belong below the avatar; foreground objects above.
           const graphics = tile.layer === "ground" ? ground : tile.layer === "objects" && tile.y <= player.y ? objects : overhead;
           drawTile(graphics, tile, alpha);
+        }
+        for (const source of MEADOW_HOUSE_LIGHTS) {
+          const inside = world.structuresAt(player.x, player.y, player.z).some((s) => s.id === "house");
+          if (source.id === "hearth" && !inside) continue;
+          const position = project(source);
+          for (let ring = source.radius; ring > 0; ring--) {
+            light.ellipse(position.x + TILE / 2, position.y + TILE / 2, ring * TILE, ring * TILE * 0.65)
+              .fill({ color: source.color, alpha: 0.055 });
+          }
         }
         avatar.ellipse(center.x, center.y + 2, 7, 3).fill({ color: 0x101820, alpha: 0.4 });
         avatar.rect(center.x - 5, center.y - 12, 10, 11).fill(0xeee0a7);

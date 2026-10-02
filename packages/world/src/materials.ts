@@ -43,6 +43,12 @@ export const M = {
   glass: 12,
   stairs: 13,
   stoneFloor: 14,
+  fence: 15,
+  flowers: 16,
+  bed: 17,
+  table: 18,
+  hearth: 19,
+  lantern: 20,
 } as const satisfies Record<string, MaterialId>;
 
 type MaterialProps = Omit<Material, "id" | "key">;
@@ -73,7 +79,7 @@ const props: Record<keyof typeof M, MaterialProps> = {
     color: 0x000000,
     tileIndex: 0,
   },
-  grass: { ...solidGround, color: 0x5a9e3a, tileIndex: 1 },
+  grass: { ...solidGround, color: 0x6b8747, tileIndex: 1 },
   dirt: { ...solidGround, color: 0x8a5a33, tileIndex: 2 },
   stone: { ...solidGround, color: 0x7d7d84, tileIndex: 3 },
   sand: { ...solidGround, color: 0xd8c27a, tileIndex: 4 },
@@ -83,7 +89,7 @@ const props: Record<keyof typeof M, MaterialProps> = {
     opaque: false,
     occludesPlayer: false,
     transparent: true,
-    color: 0x3a78c8,
+    color: 0x3d788c,
     tileIndex: 5,
   },
   planks: { ...solidGround, color: 0xb0814a, tileIndex: 6 },
@@ -99,7 +105,7 @@ const props: Record<keyof typeof M, MaterialProps> = {
   },
   stoneWall: { ...wall, color: 0x9a9aa2, tileIndex: 9 },
   brickWall: { ...wall, color: 0xb5603f, tileIndex: 10 },
-  roof: { ...wall, color: 0x8c2f2f, tileIndex: 11 },
+  roof: { ...wall, color: 0x985943, tileIndex: 11 },
   glass: {
     ...wall,
     opaque: false,
@@ -109,6 +115,12 @@ const props: Record<keyof typeof M, MaterialProps> = {
   },
   stairs: { ...solidGround, color: 0xa0703c, tileIndex: 13 },
   stoneFloor: { ...solidGround, color: 0xa8a8ae, tileIndex: 14 },
+  fence: { ...wall, occludesPlayer: false, color: 0x99734b, tileIndex: 15 },
+  flowers: { ...solidGround, color: 0x668748, tileIndex: 16 },
+  bed: { ...wall, occludesPlayer: false, color: 0xc07765, tileIndex: 17 },
+  table: { ...wall, occludesPlayer: false, color: 0xb88b53, tileIndex: 18 },
+  hearth: { ...wall, occludesPlayer: false, color: 0xe3a353, tileIndex: 19 },
+  lantern: { ...wall, occludesPlayer: false, opaque: false, color: 0xffcd78, tileIndex: 20 },
 };
 
 /** Default material table, indexed by material ID. */

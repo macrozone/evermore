@@ -51,6 +51,8 @@ export function createMeadowHouseWorld(): World {
   buildPaths(world, bridge);
   buildHouse(world);
   buildTower(world);
+  furnishHome(world);
+  plantGarden(world);
   plantTrees(world, [
     // keep clear: house + garden, paths, stair approaches, tower
     box(HOUSE.min.x - 3, HOUSE.min.y - 3, 0, HOUSE.max.x + 3, BRIDGE_Y.max + 1, HEIGHT),
@@ -335,5 +337,43 @@ function plantTrees(world: World, keepClear: Box[]): void {
       }
     }
     world.fill(box(x, y, h, x + 1, y + 1, h + trunkHeight), M.log);
+  }
+}
+
+
+/** Light data is a fixture companion, independent of the binary world format. */
+export const MEADOW_HOUSE_LIGHTS = [
+  { id: "hearth", x: 10, y: 32, z: 4, radius: 5, color: 0xffb65c },
+  { id: "door-lantern", x: 10, y: 44, z: 5, radius: 6, color: 0xffcf83 },
+  { id: "garden-lantern", x: 25, y: 46, z: 5, radius: 5, color: 0xffcf83 },
+  { id: "window", x: 20, y: 43, z: 5, radius: 4, color: 0xffd894 },
+] as const;
+
+function furnishHome(world: World): void {
+  world.fill(box(10, 31, 3, 12, 33, 4), M.hearth);
+  world.fill(box(13, 38, 3, 15, 40, 4), M.table);
+  world.fill(box(10, 32, 6, 12, 35, 7), M.bed);
+  world.fill(box(20, 38, 6, 23, 40, 7), M.table);
+  for (const [x, y] of [[10, 44], [25, 46]] as const) {
+    world.setCell(x, y, 3, M.log);
+    world.setCell(x, y, 4, M.lantern);
+  }
+}
+
+function plantGarden(world: World): void {
+  // Leave the door, cobblestone path and bridge approaches open.
+  for (let x = 6; x < 29; x++) {
+    world.setCell(x, 26, 3, M.fence);
+    if (x < 11 || x > 14) world.setCell(x, 51, 3, M.fence);
+  }
+  for (let y = 27; y < 51; y++) {
+    world.setCell(6, y, 3, M.fence);
+    world.setCell(28, y, 3, M.fence);
+  }
+  for (const [x, y] of [[9, 46], [17, 45], [21, 46], [24, 48], [9, 28], [22, 28]] as const) {
+    world.fill(box(x, y, 2, x + 2, y + 1, 3), M.flowers);
+  }
+  for (const [x, y] of [[31, 38], [34, 54], [18, 55], [8, 54]] as const) {
+    world.setCell(x, y, 3, M.stone);
   }
 }

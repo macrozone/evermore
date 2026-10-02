@@ -12,7 +12,7 @@ export {
   measureWorld,
   serializeWorld,
 } from "./serialization";
-export { MEADOW_HOUSE_SEED, createMeadowHouseWorld } from "./test-worlds/meadow-house";
+export { MEADOW_HOUSE_LIGHTS, MEADOW_HOUSE_SEED, createMeadowHouseWorld } from "./test-worlds/meadow-house";
 export type { Chunk, Structure, StructureKind, WorldOptions } from "./world";
 export {
   CHUNK_CELLS,
