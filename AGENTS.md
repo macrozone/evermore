@@ -41,6 +41,16 @@ Evermore soll organisch um die [Vision](docs/vision.md) wachsen. Eigene Ideen un
 - **Nicht selbst umsetzen:** Umgesetzt wird erst, was maw annimmt. `docs/vision.md` ändern Agents nur, wenn ein Bead das ausdrücklich verlangt.
 - Vor dem Erfassen kurz `bd list -l idee --all` prüfen, um Duplikate zu vermeiden; bestehende Ideen lieber per Kommentar ergänzen.
 
+## Experimente und Design: kleine Iterationen
+
+Ziel: maw sieht Ergebnisse schnell und kann früh die Richtung ändern.
+
+- **Scheiben statt grosser Beads:** Experimente und Design-Aufgaben in Scheiben schneiden, die einzeln mergebar und in unter einer Stunde sichtbar sind (z.B. erst statisch rendern, dann Look, dann Bewegung). Zu grosse Beads beim Planen aufteilen; merkt ein Polecat, dass sein Bead zu gross ist, liefert er die erste sinnvolle Scheibe und legt den Rest als Folge-Beads an.
+- **Regler statt Rückfragen:** Experimentseiten unter `/lab` bekommen ein Einstell-Panel (z.B. Tweakpane) für die wichtigen Parameter; die aktuellen Werte sind als JSON kopierbar.
+- **Ergebnis mit Bild:** Zum Abschluss einer Scheibe ein Kommentar im Bead mit Screenshot, 2–3 Sätzen «worauf achten» und offenen Fragen.
+- **Feedback lesen:** Vor jeder Scheibe die Kommentare im Bead, im Eltern-Epic und in der vorherigen Scheibe lesen – dort steht maws Rückmeldung.
+- **Suchen und Gestalten** geschieht in interaktiven Studio-Sessions (Mensch + Agent mit Live-Preview); deren Entscheidungen landen im Bead bzw. in einer ADR, klar umrissene Folgearbeit geht als Beads an die Polecats.
+
 ## Arbeitsablauf für Agents (Gas City + Refinery)
 
 Umgesetzt wird über **Gas City mit dem Gastown-Pack** ([ADR 0008](docs/adr/0008-gas-city-refinery-merge-queue.md)). Polecats bearbeiten je ein Bead in einem eigenen Worktree und Feature-Branch; die **Refinery** ist die einzige Instanz, die nach `main` merged (eins nach dem anderen, nach Rebase und lokalen Checks). Für diese Arbeit gilt das Profil **Team-maintainer**: Polecats committen und pushen ihren Branch, die Refinery merged und schliesst das Bead. Die Schritte der Gas-City-Formula (`mol-polecat-work`, `mol-refinery-patrol`) gehen für die Mechanik vor; diese Richtlinien ergänzen sie. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor. Interaktive Sessions mit Menschen (Planung, Chat) bleiben beim konservativen Profil: committen/pushen nur auf Anweisung.
