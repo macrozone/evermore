@@ -23,3 +23,4 @@ Projektweite Entscheidungen (Architektur, Technologie, Prozess, Produkt-Scope) w
 | [0007](0007-landing-page-v1-englisch-ohne-datenspeicherung.md) | Landing Page v1: Englisch, ohne Datenspeicherung | accepted |
 | [0008](0008-gas-city-refinery-merge-queue.md) | Gas City mit Gastown-Refinery als Merge-Queue | accepted |
 | [0009](0009-vision-und-ideenpool.md) | Produktvision als lebendes Dokument, Ideen als Beads | accepted |
+| [0010](0010-art-direction-welt-pixel-art-ui-offen.md) | Art Direction: Welt in Pixel-Art, UI-Stil offen | accepted |

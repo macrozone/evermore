@@ -4,7 +4,7 @@
 
 ## 1. In einem Satz
 
-Ein Online-Action-Rollenspiel im 16-Bit-Look, in dem jeder Spieler seine eigene Welt ins **Book of Evermore** schreibt, sie mit Wünschen formt, über Traumpfade die Welten anderer besucht – und sich gemeinsam mit ihnen der **Schattenwelt** stellt, einem verzerrten Spiegel ihrer eigenen Schöpfung.
+Ein Online-Action-Rollenspiel mit einer Welt in Pixel-Art, die an SNES-Rollenspiele erinnert, in dem jeder Spieler seine eigene Welt ins **Book of Evermore** schreibt, sie mit Wünschen formt, über Traumpfade die Welten anderer besucht – und sich gemeinsam mit ihnen der **Schattenwelt** stellt, einem verzerrten Spiegel ihrer eigenen Schöpfung.
 
 ## Leitmotiv: Die Welt wird gewünscht
 
@@ -100,9 +100,12 @@ Erste Ausdeutung der Parallelen (Planungs-Session, darf weitergesponnen werden) 
 
 ## 5. Look & Feel
 
-- 16-Bit-Pixel-Art, Perspektive wie klassische SNES-Action-RPGs, aber mit echter Vertikalität.
-- Drei klar unterscheidbare Stimmungen: **eigene Welt** (warm, vertraut, je nach Beschreibung des Spielers), **Traumwelt** (leer, schwebend, schmale Pfade im Nichts), **Schattenwelt** (vertraut, aber verzerrt und bedrohlich).
-- Referenzen: *Zelda: A Link to the Past* (Light/Dark World), *Hades* (Chaos), *Stranger Things* (Upside Down).
+Verbindlich: [ADR 0010](adr/0010-art-direction-welt-pixel-art-ui-offen.md).
+
+- **Welt:** Pixel-Art, die an 16-Bit-SNES-Rollenspiele erinnert, darf aber moderner sein (dynamisches Licht, Schatten, Partikel, flüssige Animation). Pixel-Art stilisiert und hält generierte Welten einheitlich. Perspektive wie klassische Action-RPGs, aber mit echter Vertikalität.
+- **Referenzen Welt:** SNES-RPGs, *Children of Morta*, *Stardew Valley* – weitere folgen (*offen*).
+- **Stimmungen:** **eigene Welt** (warm, vertraut, je nach Beschreibung des Spielers), **Traumwelt** (leer, schwebend, schmale Pfade im Nichts, Referenz Chaos in *Hades*), **Schattenwelt** (vertraut, aber verzerrt und bedrohlich, Referenzen Dark World in *Zelda: A Link to the Past*, Upside Down in *Stranger Things*).
+- **UI** (Website, Menüs, HUD, Buch-Oberfläche): Stil noch *offen* (Entscheidung `evermore-azi`), nicht automatisch Pixel-Look. Erste Richtung: **Formensprache von Büchern** – schlicht, elegant, Einband verschnörkelt.
 - Moodboards: [`docs/art/moodboards/`](art/moodboards/) (entstehen in Bead `evermore-f6n`).
 
 ## 6. Technische Leitplanken aus der Vision
