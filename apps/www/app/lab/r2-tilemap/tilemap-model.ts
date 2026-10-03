@@ -50,3 +50,22 @@ export function overlapsPlayer(tile: Tile, player: Vec3): boolean {
   const feet = project({ x: player.x + 0.5, y: player.y + 0.5, z: player.z });
   return feet.x >= top.x && feet.x < top.x + TILE && feet.y >= top.y - TILE && feet.y - TILE < top.y + TILE;
 }
+
+/** Continuous feet center; require support and headroom over the whole footprint. */
+export function movementFloor(world: World, position: Vec3): number | null {
+  const radius = 0.22;
+  const cells: { x: number; y: number }[] = [];
+  for (let y = Math.floor(position.y - radius); y <= Math.floor(position.y + radius - 1e-9); y++) {
+    for (let x = Math.floor(position.x - radius); x <= Math.floor(position.x + radius - 1e-9); x++) cells.push({ x, y });
+  }
+  for (const dz of [0, MAX_STEP_HEIGHT, -MAX_STEP_HEIGHT]) {
+    const z = position.z + dz;
+    if (!world.isWalkable(Math.floor(position.x), Math.floor(position.y), z)) continue;
+    if (cells.every(({ x, y }) => {
+      // Adjacent feet samples may straddle a stair riser. Headroom follows
+      // each sample's local floor; the center selects the rendered height.
+      return [0, MAX_STEP_HEIGHT, -MAX_STEP_HEIGHT].some((offset) => world.isWalkable(x, y, z + offset));
+    })) return z;
+  }
+  return null;
+}

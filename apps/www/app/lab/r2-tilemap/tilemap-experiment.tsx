@@ -1,12 +1,15 @@
 "use client";
 
+import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
+import { MovementSettings } from "../../../components/lab/movement-settings";
+import { movementSprite } from "../../../components/lab/movement-sprite";
 import { createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS } from "@evermore/world";
 import { Application, Container, Graphics } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { useMovement } from "../../../components/lab/use-movement";
-import { columnTiles, overlapsPlayer, project, RISE, stepPlayer, TILE, type Layer, type Tile } from "./tilemap-model";
+import { columnTiles, overlapsPlayer, project, RISE, movementFloor, TILE, type Layer, type Tile } from "./tilemap-model";
 
 import { tilePattern } from "./tile-pattern";
 
@@ -27,7 +30,7 @@ function drawTile(graphics: Graphics, tile: Tile, alpha: number) {
 export default function TilemapExperiment() {
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
-  const [speed, setSpeed] = useState(8);
+  const [movement, setMovement] = useState({ ...DEFAULT_MOVEMENT });
   const [cutaway, setCutaway] = useState(true);
   const [fade, setFade] = useState(true);
   const [layers, setLayers] = useState<Record<Layer, boolean>>({ ground: true, objects: true, overhead: true });
@@ -59,7 +62,9 @@ export default function TilemapExperiment() {
       app.canvas.style.imageRendering = "pixelated";
       host?.appendChild(app.canvas);
       const world = createMeadowHouseWorld();
-      let player = { ...world.spawn };
+      const motion = createMovement({ x: world.spawn.x + 0.5, y: world.spawn.y + 0.5, z: world.spawn.z });
+      const advance = createMovementClock();
+      const playerCell = () => ({ x: Math.floor(motion.x), y: Math.floor(motion.y), z: motion.z });
       const scene = new Container();
       const ground = new Graphics();
       const objects = new Graphics();
@@ -69,8 +74,10 @@ export default function TilemapExperiment() {
       scene.addChild(ground, objects, light, avatar, overhead);
       app.stage.addChild(scene);
       function redraw() {
+        const player = playerCell();
         ground.clear(); objects.clear(); overhead.clear(); avatar.clear(); light.clear();
-        const center = project({ x: player.x + 0.5, y: player.y + 0.5, z: player.z });
+        const projected = project(motion);
+        const center = { x: Math.round(projected.x), y: Math.round(projected.y) };
         scene.position.set(Math.round(WIDTH / 2 - center.x), Math.round(HEIGHT / 2 - center.y));
         const tiles: Tile[] = [];
         // Extra north/south rows include tall tiles displaced into the viewport.
@@ -95,32 +102,22 @@ export default function TilemapExperiment() {
           }
         }
         avatar.ellipse(center.x, center.y + 2, 7, 3).fill({ color: 0x101820, alpha: 0.4 });
-        avatar.rect(center.x - 5, center.y - 12, 10, 11).fill(0xeee0a7);
-        avatar.rect(center.x - 4, center.y - 20, 8, 8).fill(0xd8956b);
-        avatar.rect(center.x - 5, center.y - 22, 10, 4).fill(0x452e2b);
+        for (const mark of movementSprite(motion)) {
+          avatar.rect(center.x + mark.x, center.y + mark.y, mark.width, mark.height).fill(mark.color);
+        }
         setRoom(world.structuresAt(player.x, player.y, player.z)[0]?.name ?? "Meadow");
       }
       redraw();
-      let elapsed = 0;
       let sample = 0;
       let frames = 0;
       app.ticker.add((ticker) => {
         const delta = Math.min(ticker.deltaMS / 1000, 0.05);
         const direction = movementFromKeys(keys.current);
-        elapsed += delta;
-        if (direction.x === 0 && direction.y === 0) elapsed = 1 / speed;
-        else if (elapsed >= 1 / speed) {
-          elapsed = 0;
-          // Cardinal grid movement prevents diagonal corner clipping.
-          const dx = Math.sign(direction.x);
-          const dy = Math.sign(direction.y);
-          let next = dx !== 0 ? stepPlayer(world, player, dx, 0) : stepPlayer(world, player, 0, dy);
-          if (next === player && dx !== 0 && dy !== 0) next = stepPlayer(world, player, 0, dy);
-          if (next !== player) { player = next; redraw(); }
-        }
+        advance(delta, () => stepMovement(motion, direction, movement, (p) => movementFloor(world, p)));
+        redraw();
         sample += delta; frames++;
         if (sample >= 0.25) {
-          setSnapshot({ fps: frames / sample, position: { ...player }, seed: String(world.seed) });
+          setSnapshot({ fps: frames / sample, position: { x: motion.x, y: motion.y, z: motion.z }, seed: String(world.seed) });
           frames = 0; sample = 0;
         }
       });
@@ -130,9 +127,9 @@ export default function TilemapExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; destroy(); };
-  }, [keys, speed, cutaway, fade, layers, reset]);
+  }, [keys, movement, cutaway, fade, layers, reset]);
 
-  const settings = JSON.stringify({ seed: 20261002, speed, cutaway, fade, layers }, null, 2);
+  const settings = JSON.stringify({ seed: 20261002, movement, cutaway, fade, layers }, null, 2);
   return (
     <div className="grid gap-5">
       <div className="relative">
@@ -144,13 +141,13 @@ export default function TilemapExperiment() {
       <p aria-live="polite">Location: {room}</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
         <legend className="px-2">Renderer settings</legend>
-        <label>Speed ({speed} cells/s) <input type="range" min={2} max={12} value={speed} onChange={(event) => setSpeed(Number(event.target.value))} /></label>
+        <MovementSettings value={movement} onChange={setMovement} />
         <label><input type="checkbox" checked={cutaway} onChange={(event) => setCutaway(event.target.checked)} /> Building cutaway</label>
         <label><input type="checkbox" checked={fade} onChange={(event) => setFade(event.target.checked)} /> Fade occluders</label>
         {(["ground", "objects", "overhead"] as const).map((layer) => <label key={layer}><input type="checkbox" checked={layers[layer]} onChange={(event) => setLayers({ ...layers, [layer]: event.target.checked })} /> {layer}</label>)}
         <button type="button" onClick={() => setReset(reset + 1)} className="rounded border border-gold px-3 py-1">Reset to door</button>
       </fieldset>
-      <p className="text-sm text-mist">Changing settings resets the player. The shared test-world seed is fixed for comparisons. Movement snaps to cells; diagonal input prefers the horizontal axis.</p>
+      <p className="text-sm text-mist">Changing settings resets the player. The shared test-world seed is fixed for comparisons. Movement uses a shared 60 Hz simulation. Try wall sliding, doorway corners and the stairs.</p>
       <details><summary>Settings JSON</summary>
         <textarea readOnly value={settings} rows={12} aria-label="Settings JSON" className="mt-3 w-full rounded bg-black/30 p-3 font-mono text-sm" />
         <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => {

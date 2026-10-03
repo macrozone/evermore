@@ -1,6 +1,6 @@
 import { createMeadowHouseWorld, M, World } from "@evermore/world";
 import { describe, expect, it } from "vitest";
-import { columnTiles, overlapsPlayer, project, stepPlayer } from "./tilemap-model";
+import { columnTiles, movementFloor, overlapsPlayer, project, stepPlayer } from "./tilemap-model";
 
 describe("R2 tilemap adapter", () => {
   it("offsets height without rotating the map grid", () => {
@@ -59,5 +59,54 @@ describe("R2 tilemap adapter", () => {
     expect(world.isWalkable(1, 1, 3)).toBe(true);
     expect(overlapsPlayer(tiles[1]!, { x: 1, y: 1, z: 3 })).toBe(true);
     expect(overlapsPlayer(tiles[1]!, { x: 2, y: 1, z: 3 })).toBe(false);
+  });
+});
+
+describe("continuous movement floor", () => {
+  it("traverses the actual doorway, house stairs and hill stairs continuously", () => {
+    const world = createMeadowHouseWorld();
+    function traverse(from: { x: number; y: number; z: number }, to: { x: number; y: number }, targetZ: number) {
+      let z = from.z;
+      const steps = Math.ceil(Math.hypot(to.x - from.x, to.y - from.y) / 0.04);
+      for (let i = 0; i <= steps; i++) {
+        const p = { x: from.x + (to.x - from.x) * i / steps, y: from.y + (to.y - from.y) * i / steps, z };
+        const floor = movementFloor(world, p);
+        expect(floor, JSON.stringify(p)).not.toBeNull();
+        z = floor!;
+      }
+      expect(z).toBe(targetZ);
+    }
+    traverse({ x: 12.5, y: 45.5, z: 3 }, { x: 12.5, y: 42.5 }, 3);
+    traverse({ x: 19.5, y: 32, z: 3 }, { x: 23.5, y: 32 }, 6);
+    traverse({ x: 23.5, y: 32, z: 6 }, { x: 19.5, y: 32 }, 3);
+    traverse({ x: 54.5, y: 29, z: 3 }, { x: 57.5, y: 29 }, 5);
+    traverse({ x: 57.5, y: 29, z: 5 }, { x: 54.5, y: 29 }, 3);
+  });
+
+  it("checks the whole footprint at walls, water and world edges", () => {
+    const world = createMeadowHouseWorld();
+    expect(movementFloor(world, { x: 12.5, y: 43.5, z: 3 })).toBe(3);
+    expect(movementFloor(world, { x: 12.1, y: 43.5, z: 3 })).toBeNull();
+    expect(movementFloor(world, { x: 0.1, y: 0.5, z: 3 })).toBeNull();
+    expect(movementFloor(world, { x: 42.5, y: 60.5, z: 3 })).toBeNull();
+  });
+  it("crosses ascending and descending steps without catching the footprint", () => {
+    const world = new World({ width: 6, depth: 3, height: 12 });
+    for (let x = 0; x < 6; x++) for (let y = 0; y < 3; y++) {
+      for (let z = 0; z < 3 + Math.min(x, 3); z++) world.setCell(x, y, z, M.stairs);
+    }
+    let z = 3;
+    for (let x = 0.5; x <= 5.5; x += 0.05) {
+      const floor = movementFloor(world, { x, y: 1.5, z });
+      expect(floor, `ascending at ${x}`).not.toBeNull();
+      z = floor!;
+    }
+    expect(z).toBe(6);
+    for (let x = 5.5; x >= 0.5; x -= 0.05) {
+      const floor = movementFloor(world, { x, y: 1.5, z });
+      expect(floor, `descending at ${x}`).not.toBeNull();
+      z = floor!;
+    }
+    expect(z).toBe(3);
   });
 });
