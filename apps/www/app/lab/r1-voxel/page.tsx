@@ -6,9 +6,9 @@ export default function VoxelPage() {
     <main className="mx-auto max-w-6xl px-6 py-10">
       <Link className="text-ice underline" href="/lab">Back to lab</Link>
       <h1 className="my-5 text-3xl text-gold">R1 · Orthographic voxels</h1>
-      <p className="mb-6 text-mist">Compare the meadow house and generated example worlds with their deterministic shadow variants. Toggle the danger heatmap to see influence peak at home, then adjust the view and copy your settings.</p>
+      <p className="mb-6 text-mist">Walk through the meadow house with WASD or arrow keys. Cross the bridge, climb the hill, or take the kitchen stairs upstairs. Adjust movement and camera follow while keeping the world in view, then copy your settings.</p>
       <VoxelClient />
-      <p className="mt-6 text-sm text-mist">Pixel rendering study with a moving sun and moon, stars, warm windows, lanterns and a garden fire. Compare day and night, soft shadows and optional tonal colour reduction. Water, glass and foliage are opaque placeholders. Interiors remain under their roofs; player movement and cutaway come in later slices.</p>
+      <p className="mt-6 text-sm text-mist">Pixel rendering study with a moving sun and moon, stars, warm windows, lanterns and a garden fire. Compare day and night, soft shadows and optional tonal colour reduction. Water, glass and foliage are opaque placeholders. The placeholder player marker stays visible through roofs; interior cutaways and natural occlusion follow in the next slice.</p>
     </main>
   );
 }

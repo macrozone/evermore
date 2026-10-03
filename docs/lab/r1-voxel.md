@@ -122,3 +122,69 @@ Qualitätsprüfungen: Typecheck, Lint, vollständige Tests (50 www, 40 world,
 Node-Version 23.6.0 statt Projektziel 22; auch der vorhandene Pfad
 `/opt/homebrew/opt/node@22/bin/node` meldet 23.6.0. Die finalen Screenshots und
 Browserprüfungen stammen vom Produktions-Build.
+
+## R1.3 – Spieler, Bewegung und Treppen
+
+Bead: `evermore-1fo.3.3`. Die Startansicht ist der achsenparallele «2D look»
+(45°, Rotation 0°), mit Zoom 2,2× und einer Kamera, die dem Spieler folgt.
+Ins Weltbild klicken und WASD/Pfeiltasten verwenden; Tab oder ein Klick ins
+Panel gibt die Tastatur frei und stoppt die Bewegung. «Reset player» setzt
+Figur und Nachführung vor die Haustür zurück.
+
+![Spieler vor der Haustür, Bewegung und Follow-Regler](screenshots/r1-player.png)
+
+[Spieler im Obergeschoss (Floor 6)](screenshots/r1-player-upstairs.png),
+[Mobilansicht](screenshots/r1-player-mobile.png),
+[Zoom 0,5×](screenshots/r1-player-zoom-min.png) und
+[Zoom 8×](screenshots/r1-player-zoom-max.png).
+
+Das framework-freie Movement aus `packages/core` simuliert mit 60 Hz:
+Subpixel-Positionen, normalisierte Diagonalen, Beschleunigung/Abbremsung,
+Wandgleiten und Corner Correction. Der Voxel-Adapter prüft alle vom
+Fuss-Rechteck berührten Zellen (Radius 0,22), begehbare Unterstützung innerhalb
+von ±1 Höhenzelle und zwei Zellen gemeinsame Kopffreiheit. Die Fixture öffnet
+deshalb die Decke auch über der Anlaufzelle vor der Küchentreppe. Wasser,
+Wände, Möbel und Weltgrenzen bleiben Hindernisse; Dächer werden nicht als
+Boden unter dem Spieler gewählt. Regler für Geschwindigkeit, Beschleunigung,
+Abbremsung, Ecktoleranz und Kamera-Follow sind gemeinsam im kopierbaren JSON.
+
+Der gemeinsame vierteilige Platzhalter wird als Nearest-gefiltertes Billboard
+gezeichnet; nur seine Bildschirmposition wird auf Renderpixel gerundet.
+Die Simulation bleibt präzise. Die Nachführung verwendet zeitunabhängige
+exponentielle Dämpfung. Die Figur bleibt als Navigationsmarker vor der
+Geometrie sichtbar: Im Haus liegt das Dach weiterhin darüber und die Figur
+wirkt im Bild deshalb, als stünde sie darauf. Echte Cutaways und natürliche
+Okklusion gehören zur folgenden Scheibe R1.4.
+
+Das unabhängig scrollbare Panel steht neben dem Canvas und bleibt auch bei
+390 Pixel Viewportbreite gleichzeitig sichtbar. Kamera-Presets erhalten den
+gewählten Zoom. Der Bildschirm-Pass benutzt eine separate Kamera und wird
+nicht nach Weltkoordinaten aussortiert; sonst verschwand er beim Follow/Zoom.
+Bewegung, Lichtflackern und Zeitraffer teilen eine auf Unmount beendete Loop;
+versteckte Tabs pausieren. Unveränderte Schattenkarten werden beim Laufen
+wiederverwendet, idle Flackern bleibt auf 30 Render-Updates/s begrenzt.
+
+Worauf achten: Erst durch die Haustür nach Norden, durch die Innentür im
+Wohnzimmer nach Osten und in der Küche an der Nordwand die Treppe von Westen
+nach Osten nehmen – «Floor» wechselt von 3 auf 6 und auf dem Rückweg wieder
+zurück. Draussen führen der Weg, die Brücke und die Hügelstufen durch die Welt;
+Wasser und die zweizelligen Klippen blockieren. Speed und Follow im Panel
+ändern und die direkte Bewegung mit träger bzw. enger Nachführung vergleichen.
+
+Art-Bible-Eindruck: Achsenparallele Perspektive, gemeinsames Pixelraster und
+warme lokale Beleuchtung bleiben erhalten; der helle Platzhalter ist deutlich
+lesbar. Die sichtbare Figur auf dem geschlossenen Dach ist bewusst noch keine
+fertige Innenraumdarstellung. Offene Fragen für maw: Passen Tempo 4 Zellen/s,
+Follow 10/s und Zoom 2,2×? Soll die Kamera künftig einen kleinen Vorlauf in
+Blickrichtung bekommen?
+
+Automatisierte Browserprüfung bei laufendem lokalen www-Server:
+`node scripts/check-r1-player.mjs http://127.0.0.1:<BASE_PORT>`.
+Sie prüft einen nicht leeren Renderpass, echte Tastaturbewegung durch die
+Haustüren und Treppe in beide Richtungen, Fokusverlust, JSON/Clipboard,
+Panel-Scroll ohne Überschneidung, Zoom-Grenzen, Zeitraffer, Idle-Flackern,
+Mobilansicht ohne horizontalen Überlauf und JavaScript-/Shaderfehler.
+Fünf Modelltests decken Fuss-AABB, Wasser/Wände/Grenzen, Wandgleiten, den
+Hausweg, Brücke/Hügel, Kopffreiheit, kamerabezogene Eingabe und zeitunabhängige
+Dämpfung ab. Screenshots headless aufgenommen und selbst angesehen.
+Software-WebGL-FPS sind kein Nachweis für 60 fps auf Spieler-Hardware.

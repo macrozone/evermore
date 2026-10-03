@@ -179,7 +179,9 @@ function buildHouse(world: World): void {
     const x = 20 + step;
     world.fill(box(x, stairY.min, ground, x + 1, stairY.max, ground + step + 1), M.stairs);
   }
-  world.fill(box(20, stairY.min, upper - 1, 22, stairY.max, upper), M.air);
+  // Include the approach cell: the full player AABB rises before its center
+  // crosses the first riser and needs two cells of clearance there too.
+  world.fill(box(19, stairY.min, upper - 1, 22, stairY.max, upper), M.air);
 
   // gable roof, overhanging by one cell
   for (let layer = 0; ; layer++) {
