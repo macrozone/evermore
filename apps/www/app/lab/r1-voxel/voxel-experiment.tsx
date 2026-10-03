@@ -8,6 +8,7 @@ import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMa
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
+import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
 import { useMovement } from "../../../components/lab/use-movement";
 import { cameraMovement, DEFAULT_FOLLOW, followBlend, voxelMovementFloor } from "./player-model";
 import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
@@ -17,7 +18,11 @@ import { DEFAULT_LOOK, LOOK_FRAGMENT, renderDimensions, type LookSettings } from
 const PLAYER_CAMERA = { ...DEFAULT_CAMERA, zoom: 2.2 };
 
 export default function VoxelExperiment() {
-  const [worldIndex, setWorldIndex] = useState(-1);
+  const { handoff, error: importError, ready } = useWorldHandoff();
+  const [selectedWorld, setWorldIndex] = useState<number | null>(null);
+  const worldIndex = selectedWorld === -2 && !handoff ? -1 : selectedWorld ?? (handoff ? -2 : -1);
+  const imported = worldIndex === -2 ? handoff : null;
+  const worldSeed = imported?.seed ?? MEADOW_HOUSE_SEED;
   const [shadow, setShadow] = useState(false);
   const [heatmap, setHeatmap] = useState(false);
   const surface = useRef<HTMLDivElement>(null);
@@ -43,7 +48,7 @@ export default function VoxelExperiment() {
 
   useEffect(() => {
     const host = surface.current;
-    if (host == null) return;
+    if (host == null || !ready) return;
     let renderer: WebGLRenderer | undefined;
     let observer: ResizeObserver | undefined;
     const shadows: DirectionalLight["shadow"][] = [];
@@ -118,7 +123,7 @@ export default function VoxelExperiment() {
         localLights = createLocalLights();
         scene.add(localLights.group);
       }
-      const source = worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
+      const source = imported ? generateWorld(imported.specification, imported.seed) : worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
       const state = createMovement({ ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 });
       const spriteCanvas = document.createElement("canvas");
       spriteCanvas.width = 16;
@@ -314,7 +319,7 @@ export default function VoxelExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; dispose(); };
-  }, [worldIndex, shadow, heatmap, keys]);
+  }, [worldIndex, imported, ready, shadow, heatmap, keys]);
 
   useEffect(() => {
     currentMovement.current = movement;
@@ -325,7 +330,7 @@ export default function VoxelExperiment() {
     updateView.current?.(settings, look, lighting);
   }, [settings, look, lighting, movement, follow]);
 
-  const json = JSON.stringify({ experiment: "r1-voxel", world: worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name, shadow, heatmap, seed: MEADOW_HOUSE_SEED, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
+  const json = JSON.stringify({ experiment: "r1-voxel", world: imported ? imported.specification.name : worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name, shadow, heatmap, seed: worldSeed, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
   return (
     <div className="relative grid grid-cols-[minmax(0,1fr)_minmax(150px,28%)] gap-2 rounded bg-ink">
       <div ref={surface} tabIndex={0} role="application" aria-label="Voxel world movement" aria-describedby="voxel-controls"
@@ -333,7 +338,7 @@ export default function VoxelExperiment() {
         className="h-[75vh] min-h-[360px] w-full overflow-hidden rounded border border-dusk focus-visible:outline-2 focus-visible:outline-gold" />
       <aside aria-label="Voxel experiment settings" className="grid min-w-0 break-words max-h-[75vh] min-h-[360px] content-start gap-4 overflow-y-auto rounded border border-dusk p-2 text-sm">
         <p id="voxel-controls">Click the world, then use WASD / arrow keys. Tab returns to settings. Follow the path to the bridge, or enter the house and take the stairs along the north wall of the kitchen.</p>
-      <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
+      <p className="text-sm text-mist">Seed {worldSeed} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
         <p aria-label="Player position">Player: {playerPosition.x.toFixed(2)}, {playerPosition.y.toFixed(2)} · Floor {playerPosition.z}</p>
         <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
           <legend>Movement & follow</legend>
@@ -351,6 +356,7 @@ export default function VoxelExperiment() {
         <fieldset className="min-w-0 flex flex-wrap items-center gap-4 border border-dusk p-3">
           <legend>World & danger</legend>
           <label className="min-w-0">Source world <select className="max-w-full" aria-label="Source world" value={worldIndex} onChange={(event) => setWorldIndex(Number(event.target.value))}>
+            {handoff && <option value={-2}>{handoff.specification.name} (imported)</option>}
             <option value={-1}>Meadow house</option>
             {WORLD_EXAMPLES.map((example, index) => <option key={example.name} value={index}>{example.name}</option>)}
           </select></label>
@@ -358,6 +364,7 @@ export default function VoxelExperiment() {
           <label><input type="checkbox" checked={heatmap} onChange={(event) => setHeatmap(event.target.checked)} /> Danger heatmap</label>
           <p className="text-sm">Blue: low danger · Red: high danger. Influence peaks at the first bed (or spawn), fading with horizontal distance.</p>
         </fieldset>
+        {importError.length > 0 && <p role="alert">{importError}</p>}
         {error !== "" && <p role="alert">{error}</p>}
         <fieldset className="min-w-0 flex flex-wrap gap-5 rounded border border-dusk p-4">
           <legend className="px-2">Camera settings</legend>

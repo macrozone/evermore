@@ -1,16 +1,33 @@
 "use client";
-import { generateWorld, getMaterial, WORLD_EXAMPLES, type World } from "@evermore/world";
+import { generateWorld, getMaterial, WORLD_EXAMPLES, type World, type WorldSpecification } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
+import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
+import { parseWorldHandoff, saveWorldHandoff } from "../../../lib/world-handoff";
 
 export default function GeneratorExperiment() {
-  const [example, setExample] = useState(0);
-  const [seed, setSeed] = useState("evermore-g1");
+  const { handoff, error: importError, ready } = useWorldHandoff();
+  const [custom, setCustom] = useState<WorldSpecification | null>(null);
+  const [example, setExample] = useState<number | null>(null);
+  const [draft, setDraft] = useState<string | null>(null);
+  const [validation, setValidation] = useState("");
+  const [seedOverride, setSeed] = useState<string | number | null>(null);
+  const seed = seedOverride ?? handoff?.seed ?? "evermore-g1";
   const [slice, setSlice] = useState(39);
   const [result, setResult] = useState<{ world: World; milliseconds: number }>();
   const [error, setError] = useState("");
   const canvas = useRef<HTMLCanvasElement>(null);
-  const spec = WORLD_EXAMPLES[example]!;
+  const spec = example === null ? custom ?? handoff?.specification ?? WORLD_EXAMPLES[0]! : WORLD_EXAMPLES[example]!;
+  const applyJSON = () => {
+    try {
+      const next = parseWorldHandoff(draft ?? JSON.stringify(spec), seed);
+      setCustom(next.specification); setExample(null); setSeed(next.seed);
+      setDraft(JSON.stringify(next.specification, null, 2));
+      try { saveWorldHandoff(next, window.localStorage); setValidation("Valid specification applied."); }
+      catch { setValidation("Valid specification applied. Browser storage is unavailable."); }
+    } catch (cause) { setValidation(cause instanceof Error ? cause.message : "Invalid world specification."); }
+  };
   useEffect(() => {
+    if (!ready) return;
     const frame = requestAnimationFrame(() => {
     try {
       const start = performance.now();
@@ -20,7 +37,7 @@ export default function GeneratorExperiment() {
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Generation failed"); }
     });
     return () => cancelAnimationFrame(frame);
-  }, [spec, seed]);
+  }, [spec, seed, ready]);
   useEffect(() => {
     const context = canvas.current?.getContext("2d");
     if (!context || !result) return;
@@ -40,15 +57,19 @@ export default function GeneratorExperiment() {
   return <div className="grid gap-5">
     <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
       <legend>Generation settings</legend>
-      <label>Example <select className="bg-black p-2" value={example} onChange={e => setExample(Number(e.target.value))}>
+      <label>Example <select className="bg-black p-2" value={example === null && (custom || handoff) ? "custom" : example ?? 0} onChange={e => { setDraft(null); setValidation(""); setExample(e.target.value === "custom" ? null : Number(e.target.value)); }}>
+        {(custom || handoff) && <option value="custom">Imported specification</option>}
         {WORLD_EXAMPLES.map((s, i) => <option key={s.name} value={i}>{s.name}</option>)}
       </select></label>
       <label>Seed <input className="bg-black p-2" value={seed} onChange={e => setSeed(e.target.value)} /></label>
       <label>Highest visible layer ({slice}) <input type="range" min={0} max={spec.size.height - 1} value={Math.min(slice, spec.size.height - 1)} onChange={e => setSlice(Number(e.target.value))} /></label>
     </fieldset>
+    <p role="status">{importError}</p>
     <p role="status">{error !== "" ? error : (result ? `${result.milliseconds.toFixed(1)} ms · ${result.world.structures.length} structures · spawn ${result.world.spawn.x}/${result.world.spawn.y}/${result.world.spawn.z}` : "Generating…")}</p>
     <canvas ref={canvas} width={512} height={512} aria-label={`Top-down generated world: ${spec.name}. White outline marks the player start.`} className="w-full max-w-xl border border-dusk" style={{ imageRendering: "pixelated" }} />
     <p className="text-mist">{spec.mood} · {spec.climate} · {spec.timeOfDay}. This diagnostic map uses material colours; mood, palette and daylight are metadata for future renderer integration.</p>
-    <label className="grid gap-2">World specification JSON<textarea readOnly rows={14} value={JSON.stringify(spec, null, 2)} className="w-full bg-black/30 p-3 font-mono text-sm" /></label>
+    <label className="grid gap-2">World specification JSON<textarea rows={14} value={draft ?? JSON.stringify(spec, null, 2)} onChange={event => { setDraft(event.target.value); setValidation(""); }} className="w-full bg-black/30 p-3 font-mono text-sm" /></label>
+    <button type="button" onClick={applyJSON} className="rounded border border-gold p-2">Validate and apply JSON</button>
+    <p role="status">{validation}</p>
   </div>;
 }

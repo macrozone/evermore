@@ -11,6 +11,8 @@ describe("G1 lab", () => {
     expect(html).toContain("evermore-g1");
     expect(html).toContain("World specification JSON");
     expect(html).toContain("Highest visible layer");
+    expect(html).toContain("Validate and apply JSON");
+    expect(html).not.toContain("readonly");
     expect(catalog.find(entry => entry.id === "g1-generator")).toMatchObject({
       href: "/lab/g1-generator", status: "ready", category: "experiment",
     });

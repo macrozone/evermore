@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRef, useState, type CSSProperties } from "react";
 
+import { encodeWorldHash, parseWorldHandoff, saveWorldHandoff } from "../../../lib/world-handoff";
+
 import styles from "./book.module.css";
 import { BOOK_MODELS, DEFAULT_BOOK_MODEL, type BookGeneration, type BookModel } from "./generation";
 
@@ -26,13 +28,15 @@ export default function BookExperiment() {
     return BOOK_MODELS.includes(query as BookModel) ? query as BookModel : DEFAULT_BOOK_MODEL;
   });
   const [generation, setGeneration] = useState<BookGeneration | null>(null);
+  const [worldHash, setWorldHash] = useState("");
+  const [handoffError, setHandoffError] = useState("");
   const [pending, setPending] = useState(false);
   const [generationError, setGenerationError] = useState("");
   const revision = useRef(0);
-  const invalidate = () => { revision.current++; setGeneration(null); setGenerationError(""); };
+  const invalidate = () => { revision.current++; setGeneration(null); setWorldHash(""); setHandoffError(""); setGenerationError(""); };
   const generate = async () => {
     const current = revision.current;
-    setPending(true); setGenerationError(""); setGeneration(null);
+    setPending(true); setGenerationError(""); setGeneration(null); setWorldHash(""); setHandoffError("");
     try {
       const response = await fetch("/api/lab/book", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -40,7 +44,13 @@ export default function BookExperiment() {
       });
       if (!response.ok) throw new Error("Generation failed. Please try again.");
       const result = await response.json() as BookGeneration;
-      if (revision.current === current) setGeneration(result);
+      const handoff = parseWorldHandoff(JSON.stringify(result));
+      const hash = await encodeWorldHash(handoff);
+      if (revision.current === current) {
+        setGeneration(result); setWorldHash(hash);
+        try { saveWorldHandoff(handoff, window.localStorage); }
+        catch { setHandoffError("Your world could not be saved in this browser. The preview links still work."); }
+      }
     } catch {
       if (revision.current === current) setGenerationError("Could not reach the book generator. Please try again.");
     } finally { setPending(false); }
@@ -125,6 +135,10 @@ export default function BookExperiment() {
         </div>
         <p role="status">{pending ? "Turning your two passages into a world…" : generation ? `${generation.source === "vertex" ? "Generated with Vertex AI" : "Example fallback"} · ${generation.model} · ${generation.durationMs} ms · seed ${generation.seed}` : "Write both passages, then generate your beginning."}</p>
         {generation?.source === "example" && <p className={styles.fallback}>An example world is shown: {generation.fallbackReason === "disabled" ? "live generation is disabled" : generation.fallbackReason === "credentials" ? "Vertex credentials are unavailable" : generation.fallbackReason === "invalid-output" ? "the model returned an invalid world" : "the selected model could not be reached"}. It is selected by theme and does not fully interpret your passages.</p>}
+        {generation && worldHash.length > 0 && <nav className={styles.generationControls} aria-label="View generated world">
+          {([["G1", "/lab/g1-generator"], ["R2", "/lab/r2-tilemap"], ["R1", "/lab/r1-voxel"]] as const).map(([label, path]) => <Link key={label} href={`${path}${worldHash}`} prefetch={false}>View in {label} →</Link>)}
+        </nav>}
+        {handoffError.length > 0 && <p role="status">{handoffError}</p>}
         {generation?.usage && <p>Tokens · {generation.usage.inputTokens} input / {generation.usage.outputTokens} output</p>}
         {generationError.length > 0 && <p role="alert">{generationError}</p>}
         <details open className={styles.debug}>

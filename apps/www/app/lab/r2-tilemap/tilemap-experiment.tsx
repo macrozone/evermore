@@ -3,11 +3,12 @@
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
-import { createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
+import { generateWorld, createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
 import { Application, Container, Graphics, Assets, Sprite, type Texture } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
 import { movementFromKeys } from "../../../components/lab/keyboard";
+import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
 import { useMovement } from "../../../components/lab/use-movement";
 import { columnTiles, overlapsPlayer, project, RISE, movementFloor, TILE, type Layer, type Tile } from "./tilemap-model";
 
@@ -32,7 +33,10 @@ function drawTile(graphics: Graphics, tile: Tile, alpha: number) {
 export default function TilemapExperiment() {
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
-  const [sceneMode, setSceneMode] = useState("village");
+  const { handoff, error: importError, ready } = useWorldHandoff();
+  const [selectedScene, setSceneMode] = useState<string | null>(null);
+  const sceneMode = selectedScene ?? (handoff ? "specification" : "village");
+  const imported = sceneMode === "specification" ? handoff : null;
   const [seed, setSeed] = useState(20261003);
   const [villageOptions, setVillageOptions] = useState({ ...DEFAULT_VILLAGE });
   const [generation, setGeneration] = useState("");
@@ -49,7 +53,7 @@ export default function TilemapExperiment() {
 
   useEffect(() => {
     const host = surface.current;
-    if (!host) return;
+    if (!host || !ready) return;
     const app = new Application();
     let cancelled = false;
     let initialized = false;
@@ -71,9 +75,9 @@ export default function TilemapExperiment() {
       host?.appendChild(app.canvas);
       const generatedAt = performance.now();
       const village = sceneMode === "village" ? generateObjectVillage(objectLibrary, seed, villageOptions) : null;
-      const world = village?.world ?? createMeadowHouseWorld();
+      const world = imported ? generateWorld(imported.specification, imported.seed) : village?.world ?? createMeadowHouseWorld();
       const elapsed = performance.now() - generatedAt;
-      setGeneration(village ? `${world.width} × ${world.depth} · ${village.placedBuildings}/${village.requestedBuildings} houses · ${village.placements.length} objects · ${elapsed.toFixed(1)} ms · $0 additional AI cost` : "Shared meadow-house comparison");
+      setGeneration(imported ? `${imported.specification.name} · seed ${imported.seed} · ${elapsed.toFixed(1)} ms` : village ? `${world.width} × ${world.depth} · ${village.placedBuildings}/${village.requestedBuildings} houses · ${village.placements.length} objects · ${elapsed.toFixed(1)} ms · $0 additional AI cost` : "Shared meadow-house comparison");
       const textures = new Map<string, Texture>();
       if (village) {
         await Promise.all(objectLibrary.map(async object => {
@@ -150,7 +154,7 @@ export default function TilemapExperiment() {
             light.ellipse(foot.x, foot.y - TILE, TILE * 2, TILE).fill({ color: 0xffcd72, alpha: 0.15 });
           }
         }
-        for (const source of village ? [] : MEADOW_HOUSE_LIGHTS) {
+        for (const source of sceneMode === "meadow" ? MEADOW_HOUSE_LIGHTS : []) {
           const inside = world.structuresAt(player.x, player.y, player.z).some((s) => s.id === "house");
           if (source.id === "hearth" && !inside) continue;
           const position = project(source);
@@ -163,7 +167,7 @@ export default function TilemapExperiment() {
         for (const mark of movementSprite(motion)) {
           avatar.rect(center.x + mark.x, center.y + mark.y, mark.width, mark.height).fill(mark.color);
         }
-        setRoom(village ? "Library village" : world.structuresAt(player.x, player.y, player.z)[0]?.name ?? "Meadow");
+        setRoom(village ? "Library village" : world.structuresAt(player.x, player.y, player.z)[0]?.name ?? (imported?.specification.name ?? "Meadow"));
       }
       redraw();
       let sample = 0;
@@ -185,9 +189,9 @@ export default function TilemapExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; destroy(); };
-  }, [keys, movement, cutaway, fade, layers, reset, sceneMode, seed, villageOptions, footprints]);
+  }, [keys, movement, cutaway, fade, layers, reset, sceneMode, imported, ready, seed, villageOptions, footprints]);
 
-  const settings = JSON.stringify({ scene: sceneMode, seed, villageOptions, movement, cutaway, fade, layers, footprints }, null, 2);
+  const settings = JSON.stringify({ scene: sceneMode, seed: imported?.seed ?? seed, villageOptions, movement, cutaway, fade, layers, footprints }, null, 2);
   return (
     <div className="grid gap-5">
       <div className="relative">
@@ -196,7 +200,7 @@ export default function TilemapExperiment() {
         <DebugOverlay {...snapshot} />
         <fieldset className="absolute right-2 top-2 max-h-[70%] w-48 overflow-auto rounded border border-dusk bg-night/95 p-3 text-xs text-mist">
           <legend className="sr-only">Village controls</legend>
-          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1"><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1">{handoff && <option value="specification">{handoff.specification.name} (imported)</option>}<option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
           {sceneMode === "village" && <>
             <label className="mt-2 block">Seed<input aria-label="Village seed" type="number" min={0} max={4294967295} value={seed} onChange={event => { const value = Number(event.target.value); if (Number.isInteger(value) && value >= 0 && value <= 4294967295) setSeed(value); }} className="block w-full bg-night p-1" /></label>
             <label className="mt-2 block">Map size<select aria-label="Map size" value={villageOptions.size} onChange={event => setVillageOptions({ ...villageOptions, size: Number(event.target.value) })} className="block w-full bg-night p-1">{[48, 64, 96, 128].map(size => <option key={size} value={size}>{size} × {size}</option>)}</select></label>
@@ -208,6 +212,7 @@ export default function TilemapExperiment() {
           <button type="button" onClick={() => setReset(reset + 1)} className="mt-2 rounded border border-gold px-2 py-1">Reset player</button>
         </fieldset>
       </div>
+      {importError.length > 0 && <p role="alert">{importError}</p>}
       {error !== "" && <p role="alert">{error}</p>}
       <p aria-live="polite">Location: {room} · {generation}</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
