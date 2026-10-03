@@ -188,3 +188,8 @@ Fünf Modelltests decken Fuss-AABB, Wasser/Wände/Grenzen, Wandgleiten, den
 Hausweg, Brücke/Hügel, Kopffreiheit, kamerabezogene Eingabe und zeitunabhängige
 Dämpfung ab. Screenshots headless aufgenommen und selbst angesehen.
 Software-WebGL-FPS sind kein Nachweis für 60 fps auf Spieler-Hardware.
+
+Abschlussprüfungen: `pnpm install`, Typecheck, Lint, vollständige Tests
+(98 www, 55 world, 13 core plus bestehende ESLint-/Script-Tests) und
+Produktions-Build grün. Lokale Node-Version 23.6.0 statt Projektziel 22;
+die vorhandene Engine-Warnung hat die Checks nicht verhindert.
