@@ -1,6 +1,7 @@
 import { MEADOW_HOUSE_LIGHTS } from "@evermore/world";
 import { BoxGeometry, Group, Mesh, MeshBasicMaterial, PointLight } from "three";
 import { daylightAt, temperatureColor, type LightingSettings } from "./daylight";
+import { fixtureSeed, flickerFactor } from "./light-flicker";
 import type { LookSettings } from "./pixel-look";
 
 /** Renderer-only glow surfaces; fixture cells still own collision and geometry. */
@@ -46,23 +47,25 @@ export function createLocalLights() {
       }
     }
     group.add(glow);
-    return { fixture, light, material };
+    return { fixture, light, material, seed: fixtureSeed(fixture.id) };
   });
   return {
     group,
-    update(settings: LightingSettings, look: LookSettings) {
+    update(settings: LightingSettings, look: LookSettings, seconds = 0) {
       const { day } = daylightAt(settings.hour);
       const temperature = temperatureColor(settings.temperature);
-      for (const { fixture, light, material } of sources) {
+      for (const { fixture, light, material, seed } of sources) {
+        const factor = settings.flicker && fixture.kind === "fire"
+          ? flickerFactor(seed, seconds, settings.flickerStrength, settings.flickerSpeed) : 1;
         light.color.copy(temperature);
         if (fixture.kind === "fire") light.color.multiplyScalar(0.95);
-        light.intensity = settings.localLights ? settings.intensity * (0.2 + (1 - day) * 0.8) : 0;
-        light.distance = fixture.radius * settings.radius;
+        light.intensity = settings.localLights ? settings.intensity * (0.2 + (1 - day) * 0.8) * factor : 0;
+        light.distance = fixture.radius * settings.radius * (1 + (factor - 1) * 0.35);
         light.shadow.camera.far = light.distance;
         light.shadow.camera.updateProjectionMatrix();
         light.shadow.radius = look.softness;
         light.castShadow = look.shadows;
-        material.color.copy(temperature).multiplyScalar(settings.localLights ? 0.6 + (1 - day) * 1.4 : 0.15);
+        material.color.copy(temperature).multiplyScalar(settings.localLights ? (0.6 + (1 - day) * 1.4) * factor : 0.15);
       }
     },
     dispose() {

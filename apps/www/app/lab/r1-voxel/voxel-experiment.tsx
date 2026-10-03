@@ -19,6 +19,8 @@ export default function VoxelExperiment() {
   const currentSettings = useRef(DEFAULT_CAMERA);
   const currentLook = useRef(DEFAULT_LOOK);
   const currentLighting = useRef(DEFAULT_LIGHTING);
+  const animationSeconds = useRef(0);
+  const [performanceStats, setPerformanceStats] = useState({ fps: 0, frameMs: 0, calls: 0 });
   const [lighting, setLighting] = useState(DEFAULT_LIGHTING);
   const [look, setLook] = useState(DEFAULT_LOOK);
   const [settings, setSettings] = useState(DEFAULT_CAMERA);
@@ -134,7 +136,11 @@ export default function VoxelExperiment() {
       const activeRenderer = renderer;
       let lastWidth = 0;
       let lastHeight = 0;
+      let sampleStart = performance.now();
+      let sampleFrames = 0;
+      let sampleRenderMs = 0;
       const render = (cameraSettings: CameraSettings, lookSettings: LookSettings, lightingSettings: LightingSettings) => {
+        const renderStart = performance.now();
         const { width, height } = host.getBoundingClientRect();
         if (width <= 0 || height <= 0) return;
         if (width !== lastWidth || height !== lastHeight) {
@@ -155,7 +161,7 @@ export default function VoxelExperiment() {
         moonlight.intensity = lightingSettings.moonlight * day.moon;
         moonlight.castShadow = lookSettings.shadows && day.moon > 0;
         moonlight.shadow.radius = lookSettings.softness;
-        localLights?.update(lightingSettings, lookSettings);
+        localLights?.update(lightingSettings, lookSettings, animationSeconds.current);
         screenMaterial.uniforms.skyColor!.value = day.sky;
         screenMaterial.uniforms.night!.value = 1 - day.day;
         screenMaterial.uniforms.hour!.value = day.hour;
@@ -167,8 +173,17 @@ export default function VoxelExperiment() {
         screenMaterial.uniforms.palette!.value = lookSettings.palette;
         activeRenderer.setRenderTarget(target);
         activeRenderer.render(scene, camera);
+        const calls = activeRenderer.info.render.calls;
         activeRenderer.setRenderTarget(null);
         activeRenderer.render(screen, camera);
+        sampleFrames++;
+        sampleRenderMs += performance.now() - renderStart;
+        if (performance.now() - sampleStart >= 1000) {
+          setPerformanceStats({ fps: sampleFrames * 1000 / (performance.now() - sampleStart), frameMs: sampleRenderMs / sampleFrames, calls: calls + activeRenderer.info.render.calls });
+          sampleFrames = 0;
+          sampleRenderMs = 0;
+          sampleStart = performance.now();
+        }
       };
       const contextLost = (event: Event) => {
         if (cancelled) return;
@@ -197,30 +212,43 @@ export default function VoxelExperiment() {
   }, [settings, look, lighting]);
 
   useEffect(() => {
-    if (!lighting.play) return;
+    const animateFlames = lighting.localLights && lighting.flicker && lighting.flickerStrength > 0 && lighting.flickerSpeed > 0 && worldIndex === -1 && !shadow;
+    if (!lighting.play && !animateFlames) return;
     let frame = 0;
     let previous = performance.now();
     let lastUpdate = previous;
     const tick = (now: number) => {
-      // Cap this experiment at 12 updates/s; hidden tabs pause time entirely.
+      // Bound rendering cost; hidden tabs pause both clocks.
       if (document.hidden) { previous = now; lastUpdate = now; }
-      else if (now - lastUpdate >= 1000 / 12) {
+      else if (now - lastUpdate >= 1000 / 30) {
         const elapsed = (now - previous) / 1000;
         previous = now;
         lastUpdate = now;
-        setLighting((value) => ({ ...value, hour: advanceHour(value.hour, elapsed, value.minutesPerSecond) }));
+        animationSeconds.current += Math.min(elapsed, 0.25);
+        if (currentLighting.current.play) {
+          setLighting((value) => ({ ...value, hour: advanceHour(value.hour, elapsed, value.minutesPerSecond) }));
+        } else {
+          updateView.current?.(currentSettings.current, currentLook.current, currentLighting.current);
+        }
       }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [lighting.play]);
+  }, [lighting.play, lighting.localLights, lighting.flicker, lighting.flickerStrength, lighting.flickerSpeed, worldIndex, shadow]);
 
   const json = JSON.stringify({ experiment: "r1-voxel", world: worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name, shadow, heatmap, seed: MEADOW_HOUSE_SEED, camera: settings, look, lighting }, null, 2);
   return (
     <div className="grid gap-5">
       <div className="sticky top-0 z-10 rounded bg-ink">
         <div ref={surface} className="h-[50vh] w-full overflow-hidden rounded border border-dusk" />
+        <fieldset className="flex flex-wrap gap-4 border border-dusk p-3">
+          <legend>Firelight flicker</legend>
+          <label><input type="checkbox" checked={lighting.flicker} onChange={(event) => setLighting({ ...lighting, flicker: event.target.checked })} /> Flicker</label>
+          <label>Strength ({lighting.flickerStrength.toFixed(2)})<input aria-label="Flicker strength" type="range" min={0} max={0.4} step={0.01} value={lighting.flickerStrength} onChange={(event) => setLighting({ ...lighting, flickerStrength: Number(event.target.value) })} /></label>
+          <label>Speed ({lighting.flickerSpeed.toFixed(1)}×)<input aria-label="Flicker speed" type="range" min={0} max={6} step={0.1} value={lighting.flickerSpeed} onChange={(event) => setLighting({ ...lighting, flickerSpeed: Number(event.target.value) })} /></label>
+          <span className="text-sm">Fire only · lanterns and windows stay steady</span>
+        </fieldset>
         <fieldset className="flex flex-wrap items-center gap-4 border border-dusk p-3">
           <legend>World & danger</legend>
           <label>Source world <select aria-label="Source world" value={worldIndex} onChange={(event) => setWorldIndex(Number(event.target.value))}>
@@ -233,7 +261,7 @@ export default function VoxelExperiment() {
         </fieldset>
       </div>
       {error !== "" && <p role="alert">{error}</p>}
-      <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {lighting.play ? "time-lapse at up to 12 fps" : "rendered on demand"}</p>
+      <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
         <legend className="px-2">Camera settings</legend>
         <div className="flex w-full flex-wrap gap-2" role="group" aria-label="Camera presets">

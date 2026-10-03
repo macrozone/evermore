@@ -7,6 +7,9 @@ export const DEFAULT_LIGHTING = {
   temperature: 2800,
   moonlight: 0.9,
   localLights: true,
+  flicker: true,
+  flickerStrength: 0.12,
+  flickerSpeed: 2,
   play: false,
   minutesPerSecond: 30,
 };
