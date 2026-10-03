@@ -127,6 +127,7 @@ describe("fine visual voxels", () => {
     world.setCell(0, 0, 0, M.roof);
     const geometry = meshChunk(world, [...world.chunks()][0]!, 8);
     expect(geometry.index?.count).toBe(36);
+    expect(geometry.userData.voxelCount).toBe(512);
     geometry.dispose();
   });
   it("keeps the world untouched and flat terrain inexpensive at every detail level", () => {
@@ -138,6 +139,7 @@ describe("fine visual voxels", () => {
       expect(geometry.boundingBox?.min.toArray()).toEqual([0, -1, 0]);
       expect(geometry.boundingBox!.max.distanceTo(new Vector3(1, 0, 1))).toBe(0);
       expect(world.getCell(0, 0, 0)).toBe(M.grass);
+      expect(geometry.userData.voxelCount).toBe(1);
       geometry.dispose();
     }
   });

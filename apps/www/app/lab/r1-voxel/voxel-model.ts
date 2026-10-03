@@ -52,6 +52,7 @@ export function detailOccupied(world: World, x: number, y: number, z: number, u:
 /** One indexed mesh per chunk; only detailed objects need smaller voxel faces. */
 export function meshChunk(world: World, chunk: Chunk, fineness: VoxelFineness = 1): BufferGeometry {
   const positions: number[] = [], normals: number[] = [], colors: number[] = [], materialIds: number[] = [], indices: number[] = [];
+  let voxelCount = 0;
   const palette = new Map<number, Color>();
   const occupied = (x: number, y: number, z: number) => {
     const cx = Math.floor(x), cy = Math.floor(y), cz = Math.floor(z);
@@ -83,6 +84,7 @@ export function meshChunk(world: World, chunk: Chunk, fineness: VoxelFineness = 
         for (let sz = 0; sz < count; sz++) for (let sy = 0; sy < count; sy++) for (let sx = 0; sx < count; sx++) {
           const px = x + sx * size, py = y + sy * size, pz = z + sz * size;
           if (detail && !occupied(px + size / 2, py + size / 2, pz + size / 2)) continue;
+          voxelCount++;
           for (const face of FACES) {
             const [nx, ny, nz] = face.normal;
             const neighbour = world.getCell(x + nx, y + ny, z + nz);
@@ -136,6 +138,7 @@ export function meshChunk(world: World, chunk: Chunk, fineness: VoxelFineness = 
   geometry.setAttribute("normal", new Float32BufferAttribute(normals, 3));
   geometry.setAttribute("color", new Float32BufferAttribute(colors, 3));
   geometry.setAttribute("materialId", new Float32BufferAttribute(materialIds, 1));
+  geometry.userData.voxelCount = voxelCount;
   geometry.setIndex(indices);
   geometry.computeBoundingBox();
   geometry.computeBoundingSphere();
