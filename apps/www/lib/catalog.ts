@@ -54,6 +54,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "g1-generator",
+    name: "G1 · World generator",
+    description: "Generate a forest village, harbour, desert ruins or monastery from a specification and seed.",
+    href: "/lab/g1-generator",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "design",
     name: "Design foundations",
     description: "Typography, palette and the first UI building blocks.",

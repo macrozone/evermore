@@ -24,3 +24,7 @@ export {
   World,
   chunkCellIndex,
 } from "./world";
+export type { WorldSpecification } from "./generator/specification";
+export { WORLD_SPECIFICATION_SCHEMA, parseWorldSpecification } from "./generator/specification";
+export { generateWorld } from "./generator/generate";
+export { WORLD_EXAMPLES } from "./generator/examples";

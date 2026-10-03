@@ -58,3 +58,26 @@ reachable on foot – and that it is not without the bridge or stairs.
 Measured size (test output): 589 824 B raw, 7 570 B RLE, **1 643 B** RLE + deflate.
 
 Tests: `pnpm --filter @evermore/world test`.
+
+
+## G1 procedural generator
+
+`generateWorld(specification, seed)` builds a bounded world without renderer or
+network dependencies. `WORLD_SPECIFICATION_SCHEMA` exposes the JSON Schema;
+`parseWorldSpecification` validates its supported fields and cross-field bounds
+before allocating cells. Version 1 limits dimensions, density and building count
+to keep client generation bounded. Both numbers and strings are supported seeds.
+
+`WORLD_EXAMPLES` includes Forest village, Harbour town, Desert ruins and Mountain
+monastery. Try them at `/lab/g1-generator`, including generation timings and a
+height slice that reveals interiors. Identical specifications and seeds produce
+identical serialized worlds; timings are caller diagnostics and are not serialized.
+
+The generator uses interpolated seeded value noise, river/sea masks, flat paved
+routes, reserved foundations, vegetation and multistorey buildings. Buildings
+have a ground-level door, four-cell floor spacing, alternating stairs with
+headroom and a roof; each floor has a room region for renderer cutaways.
+Paths connect the start to entrances and landmarks when enabled. Paths can bridge
+water; terrain may still contain cliffs. This is an experimental scaffold:
+climate, time, mood and palette remain semantic metadata, and landmarks use
+placeholder stone columns. No permanent generation architecture is implied.
