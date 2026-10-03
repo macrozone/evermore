@@ -11,6 +11,15 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "wish",
+    screenshot: "/catalog/wish-desktop.png",
+    name: "Wish · Inspiration estimate",
+    description: "Estimate a wish before generation; compare scope, influence, inspiration and repeated model calls.",
+    href: "/lab/wish",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "character",
     name: "Character A · Paper doll",
     description: "Describe a traveller, choose parts and colours, and inspect four directions of their walk cycle.",

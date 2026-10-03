@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "viewports": [
+    "1440x1000",
+    "390x844",
+    "375x667"
+  ],
+  "checks": [
+    "start",
+    "independent scrolling",
+    "example/free text",
+    "model selection",
+    "zero influence",
+    "zero/max inspiration",
+    "offline repeat exclusion",
+    "live repeat flow (mock)",
+    "stale-context reset",
+    "JSON export",
+    "smaller wish"
+  ],
+  "liveMock": true
+}

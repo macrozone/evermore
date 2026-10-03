@@ -1,0 +1,614 @@
+{
+  "measuredAt": "2026-10-03T23:01:41.923Z",
+  "measurements": [
+    {
+      "input": {
+        "wish": "A flower pot by my bed",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 1,
+          "cells": 2,
+          "structures": 1,
+          "complexity": 1,
+          "reason": "A small flower pot next to a bed requires minimal space, a single simple structure, and very low complexity.",
+          "smallerWish": "A single flower on the bedside table"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 4308,
+        "usage": {
+          "inputTokens": 401,
+          "outputTokens": 80,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00035233000000000004,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A flower pot by my bed",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 1,
+          "cells": 2,
+          "structures": 1,
+          "complexity": 1,
+          "reason": "Placing a small flower pot beside a bed requires a tiny ground footprint of one square metre, affecting only a couple of 3D voxel cells, one structure object, and minimal complexity.",
+          "smallerWish": "A single potted flower on a nightstand"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 738,
+        "usage": {
+          "inputTokens": 401,
+          "outputTokens": 95,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00039358000000000004,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A flower pot by my bed",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 1,
+          "cells": 2,
+          "structures": 1,
+          "complexity": 1,
+          "reason": "Placing a single small flower pot beside a bed affects a tiny ground footprint of one square metre and occupies just a couple of voxel cells with minimal complexity.",
+          "smallerWish": "A single flower on the bedside table"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 767,
+        "usage": {
+          "inputTokens": 401,
+          "outputTokens": 87,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00037158000000000004,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A castle on a mountain",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 2500,
+          "cells": 125000,
+          "structures": 1,
+          "complexity": 4,
+          "reason": "Building a full castle on a mountain requires significant terrain elevation modification and a large stone structure spanning thousands of square metres.",
+          "smallerWish": "A miniature model of a castle on a rock on the bedside table"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 758,
+        "usage": {
+          "inputTokens": 400,
+          "outputTokens": 93,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00038775,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A castle on a mountain",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 2500,
+          "cells": 125000,
+          "structures": 1,
+          "complexity": 4,
+          "reason": "Building a full castle on a mountain requires significant terrain generation and structural complexity spanning thousands of cubic metres.",
+          "smallerWish": "A miniature stone watchtower on a small mound of dirt"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 677,
+        "usage": {
+          "inputTokens": 400,
+          "outputTokens": 88,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.000374,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A castle on a mountain",
+        "place": "My cottage bedroom, beside my bed",
+        "influence": 1,
+        "inspiration": 100,
+        "model": "gemini-3.5-flash-lite",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 2500,
+          "cells": 125000,
+          "structures": 1,
+          "complexity": 4,
+          "reason": "Creating a full castle on a mountain requires significant terrain elevation modification and a large multi-room architectural structure spanning thousands of cubic meter voxels.",
+          "smallerWish": "A miniature stone tower on a small mound of dirt"
+        },
+        "model": "gemini-3.5-flash-lite",
+        "source": "vertex",
+        "durationMs": 702,
+        "usage": {
+          "inputTokens": 400,
+          "outputTokens": 95,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00039325,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    }
+  ],
+  "previousCohorts": [
+    [
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 2,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "Placing a small flower pot beside a bed requires minimal space and only a simple decorative object.",
+            "smallerWish": "A single flower on the bedside table"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 4648,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 75,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 2,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "Placing a small flower pot beside a bed requires a tiny ground footprint of one square metre, affecting only a couple of voxel cells for the pot and soil, creating a single simple decorative structure.",
+            "smallerWish": "A single potted flower on a nightstand"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 775,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 97,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 2,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "Placing a small flower pot beside a bed affects a single surface voxel with minimal complexity.",
+            "smallerWish": "A single flower on a nightstand"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 729,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 76,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 2500,
+            "cells": 125000,
+            "structures": 5,
+            "complexity": 4.5,
+            "reason": "Building a full castle on a mountain requires significant terrain elevation modification and multiple complex stone structures, occupying a substantial footprint and height profile.",
+            "smallerWish": "A miniature stone tower on a small mound of dirt"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 782,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 95,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 2500,
+            "cells": 75000,
+            "structures": 1,
+            "complexity": 4,
+            "reason": "Creating a full castle on a mountain requires a large ground footprint, substantial vertical volume for the mountain and structure, and high complexity for architectural and terrain generation.",
+            "smallerWish": "A miniature model of a castle on a stone on the bedside table"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 697,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 100,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 10000,
+            "cells": 500000,
+            "structures": 1,
+            "complexity": 4,
+            "reason": "Building a full castle on a mountain requires significant terrain generation and a large multi-story structure.",
+            "smallerWish": "A miniature stone watchtower on a small pile of rocks"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 685,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 88,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      }
+    ],
+    [
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 2,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "Placing a single small flower pot on a bedside table occupies minimal space and requires very low complexity.",
+            "smallerWish": "A single flower"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 804,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 72,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 1,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "A single flower pot occupies roughly one square metre footprint and one voxel cell next to the bed as a simple decorative item.",
+            "smallerWish": "A small clay flower pot on the nightstand."
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 770,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 84,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A flower pot by my bed",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 1,
+            "cells": 2,
+            "structures": 1,
+            "complexity": 1,
+            "reason": "Placing a small flower pot beside a bed requires minimal space and only a few voxels for the pot and flowers.",
+            "smallerWish": "A single flower on the bedside table"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 693,
+          "usage": {
+            "inputTokens": 401,
+            "outputTokens": 80,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 10000,
+            "cells": 500000,
+            "structures": 1,
+            "complexity": 4,
+            "reason": "Constructing a full mountain and castle requires significant terrain modification and structural complexity spanning thousands of cubic metres.",
+            "smallerWish": "A miniature model of a castle on a stone on the bedside table"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 714,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 91,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 2500,
+            "cells": 125000,
+            "structures": 1,
+            "complexity": 4,
+            "reason": "Building a full castle on a mountain requires significant terrain generation and structural architecture, covering a substantial 50x50 metre base footprint with considerable vertical height.",
+            "smallerWish": "A small stone watchtower on a rocky hill"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 611,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 98,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      },
+      {
+        "input": {
+          "wish": "A castle on a mountain",
+          "place": "My cottage bedroom, beside my bed",
+          "influence": 1,
+          "inspiration": 100,
+          "model": "gemini-3.5-flash-lite",
+          "mode": "live"
+        },
+        "result": {
+          "scope": {
+            "area": 2500,
+            "cells": 125000,
+            "structures": 1,
+            "complexity": 4,
+            "reason": "Building a full castle on a mountain requires significant terrain elevation modification and a large stone structure footprint, leading to high volume and complexity.",
+            "smallerWish": "A miniature stone watchtower on a small hill"
+          },
+          "model": "gemini-3.5-flash-lite",
+          "source": "vertex",
+          "durationMs": 646,
+          "usage": {
+            "inputTokens": 400,
+            "outputTokens": 92,
+            "thinkingTokens": null
+          },
+          "estimatedUsd": null,
+          "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+        }
+      }
+    ]
+  ],
+  "modelChecks": [
+    {
+      "input": {
+        "wish": "A herb garden behind my cottage",
+        "place": "My cottage garden",
+        "influence": 0.5,
+        "inspiration": 100,
+        "model": "gemini-3.8-flash",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 25,
+          "cells": 50,
+          "structures": 4,
+          "complexity": 1.5,
+          "reason": "Assumes a standard domestic herb plot (around 5x5m) consisting of soil tilling, boundary edging, a few raised planter beds or stone pathways, and various low-lying herb plantings reaching 1-2m in height.",
+          "smallerWish": "A single raised wooden planter box filled with kitchen herbs."
+        },
+        "model": "gemini-3.8-flash",
+        "source": "vertex",
+        "durationMs": 1858,
+        "usage": {
+          "inputTokens": 397,
+          "outputTokens": 112,
+          "thinkingTokens": 0
+        },
+        "estimatedUsd": 0.00157905,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    },
+    {
+      "input": {
+        "wish": "A herb garden behind my cottage",
+        "place": "My cottage garden",
+        "influence": 0.5,
+        "inspiration": 100,
+        "model": "gemini-3.1-pro-preview",
+        "mode": "live"
+      },
+      "result": {
+        "scope": {
+          "area": 24,
+          "cells": 48,
+          "structures": 4,
+          "complexity": 1.2,
+          "reason": "Hand-authored offline fixture; assumes a one-metre cell. This is not a model estimate.",
+          "smallerWish": "Add one small decorative stone beside my bed."
+        },
+        "model": "gemini-3.1-pro-preview",
+        "source": "offline",
+        "fallbackReason": "provider",
+        "durationMs": 123,
+        "usage": {
+          "inputTokens": null,
+          "outputTokens": null,
+          "thinkingTokens": null
+        },
+        "estimatedUsd": null,
+        "pricingBasis": "EU standard text rates checked 2026-10-04; Flash before promotional credits; Pro EU rate unknown. Estimate, not invoice."
+      }
+    }
+  ]
+}
