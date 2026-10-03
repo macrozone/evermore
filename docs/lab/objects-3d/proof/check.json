@@ -1,0 +1,5 @@
+{
+  "fixture": "synthetic pyramid, not SAM",
+  "checks": "four originals, GLB import, colored shell export, all resolutions, scale/rotation extremes, animated pixel change, scroll and mobile bounds, invalid import, no external requests",
+  "errors": []
+}

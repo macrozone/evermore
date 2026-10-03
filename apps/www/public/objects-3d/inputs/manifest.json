@@ -1,0 +1,50 @@
+[
+  {
+    "id": "house",
+    "source": "/objects/house.png",
+    "sourceSha256": "6daa0fb8482075320dcfd16c5fa292c80a536d2451336c13c515570cd84721bc",
+    "image": "house.png",
+    "mask": "house-mask.png",
+    "width": 96,
+    "height": 96,
+    "alphaThreshold": 128,
+    "seed": 42,
+    "reconstruction": null
+  },
+  {
+    "id": "tree",
+    "source": "/objects/tree.png",
+    "sourceSha256": "7e5f512284c8196131e1c3846b4d32c9dab6be8f949fa3d184ff03c49bae57c6",
+    "image": "tree.png",
+    "mask": "tree-mask.png",
+    "width": 48,
+    "height": 64,
+    "alphaThreshold": 128,
+    "seed": 42,
+    "reconstruction": null
+  },
+  {
+    "id": "well",
+    "source": "/objects/well.png",
+    "sourceSha256": "2ece485c30d6330f6246b18c3f7eb066f48de0d0a7336b0157648b4387c2a9f7",
+    "image": "well.png",
+    "mask": "well-mask.png",
+    "width": 32,
+    "height": 48,
+    "alphaThreshold": 128,
+    "seed": 42,
+    "reconstruction": null
+  },
+  {
+    "id": "lantern",
+    "source": "/objects/lantern.png",
+    "sourceSha256": "395ed829f7bbcff9e64a4e2b7dee35631a89d07fb8d77b30f5eb456a35681a1f",
+    "image": "lantern.png",
+    "mask": "lantern-mask.png",
+    "width": 16,
+    "height": 48,
+    "alphaThreshold": 128,
+    "seed": 42,
+    "reconstruction": null
+  }
+]

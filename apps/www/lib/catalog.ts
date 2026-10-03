@@ -11,6 +11,14 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "objects-3d",
+    name: "Pixel objects → 3D → voxels",
+    description: "Compare four sprites with a locally imported mesh and voxelize its colored surface; SAM exports are still pending.",
+    href: "/lab/objects-3d",
+    category: "experiment",
+    status: "in-progress",
+  },
+  {
     id: "wish",
     screenshot: "/catalog/wish-desktop.png",
     name: "Wish · Inspiration estimate",

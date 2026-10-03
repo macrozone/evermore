@@ -15,7 +15,7 @@ describe("lab", () => {
     for (const entry of catalog.filter((entry) => entry.category === "experiment")) {
       expect(html).toContain(`href="${entry.href}"`);
       expect(html).toContain(entry.description);
-      expect(html).toContain(entry.status);
+      expect(html).toContain(entry.status.replaceAll("-", " "));
     }
     expect(new Set(catalog.map((entry) => entry.id)).size).toBe(catalog.length);
   });
