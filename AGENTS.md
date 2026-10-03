@@ -31,6 +31,10 @@ Vor der Arbeit: relevante ADRs in [`docs/adr/`](docs/adr/README.md) lesen. Ihnen
 - **Offene Entscheidung entdeckt?** Nicht selbst entscheiden, wenn sie über die eigene Aufgabe hinausgeht oder einer ADR widerspricht: Bead anlegen (`bd create "Entscheidung: …" -t decision -d "<Kontext, Optionen, Empfehlung>"`), danach separat `bd label add <neu> human`, die eigene Aufgabe damit blockieren (`bd dep add <eigene> --blocked-by <neu>`), eigene Aufgabe auf `open` zurücksetzen und mit der nächsten Arbeit weitermachen.
 - **Planungs- und Chat-Sessions:** Jede Entscheidung, die im Gespräch fällt, wird vor Ende der Session als ADR bzw. ins Bead zurückgeschrieben. Was nur im Chat steht, gilt als nicht entschieden.
 
+## Beads schreiben
+
+Wer Beads anlegt (Planung, Mensch, Agent), gibt prüfbare Akzeptanzkriterien mit (`--acceptance`): was man sieht bzw. messen kann, inkl. Interaktion (Regler, Scrollen, Zoom, Zeit). Fehlen sie, ergänzt sie der Polecat beim Kontext-Lesen (siehe Arbeitsablauf).
+
 ## Ideen einbringen
 
 Evermore soll organisch um die [Vision](docs/vision.md) wachsen. Eigene Ideen und Inspirationen von Agents sind ausdrücklich erwünscht.
@@ -49,6 +53,7 @@ Ziel: maw sieht Ergebnisse schnell und kann früh die Richtung ändern.
 - **Regler statt Rückfragen:** Experimentseiten unter `/lab` bekommen ein Einstell-Panel (z.B. Tweakpane) für die wichtigen Parameter; die aktuellen Werte sind als JSON kopierbar. Ergebnis und Regler sind **immer gleichzeitig sichtbar** (Panel als Overlay über dem Canvas bzw. daneben, nie darunter wegscrollen), damit man beim Ändern direkt sieht, was passiert (maw, 2026-10-03). Jede Seite mit Echtzeit-Rendering zeigt einen FPS-Zähler (FPS, Frame-Time; bei 3D zusätzlich Dreiecke/Draw-Calls).
 - **Modellauswahl bei Generatoren:** Jede Lab-Seite, die ein Modell aufruft, bekommt eine Modellauswahl im Panel (Stufen Pro / Flash / Flash-Lite). Defaults: Bild `gemini-3.1-flash-lite-image`, Text `gemini-3.5-flash-lite` (maw, 2026-10-03). Modell, Latenz und Kosten pro Aufruf anzeigen.
 - **Auf der Startseite verlinken:** Jede neue `/lab`-Seite, jedes Moodboard und jede Design-Seite wird in der zentralen Registry eingetragen, damit sie auf `/` erscheint.
+- **Selbst anschauen, nicht nur testen (Pflicht bei sichtbaren Ergebnissen):** Grüne Tests und Build reichen nicht. Vor der Übergabe das Ergebnis headless im Browser prüfen und die Screenshots selbst ansehen: Startzustand, nach dem Scrollen (Panels/Texte überlappen nicht), nach Interaktion mit den wichtigsten Reglern, bei Extremwerten (z.B. Zoom min/max) und – bei Animationen – nach Ablauf von Zeit ohne Interaktion (es bewegt sich wirklich). Wo möglich als Playwright-Check im Repo festhalten (z.B. Pixel ändern sich über die Zeit, Bounding-Boxes überlappen nicht, Canvas nicht leer). Gefundene Mängel vor der Übergabe beheben oder als Folge-Bead erfassen.
 - **Ergebnis mit Bild:** Zum Abschluss einer Scheibe ein Kommentar im Bead mit Screenshot, 2–3 Sätzen «worauf achten» und offenen Fragen. Screenshot nur headless: `pnpm screenshot /lab/<seite> [--wait ms] [--out datei.png]` (Setup und Details: [README](README.md#headless-lab-screenshots)). **Nie Desktop-Steuerung** (Computer Use, Browser-Bridges, macOS-Berechtigungen anfragen). Geht kein headless Screenshot, trotzdem an die Refinery übergeben und im Kommentar «Screenshot fehlt» vermerken – die Planungs-Session ergänzt ihn nach dem Merge. Ein fehlender Screenshot blockiert nie die Übergabe.
 - **Feedback lesen:** Vor jeder Scheibe die Kommentare im Bead, im Eltern-Epic und in der vorherigen Scheibe lesen – dort steht maws Rückmeldung.
 - **Art-Director-Review:** Visuelle Ergebnisse (Welt, UI, Moodboards) werden gegen die [Art Bible](docs/art/README.md) geprüft. In Claude-Sessions per Subagent `art-director` (`.claude/agents/art-director.md`); Reviews sind Vorschläge, maw entscheidet. Polecats rufen ihn nur auf, wenn ihr Bead es verlangt.
@@ -60,7 +65,7 @@ Umgesetzt wird über **Gas City mit dem Gastown-Pack** ([ADR 0008](docs/adr/0008
 
 Für Polecats:
 
-1. **Kontext lesen:** `bd show <id>` inkl. Akzeptanzkriterien und Design-Notes, Kommentare geschlossener Blocker (dort stehen Antworten auf Fragen), relevante ADRs.
+1. **Kontext lesen:** `bd show <id>` inkl. Akzeptanzkriterien und Design-Notes, Kommentare geschlossener Blocker (dort stehen Antworten auf Fragen), relevante ADRs. **Akzeptanzkriterien schärfen:** Sind sie vage oder fehlen sie (v.a. bei sichtbaren Ergebnissen), vor dem Umsetzen konkrete, prüfbare Kriterien ableiten und ins Bead schreiben (`bd update <id> --acceptance "…"`) – inkl. Interaktions-, Scroll-, Extremwert- und Zeit-Checks (siehe «Selbst anschauen»).
 2. **Umsetzen:** Akzeptanzkriterien erfüllen, Tests gehören dazu. Generierte catladder-Dateien nie von Hand ändern (`catladder.ts` + `pnpm catenv`).
 3. **Rückfragen:** wie oben unter «Offene Entscheidung» – Frage-Bead mit Label `human`, eigene Aufgabe blockieren, nicht raten.
 4. **Commits** enthalten die Bead-ID. Nie selbst nach `main` mergen oder pushen – Übergabe an die Refinery gemäss Formula.
