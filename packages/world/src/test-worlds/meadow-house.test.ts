@@ -155,6 +155,14 @@ describe("meadow-house test world", () => {
     expect(MEADOW_HOUSE_LIGHTS.every((light) => light.radius > 0)).toBe(true);
   });
 
+  it("provides three light types with an outdoor fire and an exposed window", () => {
+    expect(new Set(MEADOW_HOUSE_LIGHTS.map((light) => light.kind))).toEqual(new Set(["fire", "lantern", "window"]));
+    expect(world.getCell(20, 49, 3)).toBe(M.hearth);
+    expect(world.getCell(20, 43, 4)).toBe(M.glass);
+    expect(world.getCell(20, 44, 4)).toBe(M.air);
+    expect(canReach(20, 47, 3)).toBe(true);
+  });
+
   it("reports its serialized size", () => {
     const report = measureWorld(world);
     console.log(

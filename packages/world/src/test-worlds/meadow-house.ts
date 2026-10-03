@@ -343,13 +343,17 @@ function plantTrees(world: World, keepClear: Box[]): void {
 
 /** Light data is a fixture companion, independent of the binary world format. */
 export const MEADOW_HOUSE_LIGHTS = [
-  { id: "hearth", x: 10, y: 32, z: 4, radius: 5, color: 0xffb65c },
-  { id: "door-lantern", x: 10, y: 44, z: 5, radius: 6, color: 0xffcf83 },
-  { id: "garden-lantern", x: 25, y: 46, z: 5, radius: 5, color: 0xffcf83 },
-  { id: "window", x: 20, y: 43, z: 5, radius: 4, color: 0xffd894 },
+  { id: "hearth", kind: "fire", x: 10, y: 32, z: 4, radius: 5, color: 0xffb65c },
+  { id: "door-lantern", kind: "lantern", x: 10, y: 44, z: 5, radius: 6, color: 0xffcf83 },
+  { id: "garden-lantern", kind: "lantern", x: 25, y: 46, z: 5, radius: 5, color: 0xffcf83 },
+  { id: "window", kind: "window", x: 20, y: 43, z: 4.5, radius: 7, color: 0xffd894 },
+  { id: "garden-fire", kind: "fire", x: 20, y: 49, z: 4.3, radius: 7, color: 0xffb65c },
 ] as const;
 
 function furnishHome(world: World): void {
+  // A firepit lets the light experiment show fire outside the closed roof.
+  world.fill(box(19, 48, 3, 22, 51, 4), M.stone);
+  world.setCell(20, 49, 3, M.hearth);
   world.fill(box(10, 31, 3, 12, 33, 4), M.hearth);
   world.fill(box(13, 38, 3, 15, 40, 4), M.table);
   world.fill(box(10, 32, 6, 12, 35, 7), M.bed);
