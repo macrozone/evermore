@@ -77,6 +77,17 @@ Die GitHub-CI (catladder) ist optional und keine Merge-Voraussetzung. Fehler auf
 
 Abhängigkeiten immer mit `bd dep add <issue> --blocked-by <vorgänger>` setzen (`--deps blocks:X` bedeutet das Gegenteil).
 
+## Dauerhafte main-Vorschau
+
+`pnpm preview:main start` startet die Vorschau von `origin/main` im Hintergrund
+auf `http://localhost:3900` (Dev-Index `:3990`). Der dedizierte Worktree liegt
+standardmässig neben dem Hauptcheckout unter `../evermore-preview` und bleibt
+auf detached HEAD. `pnpm preview:main update` aktualisiert ihn ohne Neustart
+des Dev-Servers; für automatisierte Updates nach Refinery-Merges diesen Befehl
+verwenden. Konfiguration: `PREVIEW_MAIN_DIR`, `PREVIEW_MAIN_PORT` (bei beiden
+Befehlen identisch). Keine manuellen Änderungen in diesem Preview-Worktree.
+Details zu DB-Setup, Logs und Stoppen: [README.md](README.md#persistent-main-preview).
+
 ## Quick Reference
 
 ```bash

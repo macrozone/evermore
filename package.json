@@ -11,7 +11,7 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "pnpm test:ports && pnpm test:screenshot && pnpm test:dev && pnpm test:prune && turbo run test",
+    "test": "pnpm test:ports && pnpm test:screenshot && pnpm test:dev && pnpm test:prune && pnpm test:preview && turbo run test",
     "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv && node --env-file=.env.local scripts/write-claude-launch-config.mjs",
     "catladder": "catladder",
     "dev:apps": "node scripts/print-dev-urls.mjs && turbo run dev",
@@ -21,7 +21,9 @@
     "test:screenshot": "node --test scripts/screenshot.test.mjs",
     "test:dev": "node --test scripts/dev.test.mjs",
     "services:prune": "node scripts/prune-orphan-dev-stacks.mjs",
-    "test:prune": "node --test scripts/prune-orphan-dev-stacks.test.mjs"
+    "test:prune": "node --test scripts/prune-orphan-dev-stacks.test.mjs",
+    "preview:main": "node scripts/preview-main.mjs",
+    "test:preview": "node --test scripts/preview-main.test.mjs"
   },
   "devDependencies": {
     "@catladder/cli": "catalog:build-tools",

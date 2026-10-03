@@ -27,6 +27,52 @@ The format follows [Claude's preview server configuration](https://code.claude.c
 
 Decisions are in [`docs/adr/`](docs/adr/README.md), tasks in Beads (`bd ready`).
 
+## Persistent main preview
+
+```sh
+pnpm preview:main start
+pnpm preview:main update
+```
+
+`start` fetches `origin/main`, creates a detached worktree at
+`../evermore-preview` beside the main checkout, installs dependencies, prepares
+local services, and launches `pnpm dev` in the background. It waits for the web
+app at <http://localhost:3900>; the dev index is at <http://localhost:3990>.
+Repeated starts reuse the same server. The main checkout stays on its branch.
+
+`update` fetches and checks out the latest `origin/main` in that worktree.
+It installs dependencies only when the lockfile changed or `node_modules` is
+missing, regenerates the environment, and applies database migrations. The
+running dev server keeps its PID and picks up app changes through hot reload.
+The preview uses Webpack with a one-second filesystem poll for reliable updates
+after Git checkouts; ordinary `pnpm dev` keeps the default Turbopack watcher.
+An update can also prepare a stopped preview; use `start` to launch it.
+Changes to dev tooling or server startup configuration may require a restart.
+
+Once `db:setup` is available on main, the first preparation runs it (including
+seed); later updates build the DB client and run migrations against the
+preview's own database on port 3930. Before the DB package lands, preparation
+starts only the existing Compose services. Docker must be running.
+
+Set `PREVIEW_MAIN_DIR` to override the path (relative paths are resolved from
+the invoking checkout), or `PREVIEW_MAIN_PORT` to override the fixed port on
+first use. Both commands must use the same settings; ordinary `BASE_PORT` from
+another worktree is ignored. For example:
+
+```sh
+PREVIEW_MAIN_DIR=/path/to/preview PREVIEW_MAIN_PORT=3900 pnpm preview:main start
+PREVIEW_MAIN_DIR=/path/to/preview PREVIEW_MAIN_PORT=3900 pnpm preview:main update
+```
+
+The script refuses changes to tracked files, worktrees from other repositories, and
+worktrees with a checked-out branch. Keep the preview worktree dedicated to
+this command. Git also refuses updates that would overwrite untracked files;
+untracked generated Catladder skills do not block updates. Logs and setup/PID state live in its Git metadata directory;
+the log path and PID are printed at startup. To stop the background process
+group, run `kill -INT -- -<PID>` with that PID. Compose data is kept; run
+`pnpm --filter @evermore/local-development services:down` from the preview
+worktree to stop the containers too. A subsequent `start` relaunches the server.
+
 ## Headless lab screenshots
 
 Install Chromium once after `pnpm install`: `pnpm exec playwright install chromium`.
