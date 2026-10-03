@@ -1,3 +1,4 @@
+import { generateObjectVillage } from '@evermore/world';
 import { describe, expect, it } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { applyObjectPalette, objectLibrary, OBJECT_TILE_SIZE } from './objects';
@@ -21,6 +22,13 @@ describe('object library placement contract', () => {
         expect(object.footprint.occupied).toContainEqual([x, y]);
       }
     }
+  });
+  it('assembles the authored sprites into the default village with a safe spawn', () => {
+    const village = generateObjectVillage(objectLibrary, 20261003);
+    expect(village.placedBuildings).toBe(24);
+    expect(village.world.isWalkable(village.world.spawn.x, village.world.spawn.y, village.world.spawn.z)).toBe(true);
+    expect(village.placements.every(p => objectLibrary.some(object => object.id === p.objectId))).toBe(true);
+    expect(new Set(village.placements.map(p => p.objectId)).size).toBe(7);
   });
   it('maps visible colors to the nearest palette entry while retaining alpha', () => {
     const pixels = new Uint8ClampedArray([245, 10, 0, 128, 10, 245, 0, 255, 90, 80, 70, 0]);

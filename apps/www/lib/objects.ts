@@ -1,17 +1,20 @@
+import type { VillageObject } from "@evermore/world";
+
 export const OBJECT_TILE_SIZE = 16;
-export type LibraryObject = {
+export type LibraryObject = VillageObject & {
   id: string;
   name: string;
   sprite: string;
   width: number;
   height: number;
-  /** Ground cells relative to the southwest corner; separate from the canopy. */
+  /** Ground cells relative to the northwest corner; separate from the canopy. */
   footprint: { columns: number; rows: number; occupied: readonly (readonly [number, number])[]; collision: readonly (readonly [number, number])[] };
   heightTiles: number;
 };
 function object(id: string, name: string, width: number, height: number, columns: number, rows: number, heightTiles: number): LibraryObject {
   const cells = Array.from({ length: columns * rows }, (_, i) => [i % columns, Math.floor(i / columns)] as const);
-  return { id, name, sprite: `/objects/${id}.png`, width, height, footprint: { columns, rows, occupied: cells, collision: cells }, heightTiles };
+  const kind = id === "cottage" || id === "house" ? "building" : id === "tree" || id === "bush" ? "vegetation" : "decoration";
+  return { id, name, kind, ...(kind === "building" ? { entrance: { x: Math.floor(columns / 2), y: rows } } : {}), sprite: `/objects/${id}.png`, width, height, footprint: { columns, rows, occupied: cells, collision: cells }, heightTiles };
 }
 /** Authored placement metadata; never infer collision from transparent sprite pixels. */
 export const objectLibrary: readonly LibraryObject[] = [
