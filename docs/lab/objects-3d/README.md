@@ -51,7 +51,7 @@ from the shell. A tree canopy must not become a trunk-sized collision box.
 This host is Darwin arm64. The official CUDA installation cannot run here.
 No model weights, reconstructed meshes, SAM latency, GPU usage, reconstruction
 bill or reverse-view quality measurements were obtained. Browser import and
-voxelization are tested using an explicitly synthetic colored box in the
+voxelization are tested using an explicitly synthetic colored pyramid in the
 headless check; that test asset is not presented as a SAM result.
 
 The follow-up must produce 3–5 genuine exports from the prepared inputs,
