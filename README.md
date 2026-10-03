@@ -51,7 +51,8 @@ to the repository root. HTTP errors fail instead of producing an error-page
 screenshot. `pnpm screenshot --help` shows the command syntax.
 
 For the R2 movement regression check, start this worktree's web server and run
-`node scripts/check-r2-movement.mjs http://127.0.0.1:<BASE_PORT>`. The headless
+`node scripts/check-r2-movement.mjs http://localhost:<BASE_PORT>`. Use the same
+hostname shown by Next.js so its development assets are allowed. The headless
 check holds diagonal keys, verifies wall sliding and live settings without a
 renderer reset, and checks desktop/mobile overlay placement after scrolling.
 Interaction screenshots are saved under `/tmp/evermore-r2-check/`.
