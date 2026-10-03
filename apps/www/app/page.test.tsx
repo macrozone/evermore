@@ -16,7 +16,7 @@ describe("project overview", () => {
     for (const entry of catalog.filter((entry) => entry.status !== "planned")) {
       expect(html).toContain(`href="${entry.href}"`);
     }
-    expect(html).toContain("No moodboards yet");
+    expect(html).toContain('href="/moodboards"');
     expect(html).toContain("latest saved preview");
   });
   it("renders the canonical vision with tables and repository-relative links", async () => {

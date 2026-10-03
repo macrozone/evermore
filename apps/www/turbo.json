@@ -2,10 +2,11 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/vision.md"]
+      "outputs": ["$TURBO_EXTENDS$", ".moodboards/**"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/vision.md", "$TURBO_ROOT$/docs/art/moodboards/**"]
     },
     "test": {
-      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/vision.md"]
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/docs/vision.md", "$TURBO_ROOT$/docs/art/moodboards/**"]
     }
   }
 }

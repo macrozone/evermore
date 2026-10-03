@@ -1,0 +1,32 @@
+.page { max-width: 76rem; margin: auto; padding: 3rem 1.5rem; font: 1rem/1.65 system-ui, sans-serif; overflow-wrap: anywhere; -webkit-font-smoothing: antialiased; }
+.page a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 4px; }
+.page a:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 5px; }
+.header { margin: 2rem 0 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-dusk); }
+.header h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; margin: 1rem 0; }
+.header p { max-width: 52rem; color: var(--color-mist); }
+.boards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+.card { border: 1px solid var(--color-dusk); border-radius: .75rem; overflow: hidden; }
+.preview { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.cardBody { padding: 1.5rem; }
+.cardBody h2, .iteration h2 { font-size: 1.5rem; line-height: 1.3; }
+.cardBody p { margin-top: 1rem; }
+.meta { color: var(--color-mist); font-size: .9rem; }
+.iterationNav { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+.iteration { margin-bottom: 3rem; scroll-margin-top: 1rem; }
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.galleryImage { width: 100%; height: auto; border-radius: .5rem; }
+.gallery figcaption { margin-top: .5rem; color: var(--color-mist); font-size: .9rem; }
+.document { max-width: 56rem; border-top: 1px solid var(--color-dusk); padding-top: 2rem; }
+.document h1 { font-size: 2rem; }
+.document h2 { font-size: 1.5rem; margin-top: 2rem; }
+.document h3 { font-size: 1.2rem; margin-top: 1.5rem; }
+.document p, .document ul, .document ol, .document blockquote { margin-block: 1rem; }
+.document ul, .document ol { padding-left: 1.5rem; }
+.document ul { list-style: disc; }
+.document ol { list-style: decimal; }
+.document pre { overflow-x: auto; padding: 1rem; background: var(--color-dusk); }
+.document blockquote { border-left: 2px solid var(--color-gold); padding-left: 1rem; color: var(--color-mist); }
+.document table { display: block; overflow-x: auto; border-collapse: collapse; }
+.document th, .document td { border: 1px solid var(--color-dusk); padding: .5rem; text-align: left; }
+.document img { max-width: 100%; height: auto; }
+@media (max-width: 640px) { .boards, .gallery { grid-template-columns: 1fr; } .page { padding: 2rem 1rem; } }

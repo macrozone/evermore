@@ -11,6 +11,15 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "moodboards",
+    screenshot: "/catalog/moodboards-desktop.png",
+    name: "Art moodboards",
+    description: "Explore every board, image and iteration of Evermore’s visual direction.",
+    href: "/moodboards",
+    category: "moodboard",
+    status: "ready",
+  },
+  {
     id: "book",
     screenshot: "/catalog/book-desktop.png",
     name: "Book of Evermore",

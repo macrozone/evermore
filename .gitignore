@@ -40,3 +40,6 @@ tsconfig.tsbuildinfo
 # Gas City
 .beads/*
 !.beads/identity.toml
+
+# Generated production snapshot of canonical moodboards
+apps/www/.moodboards/
