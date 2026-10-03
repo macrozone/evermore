@@ -1,0 +1,15 @@
+{
+  "generator": "built-in imagegen tool",
+  "source": "/image-to-voxel/harbour.jpg",
+  "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690",
+  "generatedAt": "2026-10-03T22:32:22.103Z",
+  "nativeWidth": 1678,
+  "nativeHeight": 937,
+  "samplingWidth": 1376,
+  "samplingHeight": 768,
+  "sampling": "nearest-neighbour canvas normalization; no registration claim",
+  "prompt": "Convert ONLY colours to six flat grayscale height codes. Preserve original framing and silhouettes. 0 water, 51 stone ground/quay, 102 docks/decks/boats, 153 walls, 204 roofs, 255 highest chimney/ridge. No lighting, shadows, texture, text or outlines. Preserve composition and dimensions 1376x768.",
+  "observations": "Textures remain. Native resolution differs from source; shape drift is unmeasured. Not ground truth.",
+  "usage": null,
+  "costUsd": null
+}

@@ -7,6 +7,7 @@ import type { Reconstruction } from "./model";
 
 export default function Preview({ result, rotation, hour, sourceColors }: { result: Reconstruction; rotation: number; hour: number; sourceColors: boolean }) {
   const host = useRef<HTMLDivElement>(null);
+  const stats = useRef<HTMLParagraphElement>(null);
   const render = useRef<((rotation: number, hour: number) => void) | null>(null);
   const current = useRef({ rotation, hour });
   const [error, setError] = useState("");
@@ -84,7 +85,9 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
         sun.color.copy(light.sunColor);
         sun.intensity = light.sun * 2.5;
         sun.position.copy(center).addScaledVector(light.direction, extent * 1.5);
+        const started = performance.now();
         active.render(scene, camera);
+        if (stats.current) stats.current.textContent = `On demand · ${(performance.now() - started).toFixed(1)}ms · ${active.info.render.triangles} triangles · ${active.info.render.calls} draw calls`;
       };
       observer = new ResizeObserver(() => render.current?.(current.current.rotation, current.current.hour));
       observer.observe(surface);
@@ -93,5 +96,5 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
     return dispose;
   }, [result, sourceColors]);
   useEffect(() => { current.current = { rotation, hour }; render.current?.(rotation, hour); }, [rotation, hour]);
-  return <><div ref={host} className="h-full min-h-64 w-full" />{error !== "" && <p role="alert">{error}</p>}</>;
+  return <><div ref={host} className="h-full w-full" /><p ref={stats} className="absolute bottom-1 left-1 bg-black/70 px-2 text-[10px] text-white" />{error !== "" && <p role="alert">{error}</p>}</>;
 }

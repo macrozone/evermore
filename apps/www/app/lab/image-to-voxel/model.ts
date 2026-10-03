@@ -3,7 +3,7 @@ import { M, World, type MaterialId } from "@evermore/world";
 export type Raster = { width: number; height: number; data: Uint8ClampedArray };
 export type Method = "heuristic" | "heightmap";
 export type Settings = { tileSize: number; heightScale: number; method: Method };
-export type Tile = { height: number; material: MaterialId; color: number };
+export type Tile = { height: number; material: MaterialId; color: number; level: number };
 export type Reconstruction = { world: World; tiles: Tile[]; columns: number; rows: number; cells: number };
 
 function validateRaster(raster: Raster) {
@@ -52,7 +52,7 @@ export function reconstruct(source: Raster, settings: Settings, heightmap?: Rast
       const gray = heightmap && settings.method === "heightmap" ? sample(heightmap, x * settings.tileSize, y * settings.tileSize, settings.tileSize)[0] : undefined;
       // The existing model map is grayscale. Snap to six levels before scaling.
       const quantized = gray === undefined ? level : Math.round(gray / 51);
-      tiles.push({ height: 1 + Math.round(quantized / 5 * settings.heightScale), material, color: rgb[0] * 65536 + rgb[1] * 256 + rgb[2] });
+      tiles.push({ height: 1 + Math.round(quantized / 5 * settings.heightScale), level: quantized, material, color: rgb[0] * 65536 + rgb[1] * 256 + rgb[2] });
     }
   }
   const world = new World({ width: columns, depth: rows, height: settings.heightScale + 4, name: "Image-space relief (incomplete shell)", spawn: { x: 0, y: 0, z: 0 } });

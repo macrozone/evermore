@@ -1,0 +1,1356 @@
+{
+  "generatedAt": "2026-10-03T22:45:39.929Z",
+  "protocol": "Two fixed 1376x768 sources, 64px grid, heightScale 6, camera 45deg/0deg, noon; one cached successful response per source. Correction timing is automated interaction smoke evidence, not human editing time.",
+  "measurements": [
+    {
+      "source": "cabin",
+      "method": "heuristic",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 228.17937840034645,
+        "maxProjectionErrorPx": 468.3532470182743,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 4,
+            "error": 2
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "heuristic",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 42,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 4,
+            "error": 2
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "heuristic",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.459180447469572,
+        "maxProjectionErrorPx": 24.90158697766475,
+        "collisions": 55,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 4,
+            "error": 2
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "heightmap",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 286.46211915269225,
+        "maxProjectionErrorPx": 487.0984130223353,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 5,
+            "error": 1
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 3,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "heightmap",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565093,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 52,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 5,
+            "error": 1
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 3,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "heightmap",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.459180447469569,
+        "maxProjectionErrorPx": 24.90158697766475,
+        "collisions": 60,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 5,
+            "error": 1
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 3,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "vision",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 254.23519191316007,
+        "maxProjectionErrorPx": 351.33391103451817,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 1,
+            "error": 1
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "vision",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.4247233265651,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 51,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 1,
+            "error": 1
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "cabin",
+      "method": "vision",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.459180447469572,
+        "maxProjectionErrorPx": 24.90158697766475,
+        "collisions": 53,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0.425,
+          "wall": 0.625,
+          "bridge": 0,
+          "water": 0
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 1,
+            "error": 1
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:16.279Z",
+        "durationMs": 8351,
+        "usage": {
+          "promptTokenCount": 1634,
+          "candidatesTokenCount": 3315,
+          "totalTokenCount": 4949,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 534
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 3315
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=cabin, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f9d9c6fb3dae832af9190ee2809e38b2f21e570da25ab1cf372fe394addc662b"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heuristic",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 203.49492349347065,
+        "maxProjectionErrorPx": 487.0984130223353,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heuristic",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 27,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heuristic",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 35,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 4,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 1,
+            "error": 1
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heightmap",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 219.77980693897868,
+        "maxProjectionErrorPx": 351.33391103451817,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 2,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heightmap",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 39,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 2,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "heightmap",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 37,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 4,
+            "error": 0
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 2,
+            "error": 1
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "vision",
+      "geometry": "relief",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 247.20697905773014,
+        "maxProjectionErrorPx": 351.33391103451817,
+        "collisions": 0,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 1,
+            "error": 3
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "vision",
+      "geometry": "projected",
+      "anchors": false,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 31,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 1,
+            "error": 3
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    },
+    {
+      "source": "harbour",
+      "method": "vision",
+      "geometry": "projected",
+      "anchors": true,
+      "metrics": {
+        "meanProjectionErrorPx": 11.424723326565097,
+        "maxProjectionErrorPx": 21.68542494923804,
+        "collisions": 36,
+        "unknown": 0,
+        "maskIoU": {
+          "roof": 0,
+          "wall": 0.22727272727272727,
+          "bridge": 0.4444444444444444,
+          "water": 0.5714285714285714
+        },
+        "heightErrors": [
+          {
+            "id": "roof",
+            "expected": 4,
+            "actual": 1,
+            "error": 3
+          },
+          {
+            "id": "wall",
+            "expected": 3,
+            "actual": 3,
+            "error": 0
+          },
+          {
+            "id": "bridge",
+            "expected": 2,
+            "actual": 2,
+            "error": 0
+          },
+          {
+            "id": "water",
+            "expected": 0,
+            "actual": 0,
+            "error": 0
+          }
+        ]
+      },
+      "model": {
+        "model": "gemini-3.5-flash-lite",
+        "provider": "Vertex AI",
+        "generatedAt": "2026-10-03T22:29:53.772Z",
+        "durationMs": 5839,
+        "usage": {
+          "promptTokenCount": 1635,
+          "candidatesTokenCount": 2165,
+          "totalTokenCount": 3800,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 535
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2165
+            }
+          ]
+        },
+        "costUsd": null,
+        "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+        "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+      }
+    }
+  ]
+}

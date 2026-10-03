@@ -21,7 +21,7 @@ export const catalog: readonly CatalogEntry[] = [
   {
     id: "image-to-voxel",
     name: "Image → voxel relief",
-    description: "Compare moodboard images, colour heuristics and a model-drawn heightmap in a fixed R1 view.",
+    description: "Compare image relief, ground anchors and cached Vision-LLM heights on cabin and harbour scenes.",
     href: "/lab/image-to-voxel",
     category: "experiment",
     screenshot: "/catalog/image-to-voxel.png",
