@@ -11,6 +11,15 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "objects",
+    name: "G2 · AI object library",
+    description: "Seven reusable village sprites with pixel, palette and collision-footprint previews.",
+    href: "/lab/objects",
+    category: "experiment",
+    screenshot: "/catalog/g2-objects.png",
+    status: "ready",
+  },
+  {
     id: "moodboards",
     screenshot: "/catalog/moodboards-desktop.png",
     name: "Art moodboards",

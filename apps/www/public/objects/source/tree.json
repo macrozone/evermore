@@ -1,0 +1,23 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "prompt": "Single isolated cozy SNES RPG pixel-art sprite. Axis-aligned top-down south-facing view like Stardew Valley, horizontal and vertical edges, NOT 45-degree isometric. Crisp pixel clusters, warm terracotta, cream, brown timber and muted sage foliage. Light from upper left. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground, no cast shadow, no text, no labels, no other objects.\nSubject: One mature rounded oak tree with muted sage green canopy and sturdy brown trunk.",
+  "generatedAt": "2026-10-03T19:44:59.140Z",
+  "usage": {
+    "promptTokenCount": 115,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 1235,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 115
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  }
+}

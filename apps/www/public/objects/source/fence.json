@@ -1,0 +1,23 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "prompt": "Single isolated cozy SNES RPG pixel-art sprite. Axis-aligned top-down south-facing view like Stardew Valley, horizontal and vertical edges, NOT 45-degree isometric. Crisp pixel clusters, warm terracotta, cream, brown timber and muted sage foliage. Light from upper left. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground, no cast shadow, no text, no labels, no other objects.\nSubject: One straight horizontal three-post wooden fence segment, warm brown timber.",
+  "generatedAt": "2026-10-03T19:45:26.625Z",
+  "usage": {
+    "promptTokenCount": 114,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 1234,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 114
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  }
+}
