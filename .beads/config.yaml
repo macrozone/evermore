@@ -74,13 +74,15 @@ dolt.auto-commit: "on"
 dolt.auto-push: false # aktivieren, sobald der Sync-Weg feststeht
 dolt.auto-push-interval: "30s"
 sync:
-  remote: "git+https://github.com/macrozone/evermore.git"
+    remote: "git+https://github.com/macrozone/evermore.git"
 issue_prefix: evermore
 dolt.auto-start: false
 dolt:
-  disable-event-flush: true
+    disable-event-flush: true
 export.auto: false
 backup.enabled: false
 gc.endpoint_origin: inherited_city
 gc.endpoint_status: verified
 types.custom: molecule,convoy,message,event,gate,merge-request,agent,role,rig,session,spec,convergence,step
+validation:
+    on-create: warn
