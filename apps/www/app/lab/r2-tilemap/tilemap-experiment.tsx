@@ -1,5 +1,9 @@
 "use client";
 
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
+
+import { LabViewport } from "../../../components/lab/lab-viewport";
+
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
@@ -28,6 +32,7 @@ function drawTile(graphics: Graphics, tile: Tile, alpha: number) {
 }
 
 export default function TilemapExperiment() {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
   const [movement, setMovement] = useState({ ...DEFAULT_MOVEMENT });
@@ -107,14 +112,20 @@ export default function TilemapExperiment() {
         }
         setRoom(world.structuresAt(player.x, player.y, player.z)[0]?.name ?? "Meadow");
       }
+      app.stop();
+      app.ticker.remove(app.render, app);
+      app.ticker.start();
       redraw();
       let sample = 0;
       let frames = 0;
       app.ticker.add((ticker) => {
+        const started = performance.now();
         const delta = Math.min(ticker.deltaMS / 1000, 0.05);
         const direction = movementFromKeys(keys.current);
         advance(delta, () => stepMovement(motion, direction, movement, (p) => movementFloor(world, p)));
         redraw();
+        app.render();
+        recordFrame(performance.now() - started);
         sample += delta; frames++;
         if (sample >= 0.25) {
           setSnapshot({ fps: frames / sample, position: { x: motion.x, y: motion.y, z: motion.z }, seed: String(world.seed) });
@@ -127,16 +138,11 @@ export default function TilemapExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; destroy(); };
-  }, [keys, movement, cutaway, fade, layers, reset]);
+  }, [keys, movement, cutaway, fade, layers, reset, recordFrame]);
 
   const settings = JSON.stringify({ seed: 20261002, movement, cutaway, fade, layers }, null, 2);
   return (
-    <div className="grid gap-5">
-      <div className="relative">
-        <div ref={surface} tabIndex={0} role="application" aria-label="Meadow-house tilemap. Use WASD or arrow keys to move."
-          className="aspect-[5/3] w-full overflow-hidden rounded border border-dusk focus:outline-2 focus:outline-gold" />
-        <DebugOverlay {...snapshot} />
-      </div>
+    <LabViewport title="R2 · Layered tilemap" description="Focus the world and move with WASD or arrow keys. Enter the house through its south door, cross the river on the bridge, then follow the path to the hill stairs and tower." controls={<>
       {error !== "" && <p role="alert">{error}</p>}
       <p aria-live="polite">Location: {room}</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
@@ -155,6 +161,14 @@ export default function TilemapExperiment() {
           void navigator.clipboard.writeText(settings).then(() => setCopyStatus("Copied settings."), () => setCopyStatus("Select and copy the JSON above."));
         }}>Copy settings</button><p role="status">{copyStatus}</p>
       </details>
-    </div>
+      <p className="text-sm text-mist">Procedural placeholder tiles, shared meadow-house world. Height shifts tiles upward; floors inside the current building are cut away above your head. Overlapping roofs and foliage fade. This fixed view cannot show every stacked surface at once; use the layer controls to inspect it.</p>
+    </>}>
+      <div className="relative h-full">
+        <div ref={surface} tabIndex={0} role="application" aria-label="Meadow-house tilemap. Use WASD or arrow keys to move."
+          className="h-full w-full overflow-hidden focus:outline-2 focus:outline-gold" />
+        <DebugOverlay {...snapshot} />
+        <RenderStats stats={performanceStats} />
+      </div>
+    </LabViewport>
   );
 }

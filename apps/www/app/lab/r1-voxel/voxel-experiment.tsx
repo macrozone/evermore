@@ -1,5 +1,9 @@
 "use client";
 
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
+
+import { LabViewport } from "../../../components/lab/lab-viewport";
+
 import { MEADOW_HOUSE_SEED } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3 } from "three";
@@ -11,6 +15,7 @@ import { createLocalLights } from "./local-lights";
 import { DEFAULT_LOOK, LOOK_FRAGMENT, renderDimensions, type LookSettings } from "./pixel-look";
 
 export default function VoxelExperiment() {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const surface = useRef<HTMLDivElement>(null);
   const updateView = useRef<((settings: CameraSettings, look: LookSettings, lighting: LightingSettings) => void) | null>(null);
   const currentSettings = useRef(DEFAULT_CAMERA);
@@ -152,10 +157,14 @@ export default function VoxelExperiment() {
         activeRenderer.shadowMap.needsUpdate = true;
         screenMaterial.uniforms.saturation!.value = lookSettings.saturation;
         screenMaterial.uniforms.palette!.value = lookSettings.palette;
+        const started = performance.now();
+        activeRenderer.info.autoReset = false;
+        activeRenderer.info.reset();
         activeRenderer.setRenderTarget(target);
         activeRenderer.render(scene, camera);
         activeRenderer.setRenderTarget(null);
         activeRenderer.render(screen, camera);
+        recordFrame(performance.now() - started, activeRenderer.info.render);
       };
       const contextLost = (event: Event) => {
         event.preventDefault();
@@ -173,7 +182,7 @@ export default function VoxelExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; dispose(); };
-  }, []);
+  }, [recordFrame]);
 
   useEffect(() => {
     currentSettings.current = settings;
@@ -204,8 +213,7 @@ export default function VoxelExperiment() {
 
   const json = JSON.stringify({ experiment: "r1-voxel", world: "meadow-house", seed: MEADOW_HOUSE_SEED, camera: settings, look, lighting }, null, 2);
   return (
-    <div className="grid gap-5">
-      <div ref={surface} className="aspect-[4/3] w-full overflow-hidden rounded border border-dusk sm:aspect-video" />
+    <LabViewport title="R1 · Orthographic voxels" description="The whole meadow-house world: a two-storey house, river and bridge, trees, hill stairs and tower. Adjust the view and copy your camera and lighting settings for comparison." controls={<>
       {error !== "" && <p role="alert">{error}</p>}
       <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {lighting.play ? "time-lapse at up to 12 fps" : "rendered on demand"}</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
@@ -279,6 +287,10 @@ export default function VoxelExperiment() {
           void navigator.clipboard.writeText(json).then(() => setCopyStatus("Copied settings."), () => setCopyStatus("Select and copy the JSON above."));
         }}>Copy settings</button><p role="status">{copyStatus}</p>
       </details>
-    </div>
+      <p className="text-sm text-mist">Pixel rendering study with a moving sun and moon, stars, warm windows, lanterns and a garden fire. Compare day and night, soft shadows and optional tonal colour reduction. Water, glass and foliage are opaque placeholders. Interiors remain under their roofs; player movement and cutaway come in later slices.</p>
+    </>}>
+      <div ref={surface} className="h-full w-full overflow-hidden" />
+      <RenderStats stats={performanceStats} />
+    </LabViewport>
   );
 }
