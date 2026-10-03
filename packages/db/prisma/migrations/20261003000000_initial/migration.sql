@@ -1,0 +1,5 @@
+CREATE TABLE "Player" (
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Player_pkey" PRIMARY KEY ("id")
+);

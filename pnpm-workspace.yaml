@@ -41,3 +41,6 @@ catalogs:
 allowBuilds:
   # esbuild (via tsx, used by @catladder/cli) installs its platform binary
   esbuild: true
+  # Prisma CLI installs its schema engine; client generation is explicit in build.
+  prisma: true
+  "@prisma/engines": true

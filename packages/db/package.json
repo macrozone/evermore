@@ -1,0 +1,30 @@
+{
+  "name": "@evermore/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" } },
+  "scripts": {
+    "generate": "prisma generate",
+    "build": "pnpm generate && tsc -p tsconfig.build.json",
+    "typecheck": "pnpm generate && tsc",
+    "lint": "eslint .",
+    "migrate": "prisma migrate deploy",
+    "migrate:dev": "prisma migrate dev",
+    "seed": "prisma db seed",
+    "test:integration": "tsx prisma/integration.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0"
+  },
+  "devDependencies": {
+    "@evermore/eslint-config": "workspace:*",
+    "@evermore/tsconfig": "workspace:*",
+    "@types/node": "catalog:typescript-types",
+    "eslint": "catalog:linting",
+    "prisma": "7.10.0",
+    "tsx": "^4.20.6",
+    "typescript": "catalog:build-tools"
+  }
+}
