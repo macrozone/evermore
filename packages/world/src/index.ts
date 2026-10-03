@@ -29,3 +29,4 @@ export { WORLD_SPECIFICATION_SCHEMA, parseWorldSpecification } from "./generator
 export { generateWorld } from "./generator/generate";
 export { WORLD_EXAMPLES } from "./generator/examples";
 export { prototypeSurface, generatePrototypeChunk, connectPrototypePath } from "./generator/chunk-path-prototype";
+export { deriveShadowWorld, findInfluenceOrigin, influenceAt } from "./shadow";

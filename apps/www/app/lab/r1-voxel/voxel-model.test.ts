@@ -34,6 +34,21 @@ describe("voxel chunk meshing", () => {
     geometry.dispose();
   });
 
+  it("applies debug colours in world coordinates without changing geometry", () => {
+    const world = new World({ width: 2, depth: 3, height: 4 });
+    world.setCell(1, 2, 3, M.grass);
+    const samples: number[][] = [];
+    const geometry = meshChunk(world, [...world.chunks()][0]!, (x, y, z) => {
+      samples.push([x, y, z]);
+      return 0xff0000;
+    });
+    expect(samples).toEqual([[1, 2, 3]]);
+    expect(geometry.index?.count).toBe(36);
+    const color = geometry.getAttribute("color");
+    expect([color.getX(0), color.getY(0), color.getZ(0)]).toEqual([1, 0, 0]);
+    geometry.dispose();
+  });
+
   it("culls shared faces even between different materials and across every chunk axis", () => {
     for (const [a, b] of [
       [[31, 0, 0], [32, 0, 0]],

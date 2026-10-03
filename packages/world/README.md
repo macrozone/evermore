@@ -94,3 +94,20 @@ This is separate from G1, with a fixed river fixture, fixed bridge height and a
 bounded search budget. It does not provide unbounded storage or renderer streaming.
 See [the research comparison and runnable example](../../docs/lab/chunks-and-paths-research.md)
 for constraints, sources and proposed chunk boundary contracts.
+
+## Shadow world experiment
+
+`deriveShadowWorld(world)` returns an independent grid with the same occupied
+cells, collision properties, spawn and named structures. Seed and coordinates
+select purple shadow materials and darker decay patches; it does not regenerate
+the layout or remove walls. Material IDs 21–60 are reserved for these variants.
+
+`findInfluenceOrigin(world)` chooses the first bed in z/y/x order, falling back
+to spawn. Read it from the source world. `influenceAt(position, origin, radius)`
+returns a linear horizontal distance falloff in [0, 1]. This experimental field
+ignores elevation, so the roof above home also shows maximum danger. R1 uses half
+the horizontal world diagonal as radius and blends blue-to-red debug colours
+into visible faces. These are diagnostic choices, not gameplay balancing rules.
+
+At `/lab/r1-voxel`, compare Normal/Shadow for the meadow house or G1 examples,
+and toggle the danger heatmap. The copied JSON includes all three choices.

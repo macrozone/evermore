@@ -20,7 +20,7 @@ const FACES = [
 ] as const;
 
 /** One indexed mesh per chunk. Query the world at seams to avoid internal faces. */
-export function meshChunk(world: World, chunk: Chunk): BufferGeometry {
+export function meshChunk(world: World, chunk: Chunk, cellColor?: (x: number, y: number, z: number, color: number) => number): BufferGeometry {
   const positions: number[] = [];
   const normals: number[] = [];
   const colors: number[] = [];
@@ -34,8 +34,9 @@ export function meshChunk(world: World, chunk: Chunk): BufferGeometry {
         const z = chunk.cz * CHUNK_SIZE_Z + lz;
         const id = world.getCell(x, y, z);
         if (id === AIR) continue;
-        let color = palette.get(id);
-        if (color == null) { color = new Color(getMaterial(id).color); palette.set(id, color); }
+        const colorValue = cellColor?.(x, y, z, getMaterial(id).color) ?? getMaterial(id).color;
+        let color = palette.get(colorValue);
+        if (color == null) { color = new Color(colorValue); palette.set(colorValue, color); }
         for (const { normal: [nx, ny, nz], corners } of FACES) {
           // This first slice renders every material opaque, including water/glass/leaves.
           if (world.getCell(x + nx, y + ny, z + nz) !== AIR) continue;

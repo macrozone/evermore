@@ -124,9 +124,26 @@ const props: Record<keyof typeof M, MaterialProps> = {
 };
 
 /** Default material table, indexed by material ID. */
-export const MATERIALS: readonly Material[] = Object.entries(M)
+const baseMaterials: readonly Material[] = Object.entries(M)
   .map(([key, id]) => ({ id, key, ...props[key as keyof typeof M] }))
   .sort((a, b) => a.id - b.id);
+
+/** Frozen source IDs 1–20: shadow IDs 21–40, decayed IDs 41–60.
+ * Future material IDs must start at 61; never reuse these serialized IDs.
+ */
+const shadowSources = baseMaterials.filter((material) => material.id > 0 && material.id <= 20);
+export const MATERIALS: readonly Material[] = [...baseMaterials, ...[false, true].flatMap((decayed, variant) =>
+  shadowSources.map((source) => ({
+    ...source,
+    id: 21 + variant * 20 + source.id - 1,
+    key: `${decayed ? "decayed" : "shadow"}_${source.key}`,
+    color: decayed ? 0x292035 : (
+      (Math.round(((source.color >> 16) & 255) * 0.35 + 35) << 16) |
+      (Math.round(((source.color >> 8) & 255) * 0.25 + 12) << 8) |
+      Math.round((source.color & 255) * 0.4 + 45)
+    ),
+  })),
+)].sort((a, b) => a.id - b.id);
 
 export function getMaterial(id: MaterialId): Material {
   const material = MATERIALS[id];

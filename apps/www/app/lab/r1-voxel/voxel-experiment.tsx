@@ -1,6 +1,6 @@
 "use client";
 
-import { MEADOW_HOUSE_SEED } from "@evermore/world";
+import { MEADOW_HOUSE_SEED, WORLD_EXAMPLES, generateWorld, deriveShadowWorld, findInfluenceOrigin, influenceAt } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3 } from "three";
 import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
@@ -11,6 +11,9 @@ import { createLocalLights } from "./local-lights";
 import { DEFAULT_LOOK, LOOK_FRAGMENT, renderDimensions, type LookSettings } from "./pixel-look";
 
 export default function VoxelExperiment() {
+  const [worldIndex, setWorldIndex] = useState(-1);
+  const [shadow, setShadow] = useState(false);
+  const [heatmap, setHeatmap] = useState(false);
   const surface = useRef<HTMLDivElement>(null);
   const updateView = useRef<((settings: CameraSettings, look: LookSettings, lighting: LightingSettings) => void) | null>(null);
   const currentSettings = useRef(DEFAULT_CAMERA);
@@ -65,7 +68,7 @@ export default function VoxelExperiment() {
       renderer.domElement.style.display = "block";
       renderer.domElement.style.width = "100%";
       renderer.domElement.style.height = "100%";
-      renderer.domElement.setAttribute("aria-label", "Orthographic view of the meadow-house voxel world");
+      renderer.domElement.setAttribute("aria-label", `Orthographic ${shadow ? "shadow" : "normal"} world${heatmap ? " with danger heatmap" : ""}`);
       renderer.domElement.setAttribute("role", "img");
       host.appendChild(renderer.domElement);
       const scene = new Scene();
@@ -88,13 +91,23 @@ export default function VoxelExperiment() {
       moonlight.shadow.normalBias = sunlight.shadow.normalBias;
       shadows.push(moonlight.shadow);
       scene.add(moonlight);
-      localLights = createLocalLights();
-      scene.add(localLights.group);
-      const world = createMeadowHouseWorld();
+      if (worldIndex === -1 && !shadow) {
+        localLights = createLocalLights();
+        scene.add(localLights.group);
+      }
+      const source = worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
+      const origin = findInfluenceOrigin(source);
+      const radius = Math.hypot(source.width, source.depth) / 2;
+      const world = shadow ? deriveShadowWorld(source) : source;
+      const dangerColor = heatmap ? (x: number, y: number, z: number, base: number) => {
+        const influence = influenceAt({ x, y, z }, origin, radius);
+        const tint = new Color(0x246ccc).lerp(new Color(0xff3824), influence);
+        return new Color(base).lerp(tint, 0.8).getHex();
+      } : undefined;
       const terrain = new Group();
       let triangles = 0;
       for (const chunk of world.chunks()) {
-        const geometry = meshChunk(world, chunk);
+        const geometry = meshChunk(world, chunk, dangerColor);
         geometries.push(geometry);
         if (geometry.getAttribute("position").count === 0) continue;
         triangles += (geometry.index?.count ?? 0) / 3;
@@ -158,6 +171,7 @@ export default function VoxelExperiment() {
         activeRenderer.render(screen, camera);
       };
       const contextLost = (event: Event) => {
+        if (cancelled) return;
         event.preventDefault();
         setError("WebGL context lost. Reload this page to restart the renderer.");
       };
@@ -173,7 +187,7 @@ export default function VoxelExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; dispose(); };
-  }, []);
+  }, [worldIndex, shadow, heatmap]);
 
   useEffect(() => {
     currentSettings.current = settings;
@@ -202,10 +216,22 @@ export default function VoxelExperiment() {
     return () => cancelAnimationFrame(frame);
   }, [lighting.play]);
 
-  const json = JSON.stringify({ experiment: "r1-voxel", world: "meadow-house", seed: MEADOW_HOUSE_SEED, camera: settings, look, lighting }, null, 2);
+  const json = JSON.stringify({ experiment: "r1-voxel", world: worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name, shadow, heatmap, seed: MEADOW_HOUSE_SEED, camera: settings, look, lighting }, null, 2);
   return (
     <div className="grid gap-5">
-      <div ref={surface} className="aspect-[4/3] w-full overflow-hidden rounded border border-dusk sm:aspect-video" />
+      <div className="sticky top-0 z-10 rounded bg-ink">
+        <div ref={surface} className="h-[50vh] w-full overflow-hidden rounded border border-dusk" />
+        <fieldset className="flex flex-wrap items-center gap-4 border border-dusk p-3">
+          <legend>World & danger</legend>
+          <label>Source world <select aria-label="Source world" value={worldIndex} onChange={(event) => setWorldIndex(Number(event.target.value))}>
+            <option value={-1}>Meadow house</option>
+            {WORLD_EXAMPLES.map((example, index) => <option key={example.name} value={index}>{example.name}</option>)}
+          </select></label>
+          {([false, true] as const).map((value) => <button key={String(value)} type="button" className="rounded border border-gold px-3 py-1" aria-pressed={shadow === value} onClick={() => setShadow(value)}>{value ? "Shadow" : "Normal"}</button>)}
+          <label><input type="checkbox" checked={heatmap} onChange={(event) => setHeatmap(event.target.checked)} /> Danger heatmap</label>
+          <p className="text-sm">Blue: low danger · Red: high danger. Influence peaks at the first bed (or spawn), fading with horizontal distance.</p>
+        </fieldset>
+      </div>
       {error !== "" && <p role="alert">{error}</p>}
       <p className="text-sm text-mist">Seed {MEADOW_HOUSE_SEED} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {lighting.play ? "time-lapse at up to 12 fps" : "rendered on demand"}</p>
       <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
