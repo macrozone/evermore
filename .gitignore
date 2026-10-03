@@ -30,6 +30,7 @@ tsconfig.tsbuildinfo
 # OS / editors
 .DS_Store
 .idea
+.ade/
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
