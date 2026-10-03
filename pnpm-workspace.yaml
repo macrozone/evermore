@@ -41,3 +41,5 @@ catalogs:
 allowBuilds:
   # esbuild (via tsx, used by @catladder/cli) installs its platform binary
   esbuild: true
+  # sharp supplies the native image processor for the local object lab
+  sharp: true

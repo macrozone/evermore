@@ -1,11 +1,12 @@
 /** Offline asset generation; never called by the web application. */
+import { OBJECT_STYLE, loadObjectStyleReference } from '../lib/object-assets.mjs';
 import { execFileSync } from 'node:child_process';
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 const dir = fileURLToPath(new URL('../public/objects/source/', import.meta.url));
 await mkdir(dir, { recursive: true });
+const reference = await loadObjectStyleReference(fileURLToPath(new URL('../public/', import.meta.url)));
 const model = 'gemini-3.1-flash-image';
-const style = 'Single isolated cozy SNES RPG pixel-art sprite. Axis-aligned top-down south-facing view like Stardew Valley, horizontal and vertical edges, NOT 45-degree isometric. Crisp pixel clusters, warm terracotta, cream, brown timber and muted sage foliage. Light from upper left. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground, no cast shadow, no text, no labels, no other objects.';
 const objects = {
   cottage: 'Small timber cottage with terracotta roof, cream walls, brown timber and golden windows.',
   house: 'Large two-storey timber house with broad terracotta roof, cream walls and golden windows.',
@@ -18,10 +19,10 @@ const objects = {
 const token = execFileSync('gcloud', ['auth', 'application-default', 'print-access-token'], { encoding: 'utf8' }).trim();
 for (const [id, subject] of Object.entries(objects)) {
   try { await access(`${dir}${id}.png`); console.log(`Keep existing ${id}`); continue; } catch { /* Generate missing assets only. */ }
-  const prompt = `${style}\nSubject: ${subject}`;
+  const prompt = `${OBJECT_STYLE}\nSubject: ${subject}`;
   const response = await fetch(`https://aiplatform.googleapis.com/v1/projects/maw-evermore/locations/global/publishers/google/models/${model}:generateContent`, {
     method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { responseModalities: ['IMAGE'], imageConfig: { aspectRatio: '1:1', imageSize: '1K' } } }),
+    body: JSON.stringify({ contents: [{ role: 'user', parts: [reference, { text: prompt }] }], generationConfig: { responseModalities: ['IMAGE'], imageConfig: { aspectRatio: '1:1', imageSize: '1K' } } }),
   });
   const data = await response.json();
   if (!response.ok) throw new Error(`${id}: ${response.status} ${JSON.stringify(data)}`);
