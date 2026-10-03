@@ -93,6 +93,8 @@ importers:
         specifier: catalog:build-tools
         version: 2.11.6
 
+  apps/dev-index: {}
+
   apps/local-development: {}
 
   apps/www:

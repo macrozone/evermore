@@ -44,3 +44,6 @@ tsconfig.tsbuildinfo
 
 # Generated production snapshot of canonical moodboards
 apps/www/.moodboards/
+
+# Worktree-specific Claude Preview configuration
+.claude/launch.json

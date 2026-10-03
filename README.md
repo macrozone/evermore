@@ -7,9 +7,23 @@ Online action role-playing game with a 16-bit look and strong user-generated con
 1. Activate Node 22: `nvm use` (reads `.nvmrc`)
 2. Activate the pnpm version from `packageManager`: `corepack enable`
 3. Install dependencies: `pnpm install`
-4. Start local services (Postgres, Cloud Tasks emulator): `pnpm --filter @evermore/local-development services:up` (requires Docker, see [`apps/local-development`](apps/local-development/README.md))
-5. Develop: `pnpm dev` – the web app [`apps/www`](apps/www) runs on `http://localhost:${BASE_PORT:-3000}`
-6. Check: `pnpm build`, `pnpm lint`, `pnpm typecheck`, `pnpm test`
+4. Develop: `pnpm dev` (requires Docker) – generates the worktree environment, starts Postgres, the Cloud Tasks emulator, the web app, and the dev index. It prints all local addresses before starting the servers.
+5. Check: `pnpm build`, `pnpm lint`, `pnpm typecheck`, `pnpm test`
+
+The main checkout uses `BASE_PORT=3000`; linked worktrees receive a stable
+100-port slot. The web app uses `BASE_PORT`, Postgres `+30`, Cloud Tasks `+31`,
+and the dev index `+90` (for example, <http://localhost:3090> in the main
+checkout). The index links to www, the lab, and moodboards. Ctrl-C stops the
+foreground processes; Compose data is kept. See
+[`apps/local-development`](apps/local-development/README.md) for service commands.
+
+`pnpm catenv` also generates the gitignored `.claude/launch.json` for the
+current slot. In Claude Code Desktop, open this checkout or worktree as the
+project and start the **www** Preview configuration. It runs `pnpm dev` from
+the root and previews the web app on the assigned port. Automatic port
+switching is disabled so the app, Preview, and services keep the same slot.
+After changing `BASE_PORT`, run `pnpm catenv` again to refresh Preview.
+The format follows [Claude's preview server configuration](https://code.claude.com/docs/en/desktop#configure-preview-servers).
 
 Decisions are in [`docs/adr/`](docs/adr/README.md), tasks in Beads (`bd ready`).
 

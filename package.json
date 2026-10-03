@@ -11,13 +11,14 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "pnpm test:ports && pnpm test:screenshot && turbo run test",
-    "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv",
+    "test": "pnpm test:ports && pnpm test:screenshot && pnpm test:dev && turbo run test",
+    "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv && node --env-file=.env.local scripts/write-claude-launch-config.mjs",
     "catladder": "catladder",
-    "dev:apps": "turbo run dev",
+    "dev:apps": "node scripts/print-dev-urls.mjs && turbo run dev",
     "test:ports": "node --test scripts/ensure-base-port.test.mjs",
     "screenshot": "node scripts/screenshot.mjs",
-    "test:screenshot": "node --test scripts/screenshot.test.mjs"
+    "test:screenshot": "node --test scripts/screenshot.test.mjs",
+    "test:dev": "node --test scripts/dev.test.mjs"
   },
   "devDependencies": {
     "@catladder/cli": "catalog:build-tools",

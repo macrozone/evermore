@@ -15,10 +15,11 @@ declare global {
       ENV_SHORT: string
       APP_DIR: string
       ENV_TYPE: string
-      DB_PORT: string
-      TASK_QUEUE_PORT: string
-      DEV_INDEX_PORT: string
-      COMPOSE_PROJECT_NAME: string
+      ROOT_URL: string
+      HOSTNAME: string
+      HOSTNAME_INTERNAL: string
+      ROOT_URL_INTERNAL: string
+      PORT: string
     }
   }
 }

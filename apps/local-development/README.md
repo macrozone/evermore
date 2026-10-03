@@ -18,7 +18,9 @@ pnpm --filter @evermore/local-development services:down   # stop, data is kept
 pnpm --filter @evermore/local-development services:reset  # stop and delete data
 ```
 
-`pnpm dev` also starts the services in the foreground (`docker compose up`).
+`pnpm dev` also starts the services in the foreground (`docker compose up`),
+alongside www and the dev index at `http://localhost:${BASE_PORT+90}`.
+The root command generates the environment and prints all addresses first.
 
 ## Access
 

@@ -40,7 +40,7 @@ export DOCKER_COPY_WORKSPACE_FILES="ADD .catladder-workspace-files.tar /app/
 RUN chown -R node:node /app || true"
 export DOCKER_SETUP_PACKAGE_MANAGER="RUN npm install -g pnpm@11.28.2"
 collapseable_section_end "injectvars"
-tar -cf .catladder-workspace-files.tar apps/www/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml apps/local-development/package.json packages/core/package.json packages/eslint-config/package.json packages/tsconfig/package.json packages/world/package.json packages/tsconfig packages/eslint-config packages/core packages/world
+tar -cf .catladder-workspace-files.tar apps/www/package.json package.json pnpm-lock.yaml pnpm-workspace.yaml apps/dev-index/package.json apps/local-development/package.json packages/core/package.json packages/eslint-config/package.json packages/tsconfig/package.json packages/world/package.json packages/tsconfig packages/eslint-config packages/core packages/world
 ensureNodeDockerfile
 collapseable_section_start "docker-login" "Docker Login"
 gcloud auth activate-service-account --key-file=<(echo "$CL_review_www_GCLOUD_DEPLOY_credentialsKey")

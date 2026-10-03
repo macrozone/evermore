@@ -1,5 +1,5 @@
 import type { Config } from "@catladder/cli";
-import { LOCAL_BASE_PORT, WWW_PORT, DB_PORT, TASK_QUEUE_PORT, COMPOSE_PROJECT_NAME } from "./catladder/localPorts";
+import { LOCAL_BASE_PORT, WWW_PORT, DB_PORT, TASK_QUEUE_PORT, DEV_INDEX_PORT, COMPOSE_PROJECT_NAME } from "./catladder/localPorts";
 
 // CI/CD and deployment config (ADR 0004). After every change run
 // `pnpm catenv` and commit the regenerated files – never edit
@@ -24,9 +24,15 @@ const config = {
       env: {
         local: {
           port: false,
-          vars: { public: { DB_PORT, TASK_QUEUE_PORT, COMPOSE_PROJECT_NAME } },
+          vars: { public: { DB_PORT, TASK_QUEUE_PORT, DEV_INDEX_PORT, COMPOSE_PROJECT_NAME } },
         },
       },
+    },
+    "dev-index": {
+      dir: "apps/dev-index",
+      build: false,
+      deploy: false,
+      env: { local: { port: DEV_INDEX_PORT } },
     },
     www: {
       dir: "apps/www",
