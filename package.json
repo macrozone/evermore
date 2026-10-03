@@ -11,15 +11,18 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "pnpm test:ports && turbo run test",
+    "test": "pnpm test:ports && pnpm test:screenshot && turbo run test",
     "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv",
     "catladder": "catladder",
     "dev:apps": "turbo run dev",
-    "test:ports": "node --test scripts/ensure-base-port.test.mjs"
+    "test:ports": "node --test scripts/ensure-base-port.test.mjs",
+    "screenshot": "node scripts/screenshot.mjs",
+    "test:screenshot": "node --test scripts/screenshot.test.mjs"
   },
   "devDependencies": {
     "@catladder/cli": "catalog:build-tools",
     "dotenv": "^18.0.5",
+    "playwright": "^1.63.0",
     "turbo": "catalog:build-tools"
   }
 }
