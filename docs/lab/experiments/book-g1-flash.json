@@ -1,0 +1,81 @@
+{
+  "measuredAt": "2026-10-03T23:37:47.543Z",
+  "answers": [
+    "I am a wandering botanist living beside a forest, with a stream and a path to my cottage.",
+    "In a bed inside a small wooden cottage."
+  ],
+  "generation": {
+    "seed": 455797837,
+    "model": "gemini-3.8-flash",
+    "source": "example",
+    "fallbackReason": "invalid-output",
+    "usage": {
+      "inputTokens": 1800,
+      "outputTokens": 219,
+      "thinkingTokens": 0
+    },
+    "durationMs": 3114,
+    "strategy": "g1",
+    "specification": {
+      "version": 1,
+      "name": "Forest village",
+      "biome": "forest",
+      "climate": "temperate",
+      "timeOfDay": "day",
+      "mood": "A quiet home among old trees",
+      "palette": [
+        "#6b8747",
+        "#b0814a"
+      ],
+      "size": {
+        "width": 64,
+        "depth": 64,
+        "height": 32
+      },
+      "terrain": {
+        "elevation": 3,
+        "relief": 2,
+        "scale": 16
+      },
+      "water": {
+        "kind": "river",
+        "level": 2
+      },
+      "vegetation": {
+        "density": 0.08
+      },
+      "settlement": {
+        "buildings": [
+          {
+            "name": "Village inn",
+            "x": 24,
+            "y": 18,
+            "width": 10,
+            "depth": 10,
+            "floors": 2
+          },
+          {
+            "name": "Cottage",
+            "x": 42,
+            "y": 36,
+            "width": 8,
+            "depth": 8,
+            "floors": 1
+          }
+        ]
+      },
+      "paths": true,
+      "landmarks": [
+        {
+          "name": "Old standing stone",
+          "x": 40,
+          "y": 12
+        }
+      ],
+      "spawn": {
+        "x": 18,
+        "y": 42
+      }
+    }
+  }
+}

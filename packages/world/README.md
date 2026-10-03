@@ -126,3 +126,19 @@ into visible faces. These are diagnostic choices, not gameplay balancing rules.
 
 At `/lab/r1-voxel`, compare Normal/Shadow for the meadow house or G1 examples,
 and toggle the danger heatmap. The copied JSON includes all three choices.
+
+### G2: direct character layers
+
+`parseRasterMap` validates a bounded 24×24×4 wire format; `compileRasterMap`
+converts each character directly to a material in a `World`. Layer zero is
+walkable ground, layers one and two provide player headroom, and layer three
+contains roofs. Up to four declared rectangular buildings use one explicit
+perimeter door each. This deliberately limited experiment supports one storey.
+
+The compiler repairs floors, closed perimeter walls, roofs, doorway headroom,
+and exterior connections from spawn to doors and marked path cells. It returns
+the repaired raster and cell repair counts alongside the world. It never mutates
+the input. Malformed dimensions, unknown characters, overlapping footprints,
+and invalid doors are rejected before world allocation. Geometry checks do not
+measure semantic fidelity or validate undeclared structures; compare the raw
+and repaired cells when judging model quality.

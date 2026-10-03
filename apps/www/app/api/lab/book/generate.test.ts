@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { WORLD_EXAMPLES } from "@evermore/world";
+import { createRasterExample, WORLD_EXAMPLES } from "@evermore/world";
 
 const { getRequestHeaders } = vi.hoisted(() => ({ getRequestHeaders: vi.fn() }));
 vi.mock("server-only", () => ({}));
@@ -143,8 +143,66 @@ describe("book generation", () => {
   });
 });
 
+describe("G2 provider generation", () => {
+  const rasterInput = parseBookInput({ answers: input.answers, strategy: "g2" });
+  it("defaults to Flash MEDIUM and parses direct layers", async () => {
+    const raster = createRasterExample();
+    fetchMock.mockResolvedValue(gemini(raster));
+    const result = await generateBook(rasterInput);
+    expect(result).toMatchObject({ strategy: "g2", source: "vertex", raster, repairedRaster: raster, report: { changedCells: 0 } });
+    const body = JSON.parse(fetchMock.mock.calls[0]![1].body);
+    expect(body.generationConfig.thinkingConfig.thinkingLevel).toBe("MEDIUM");
+    expect(body.generationConfig.maxOutputTokens).toBe(16384);
+    expect(body.generationConfig.responseJsonSchema.properties.layers).toBeDefined();
+  });
+  it("repairs model cell inconsistencies and preserves the original for comparison", async () => {
+    const raster = createRasterExample();
+    raster.layers[1]![8] = raster.layers[1]![8]!.slice(0, 8) + "." + raster.layers[1]![8]!.slice(9);
+    fetchMock.mockResolvedValue(gemini(raster));
+    const result = await generateBook(rasterInput);
+    expect(result).toMatchObject({ strategy: "g2", source: "vertex", raster, report: { wallRepairs: 1, changedCells: 1 } });
+    if (result.strategy === "g2") expect(result.repairedRaster.layers[1]![8]![8]).toBe("#");
+  });
+  it("supports Claude direct raster output", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(createRasterExample()) }] })));
+    expect(await generateBook({ ...rasterInput, model: "claude-sonnet-5-5" })).toMatchObject({ strategy: "g2", source: "vertex" });
+    const body = JSON.parse(fetchMock.mock.calls[0]![1].body);
+    expect(body.max_tokens).toBe(8192);
+    expect(body.output_config.format.schema.properties.layers).toBeDefined();
+  });
+  it("rejects malformed grids with a labelled raster fallback and billed usage", async () => {
+    const raster = createRasterExample(); raster.layers[0]![0] = "short";
+    fetchMock.mockResolvedValue(gemini(raster));
+    expect(await generateBook(rasterInput)).toMatchObject({ strategy: "g2", source: "example", fallbackReason: "invalid-output", report: { changedCells: 0 }, usage: { inputTokens: 120, outputTokens: 450 } });
+  });
+  it("keeps usage visible when thinking exhausts the output budget", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ candidates: [{ finishReason: "MAX_TOKENS", content: { parts: [{ text: '{"version":1' }] } }], usageMetadata: { promptTokenCount: 1503, candidatesTokenCount: 313, thoughtsTokenCount: 7865 } })));
+    expect(await generateBook(rasterInput)).toMatchObject({ source: "example", fallbackReason: "invalid-output", usage: { inputTokens: 1503, outputTokens: 313, thinkingTokens: 7865 } });
+  });
+  it("reports thinking tokens and handles malformed provider envelopes safely", async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ candidates: [{ finishReason: "STOP", content: { parts: [{ text: JSON.stringify(createRasterExample()) }] } }], usageMetadata: { promptTokenCount: 100, candidatesTokenCount: 200, thoughtsTokenCount: 300 } })));
+    expect(await generateBook(rasterInput)).toMatchObject({ usage: { thinkingTokens: 300 } });
+    fetchMock.mockResolvedValue(new Response("null"));
+    expect(await generateBook(rasterInput)).toMatchObject({ source: "example", fallbackReason: "invalid-output" });
+  });
+  it("bounds G2 credential resolution within its larger budget", async () => {
+    vi.useFakeTimers();
+    try {
+      getRequestHeaders.mockReturnValue(new Promise(() => {}));
+      const result = generateBook(rasterInput);
+      await vi.advanceTimersByTimeAsync(90_000);
+      expect(await result).toMatchObject({ source: "example", fallbackReason: "credentials" });
+    } finally { vi.useRealTimers(); }
+  });
+  it("uses an offline raster when disabled", async () => {
+    vi.stubEnv("BOOK_VERTEX_DISABLED", "true");
+    expect(await generateBook(rasterInput)).toMatchObject({ strategy: "g2", source: "example", fallbackReason: "disabled" });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
 describe("book API input", () => {
-  it.each([null, {}, { answers: ["", "bed"] }, { answers: ["  ", "bed"] }, { answers: ["a".repeat(4001), "bed"] }, { answers: ["forest", "bed", "extra"] }, { answers: ["forest", "bed"], model: "arbitrary/endpoint" }])("rejects invalid input before auth", async body => {
+  it.each([null, {}, { answers: ["", "bed"] }, { answers: ["  ", "bed"] }, { answers: ["a".repeat(4001), "bed"] }, { answers: ["forest", "bed", "extra"] }, { answers: ["forest", "bed"], model: "arbitrary/endpoint" }, { answers: ["forest", "bed"], strategy: "arbitrary" }])("rejects invalid input before auth", async body => {
     const response = await POST(new Request("http://localhost/api/lab/book", { method: "POST", body: JSON.stringify(body) }));
     expect(response.status).toBe(400);
     expect(getRequestHeaders).not.toHaveBeenCalled();

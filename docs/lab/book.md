@@ -38,3 +38,31 @@ Reviewbilder: [Desktop mit Spezifikation](screenshots/book-specification-desktop
 Validierung: 21 fokussierte API/Adapter-Tests; Headless-Chromium-Flow für beide Antworten, Modell/Query, JSON, Themen-Fallback, Ergebnisverwerfung nach Änderungen und während laufender Anfrage, Netzwerkfehler, 390px ohne horizontalen Overflow und keine Browserfehler. Modelldauern/-kosten lassen sich bei Live-Zugang über Laufzeit/Tokenzahlen vergleichen; Beispiel-Laufzeiten sind keine Modellmessung.
 
 Live-Vergleich (2026-10-03, botanischer Waldort/Schlafzimmer über Küche, Einzelmessungen): Flash-Lite mit Geometriebeispiel lieferte eine gültige Welt in 5467ms (1790 Input-/386 Output-Tokens), Flash in 5344ms (1524/474). Geschätzte Textkosten anhand der EU-Preise aus evermore-1fo.11: ca. $0.00165 bzw. $0.00322 pro Welt, ohne Infrastruktur; wegen unterschiedlicher Promptversionen kein kontrollierter Leistungsvergleich. Frühe Flash-Lite-Ausgaben wurden verworfen; das gültige Geometriebeispiel im Prompt verbessert die Anleitung. Claude: HTTP 404 («Modell nicht gefunden oder Projektzugang fehlt»), deshalb Beispiel-Fallback; keine Aussage zur Claude-Qualität/Latenz/Kosten möglich.
+
+## G2: direkt gezeichnete Zeichenraster
+
+Bead: `evermore-1fo.8`. «Generation approach» schaltet zwischen G1 (weiterhin Default) und G2 um; `/lab/book?strategy=g2` öffnet G2 direkt. G2 verwendet beim Wechsel Flash mit MEDIUM thinking, alle bisherigen Modelle bleiben wählbar. Vier 24×24-Raster werden in `packages/world` strikt geprüft und direkt in Materialzellen übersetzt. Das begrenzte Format hat höchstens vier rechteckige, einstöckige Häuser: Boden auf z0, Wände und Türkopfhöhe auf z1/z2, Dach auf z3.
+
+Der Compiler repariert deklarierte Böden, Wände, Dächer, Türen und Verbindungen vom Spawn zu Türen und markierten Wegen deterministisch. Original, reparierte Raster, Reparaturzahlen und Erreichbarkeit bleiben sichtbar; die Ebenenansicht erlaubt Original/Reparatur und Durchsicht auf tiefere Ebenen. G1 erhält eine Bodenansicht zum Vergleich. Die letzten zehn Läufe erscheinen mit Quelle, Laufzeit und Input-/Output-/Thinking-Tokens; angezeigt werden nur Läufe für dieselben aktuellen Antworten. Keine Antworten werden gespeichert.
+
+G2 hat 90s Serverbudget, 100s Clientbudget und 8192 Output-Tokens für Flash-Lite/Claude bzw. 16384 für Flash. Der grössere Flash-Rahmen lässt Platz für Thinking und die Raster; die erste Messung mit 8192 wurde verworfen. Fehler nutzen einen klar markierten festen Cottage-Fallback mit thematischem Namen. Seine Reparaturzahlen sind keine Aussage zur Modellqualität; Laufzeit und eventuell vorhandene Tokens gehören zum gescheiterten Live-Versuch.
+
+### Vergleichsmessung und Beobachtungen
+
+Einzelmessungen vom 2026-10-04 (lokal; UTC-Artefakte 2026-10-03), identische Antworten: wandernder Botaniker am Wald mit Bach und Weg zum Cottage; Bett im kleinen Holzhaus. Rohdaten samt Antworten: [G1 Flash-Lite](experiments/book-g1-flash-lite.json), [G2 Flash-Lite](experiments/book-g2-flash-lite.json), [G2 Flash MEDIUM](experiments/book-g2-flash.json), [G2 mit frühem 8192-Budget](experiments/book-g2-flash-8192.json), [G1 Flash](experiments/book-g1-flash.json).
+
+| Ansatz / Modell | Quelle | Dauer | Input / Output / Thinking | Konsistenz |
+|---|---|---|---|---|
+| G1 Flash-Lite | Vertex | 5509ms | 1800 / 380 / 0 | gültige semantische Spezifikation, Geometrie prozedural |
+| G2 Flash-Lite | Vertex | 1925ms | 1503 / 513 / 0 | 0 Reparaturen, 81/81 Ziele erreichbar |
+| G2 Flash MEDIUM, 16384-Budget | Vertex | 39920ms | 1503 / 923 / 4901 | 0 Reparaturen, 20/20 Ziele erreichbar |
+| G2 Flash MEDIUM, 8192-Budget | Fallback | 37202ms | 1503 / 313 / 7865 | verworfene, trunkierte Ausgabe |
+| G1 Flash LOW | Fallback | 3114ms | 1800 / 219 / 0 | ungültige Ausgabe, keine Qualitätsmessung |
+
+Qualität: G1 Flash-Lite beschreibt Wald, Fluss, Holzhaus und botanischen Garten, der Generator entscheidet die Zellen. G2 Flash-Lite zeichnet ein betretbares Haus mit Bett, aber breite unnatürliche Streifen aus Trunks/Wegeboden und keinen Bach. G2 Flash trifft die Beschreibung besser: Bach mit Übergang, einzelne Bäume, Cottage und Bett. Geschlossene Wände, zweizellige Türkopfhöhe und die markierten Verbindungen sind bei beiden gültigen G2-Läufen bereits vor der Reparatur konsistent. Die G2-Prüfung garantiert keine Story-Treue, Innenraum-Erreichbarkeit aller Möbel oder Korrektheit nicht deklarierter Gebäude.
+
+Kosten: Auf demselben Flash-Lite-Modell braucht G2 hier 16,5% weniger Input-, aber 35% mehr Output-Tokens als G1. Flash MEDIUM braucht zusätzlich 4901 Thinking-Tokens und erheblich länger; der verworfene erste Versuch verbrauchte ebenfalls Tokens. Die UI zeigt gemessene Tokens als Kostenproxy, keine erfundenen Dollarpreise. Wegen 24×24×4 versus 64×64×40 und nur einer Messung pro Konfiguration folgt daraus keine allgemeine Kosten- oder Qualitätsrangliste.
+
+Reviewbilder: [G2 mit Reglern und Rohdaten](screenshots/book-g2-controls.png), [Mobil, 390px](screenshots/book-g2-mobile.png). Sie spielen die gespeicherte gültige Flash-Lite-Antwort wieder ab. Worauf achten: Ebenenregler, Original/Reparaturvergleich, klare Kennzeichnung des Fallbacks und das Missverhältnis zwischen formaler Konsistenz und visueller Qualität. Offene Frage: Lohnt sich Flash MEDIUM angesichts der längeren Dauer, oder ist die semantische G1-Spezifikation mit prozeduraler Umsetzung für grössere Welten geeigneter?
+
+Validierung: Parser-/Compiler-Tests für Materialzellen, unveränderte Rohdaten, geschlossene Wände, Bodenlöcher, blockierte Türen, alle vier Türseiten, Wasserbarrieren und fehlerhafte Raster. API-Tests für beide Providerformate, G2-Defaults, Reparaturen, Trunkierung mit Tokenzahlen und Deadline/Fallback. Headless Chromium prüft Strategie/Query, beide Passagen, Ebenen/Original/Durchsicht, Ergebnisverwerfung beim Strategiewechsel, Vergleichshistorie, mobile Breite und Browserfehler.

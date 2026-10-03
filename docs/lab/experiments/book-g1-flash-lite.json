@@ -1,0 +1,74 @@
+{
+  "measuredAt": "2026-10-03T23:34:37.815Z",
+  "answers": [
+    "I am a wandering botanist living beside a forest, with a stream and a path to my cottage.",
+    "In a bed inside a small wooden cottage."
+  ],
+  "generation": {
+    "seed": 455797837,
+    "model": "gemini-3.5-flash-lite",
+    "source": "vertex",
+    "durationMs": 5509,
+    "usage": {
+      "inputTokens": 1800,
+      "outputTokens": 380,
+      "thinkingTokens": 0
+    },
+    "strategy": "g1",
+    "specification": {
+      "version": 1,
+      "name": "Botanist's Cottage",
+      "biome": "forest",
+      "climate": "temperate",
+      "timeOfDay": "day",
+      "mood": "A peaceful woodland home for a wandering botanist beside a stream",
+      "palette": [
+        "#556b2f",
+        "#8b4513",
+        "#2e8b57",
+        "#d2b48c"
+      ],
+      "size": {
+        "width": 64,
+        "depth": 64,
+        "height": 40
+      },
+      "terrain": {
+        "elevation": 3,
+        "relief": 2,
+        "scale": 16
+      },
+      "water": {
+        "kind": "river",
+        "level": 2
+      },
+      "vegetation": {
+        "density": 0.12
+      },
+      "settlement": {
+        "buildings": [
+          {
+            "name": "Wooden Cottage",
+            "x": 26,
+            "y": 26,
+            "width": 8,
+            "depth": 8,
+            "floors": 1
+          }
+        ]
+      },
+      "paths": true,
+      "landmarks": [
+        {
+          "name": "Botanical Garden",
+          "x": 38,
+          "y": 38
+        }
+      ],
+      "spawn": {
+        "x": 24,
+        "y": 24
+      }
+    }
+  }
+}

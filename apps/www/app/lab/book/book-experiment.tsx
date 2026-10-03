@@ -6,7 +6,9 @@ import { useRef, useState, type CSSProperties } from "react";
 import { encodeWorldHash, parseWorldHandoff, saveWorldHandoff } from "../../../lib/world-handoff";
 
 import styles from "./book.module.css";
-import { BOOK_MODELS, DEFAULT_BOOK_MODEL, type BookGeneration, type BookModel } from "./generation";
+import { BOOK_MODELS, DEFAULT_BOOK_MODEL, type BookGeneration, type BookModel, type BookStrategy } from "./generation";
+
+import MapPreview from "./map-preview";
 
 const questions = ["Who are you and where are you?", "Where do you sleep?"] as const;
 const fonts = {
@@ -23,9 +25,11 @@ export default function BookExperiment() {
   const [bookWidth, setBookWidth] = useState(960);
   const [turnDuration, setTurnDuration] = useState(600);
   const [copyStatus, setCopyStatus] = useState("");
+  const [strategy, setStrategy] = useState<BookStrategy>(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("strategy") === "g2" ? "g2" : "g1");
+  const [history, setHistory] = useState<{ strategy: BookStrategy; model: BookModel; source: string; fallbackReason?: string; durationMs: number; inputTokens?: number; outputTokens?: number; thinkingTokens?: number; repaired?: number; answers: string }[]>([]);
   const [model, setModel] = useState<BookModel>(() => {
     const query = typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("model");
-    return BOOK_MODELS.includes(query as BookModel) ? query as BookModel : DEFAULT_BOOK_MODEL;
+    return BOOK_MODELS.includes(query as BookModel) ? query as BookModel : strategy === "g2" ? "gemini-3.8-flash" : DEFAULT_BOOK_MODEL;
   });
   const [generation, setGeneration] = useState<BookGeneration | null>(null);
   const [worldHash, setWorldHash] = useState("");
@@ -40,16 +44,22 @@ export default function BookExperiment() {
     try {
       const response = await fetch("/api/lab/book", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers, model }), signal: AbortSignal.timeout(20_000),
+        body: JSON.stringify({ answers, model, strategy }), signal: AbortSignal.timeout(strategy === "g2" ? 100_000 : 20_000),
       });
       if (!response.ok) throw new Error("Generation failed. Please try again.");
       const result = await response.json() as BookGeneration;
-      const handoff = parseWorldHandoff(JSON.stringify(result));
-      const hash = await encodeWorldHash(handoff);
       if (revision.current === current) {
-        setGeneration(result); setWorldHash(hash);
-        try { saveWorldHandoff(handoff, window.localStorage); }
-        catch { setHandoffError("Your world could not be saved in this browser. The preview links still work."); }
+        setGeneration(result);
+        setHistory(previous => [...previous.slice(-9), { strategy: result.strategy, model: result.model, source: result.source, fallbackReason: result.fallbackReason, durationMs: result.durationMs, inputTokens: result.usage?.inputTokens, outputTokens: result.usage?.outputTokens, thinkingTokens: result.usage?.thinkingTokens, repaired: result.strategy === "g2" ? result.report.changedCells : undefined, answers: JSON.stringify(answers) }]);
+        if (result.strategy === "g1") {
+          const handoff = parseWorldHandoff(JSON.stringify(result));
+          const hash = await encodeWorldHash(handoff);
+          if (revision.current === current) {
+            setWorldHash(hash);
+            try { saveWorldHandoff(handoff, window.localStorage); }
+            catch { setHandoffError("Your world could not be saved in this browser. The preview links still work."); }
+          }
+        }
       }
     } catch {
       if (revision.current === current) setGenerationError("Could not reach the book generator. Please try again.");
@@ -126,26 +136,34 @@ export default function BookExperiment() {
           </div>
         </div>
       </section>
-      <section className={styles.generation} aria-label="World specification generator">
+      <section className={styles.generation} aria-label="World generator">
         <div className={styles.generationControls}>
-          <label>Generation model<select value={model} onChange={(event) => { invalidate(); setModel(event.target.value as BookModel); }}>
+          <label>Generation approach<select value={strategy} disabled={pending} onChange={event => { invalidate(); const next = event.target.value as BookStrategy; setStrategy(next); setModel(next === "g2" ? "gemini-3.8-flash" : DEFAULT_BOOK_MODEL); }}>
+            <option value="g1">G1 · Semantic specification</option><option value="g2">G2 · Direct character layers (24×24×4)</option>
+          </select></label>
+          <label>Generation model<select value={model} disabled={pending} onChange={(event) => { invalidate(); setModel(event.target.value as BookModel); }}>
             {BOOK_MODELS.map(value => <option key={value} value={value}>{value}</option>)}
           </select></label>
-          <button type="button" disabled={pending || answers.some(answer => answer.trim().length === 0)} onClick={() => void generate()}>{pending ? "Writing your world…" : "Generate world specification"}</button>
+          <button type="button" disabled={pending || answers.some(answer => answer.trim().length === 0)} onClick={() => void generate()}>{pending ? "Writing your world…" : (strategy === "g2" ? "Draw world layers" : "Generate world specification")}</button>
         </div>
         <p role="status">{pending ? "Turning your two passages into a world…" : generation ? `${generation.source === "vertex" ? "Generated with Vertex AI" : "Example fallback"} · ${generation.model} · ${generation.durationMs} ms · seed ${generation.seed}` : "Write both passages, then generate your beginning."}</p>
-        {generation?.source === "example" && <p className={styles.fallback}>An example world is shown: {generation.fallbackDetail ?? (generation.fallbackReason === "disabled" ? "live generation is disabled" : generation.fallbackReason === "credentials" ? "Vertex credentials are unavailable" : generation.fallbackReason === "invalid-output" ? "the model returned an invalid world" : "the selected model could not be reached")}. It is selected by theme and does not fully interpret your passages.</p>}
+        {generation?.source === "example" && <p className={styles.fallback}>An example world is shown: {generation.fallbackDetail ?? (generation.fallbackReason === "disabled" ? "live generation is disabled" : generation.fallbackReason === "credentials" ? "Vertex credentials are unavailable" : generation.fallbackReason === "invalid-output" ? "the model returned an invalid world" : "the selected model could not be reached")}. {generation.strategy === "g2" ? "G2 uses a fixed cottage layout with a theme-based name." : "It is selected by theme."} It does not fully interpret your passages.</p>}
         {(generation?.repairs?.length ?? 0) > 0 && <p className={styles.fallback}>Repaired: {generation?.repairs?.join("; ")}.</p>}
-        {generation && worldHash.length > 0 && <nav className={styles.generationControls} aria-label="View generated world">
+        {generation?.strategy === "g1" && worldHash.length > 0 && <nav className={styles.generationControls} aria-label="View generated world">
           {([["G1", "/lab/g1-generator"], ["R2", "/lab/r2-tilemap"], ["R1", "/lab/r1-voxel"]] as const).map(([label, path]) => <Link key={label} href={`${path}${worldHash}`} prefetch={false}>View in {label} →</Link>)}
         </nav>}
         {handoffError.length > 0 && <p role="status">{handoffError}</p>}
-        {generation?.usage && <p>Tokens · {generation.usage.inputTokens} input / {generation.usage.outputTokens} output</p>}
+        {generation && <MapPreview generation={generation} />}
+        {generation?.usage && <p>Tokens · {generation.usage.inputTokens} input / {generation.usage.outputTokens} output / {generation.usage.thinkingTokens ?? "—"} thinking{generation.source === "example" ? " (rejected live response)" : ""}</p>}
         {generationError.length > 0 && <p role="alert">{generationError}</p>}
         <details open className={styles.debug}>
-          <summary>World specification JSON</summary>
-          <pre>{generation ? JSON.stringify({ specification: generation.specification, seed: generation.seed }, null, 2) : "Your world specification will appear here."}</pre>
+          <summary>{strategy === "g2" ? "Original character layers, repaired map and diagnostics" : "World specification JSON"}</summary>
+          <pre>{generation ? JSON.stringify(generation.strategy === "g1" ? { specification: generation.specification, seed: generation.seed } : { raster: generation.raster, repairedRaster: generation.repairedRaster, report: generation.report, seed: generation.seed }, null, 2) : "Your world specification will appear here."}</pre>
         </details>
+        <p>Compare the same passages across approaches. G2 uses four small layers and single-storey houses; G1 uses a larger world. Tokens are a cost proxy; billing depends on the model and thinking tokens. Fallback maps are fixtures, not model-quality samples. Their time and any reported tokens describe the failed attempt.</p>
+        {history.length > 0 && <div className={styles.comparison}><table><caption>Recent runs for the current passages</caption><thead><tr><th>Approach / model</th><th>Source</th><th>Time</th><th>Input / output / thinking tokens</th><th>Repairs</th></tr></thead><tbody>
+          {history.filter(run => run.answers === JSON.stringify(answers)).map((run, index) => <tr key={index}><td>{run.strategy.toUpperCase()} · {run.model}</td><td>{run.source}{run.fallbackReason ? ` (${run.fallbackReason})` : ""}</td><td>{run.durationMs} ms</td><td>{run.inputTokens ?? "—"} / {run.outputTokens ?? "—"} / {run.thinkingTokens ?? "—"}</td><td>{run.repaired ?? "—"}</td></tr>)}
+        </tbody></table></div>}
       </section>
       <p className={styles.footnote}>An early book study. Your words stay here until you leave or reload the page.</p>
       <details className={styles.settings} open>

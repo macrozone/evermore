@@ -35,3 +35,5 @@ export { generateObjectVillage, DEFAULT_VILLAGE } from "./generator/object-villa
 
 export { repairWorldSpecification } from "./generator/repair";
 export { FOREST_COTTAGE_ART, createForestCottageWorld, cottageOccludes } from './test-worlds/forest-cottage';
+export type { RasterMap, RasterBuilding, RasterReport } from "./generator/raster";
+export { RASTER_SIZE, RASTER_HEIGHT, RASTER_LEGEND, RASTER_SCHEMA, parseRasterMap, compileRasterMap, createRasterExample } from "./generator/raster";
