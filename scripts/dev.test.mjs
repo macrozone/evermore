@@ -9,6 +9,22 @@ import { createDevIndex } from '../apps/dev-index/server.mjs';
 
 const generate = fileURLToPath(new URL('./write-claude-launch-config.mjs', import.meta.url));
 const print = fileURLToPath(new URL('./print-dev-urls.mjs', import.meta.url));
+const start = fileURLToPath(new URL('./run-dev-apps.mjs', import.meta.url));
+
+test('dev launcher passes the env-file port to the package-manager child and propagates failure', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'evermore-dev-launch-'));
+  try {
+    fs.writeFileSync(path.join(dir, '.env.local'), 'BASE_PORT=5400\n');
+    fs.writeFileSync(path.join(dir, 'pnpm'), '#!/bin/sh\nprintf "%s %s" "$BASE_PORT" "$1"\nexit 7\n', { mode: 0o755 });
+    const env = { ...process.env, PATH: `${dir}${path.delimiter}${process.env.PATH}` };
+    delete env.BASE_PORT;
+    const result = spawnSync(process.execPath, ['--env-file=.env.local', start], { cwd: dir, env, encoding: 'utf8' });
+    assert.equal(result.stdout, '5400 dev:apps');
+    assert.equal(result.status, 7, result.stderr);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 test('preview generation and startup output follow the checkout port and regenerate after a slot change', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'evermore-dev-'));
