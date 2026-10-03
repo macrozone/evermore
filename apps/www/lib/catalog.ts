@@ -11,6 +11,15 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "image-to-voxel",
+    name: "Image → voxel relief",
+    description: "Compare moodboard images, colour heuristics and a model-drawn heightmap in a fixed R1 view.",
+    href: "/lab/image-to-voxel",
+    category: "experiment",
+    screenshot: "/catalog/image-to-voxel.png",
+    status: "ready",
+  },
+  {
     id: "objects",
     name: "G2 · AI object library",
     description: "Seven reusable village sprites with pixel, palette and collision-footprint previews.",
