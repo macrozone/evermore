@@ -13,7 +13,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "fflate": "catalog:compression"
+    "fflate": "catalog:compression",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@evermore/eslint-config": "workspace:*",

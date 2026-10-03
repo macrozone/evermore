@@ -1,96 +1,65 @@
-/** Versioned semantic input; coordinates and dimensions are integer cells. */
-export interface WorldSpecification {
-  version: 1;
-  name: string;
-  biome: "forest" | "coast" | "desert" | "mountain";
-  climate: "temperate" | "dry" | "cold";
-  timeOfDay: "day" | "dusk" | "night";
-  mood: string;
-  palette: string[];
-  size: { width: number; depth: number; height: number };
-  terrain: { elevation: number; relief: number; scale: number };
-  water: { kind: "none" | "river" | "sea"; level: number };
-  vegetation: { density: number };
-  settlement: { buildings: { name: string; x: number; y: number; width: number; depth: number; floors: number }[] };
-  paths: boolean;
-  landmarks: { name: string; x: number; y: number }[];
-  spawn: { x: number; y: number };
-}
+import { z } from "zod";
 
-const integer = (minimum: number, maximum: number) => ({ type: "integer", minimum, maximum });
-const object = (properties: Record<string, Schema>) => ({
-  type: "object", additionalProperties: false, required: Object.keys(properties), properties,
+const integer = (min: number, max: number) => z.int().min(min).max(max);
+const name = z.string().min(1).max(120);
+const point = { x: integer(1, 127), y: integer(1, 127) };
+
+/** Single source for the versioned type, producer schema and local validation. */
+export const WorldSpecificationFields = z.strictObject({
+  version: z.literal(1), name,
+  biome: z.enum(["forest", "coast", "desert", "mountain"]),
+  climate: z.enum(["temperate", "dry", "cold"]),
+  timeOfDay: z.enum(["day", "dusk", "night"]),
+  mood: z.string().max(200),
+  palette: z.array(z.string().regex(/^#[0-9a-fA-F]{6}$/, "Expected a six-digit hex color")).max(8),
+  size: z.strictObject({ width: integer(24, 128), depth: integer(24, 128), height: integer(16, 64) }),
+  terrain: z.strictObject({ elevation: integer(1, 8), relief: integer(0, 6), scale: integer(4, 32) }),
+  water: z.strictObject({ kind: z.enum(["none", "river", "sea"]), level: integer(1, 8) }),
+  vegetation: z.strictObject({ density: z.number().min(0).max(0.3) }),
+  settlement: z.strictObject({ buildings: z.array(z.strictObject({
+    name, ...point, width: integer(8, 20), depth: integer(8, 20), floors: integer(1, 4),
+  })).max(24) }),
+  paths: z.boolean(),
+  landmarks: z.array(z.strictObject({ name, ...point })).max(16),
+  spawn: z.strictObject(point),
 });
-/** Draft 2020-12 schema for producers (including future LLM adapters). */
-export const WORLD_SPECIFICATION_SCHEMA = {
-  $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://evermore.game/schemas/world-specification-v1.json",
-  ...object({
-    version: { const: 1 }, name: { type: "string", minLength: 1, maxLength: 120 },
-    biome: { enum: ["forest", "coast", "desert", "mountain"] },
-    climate: { enum: ["temperate", "dry", "cold"] },
-    timeOfDay: { enum: ["day", "dusk", "night"] },
-    mood: { type: "string", maxLength: 200 },
-    palette: { type: "array", maxItems: 8, items: { type: "string", pattern: "^#[0-9a-fA-F]{6}$" } },
-    size: object({ width: integer(24, 128), depth: integer(24, 128), height: integer(16, 64) }),
-    terrain: object({ elevation: integer(1, 8), relief: integer(0, 6), scale: integer(4, 32) }),
-    water: object({ kind: { enum: ["none", "river", "sea"] }, level: integer(1, 8) }),
-    vegetation: object({ density: { type: "number", minimum: 0, maximum: 0.3 } }),
-    settlement: object({ buildings: { type: "array", maxItems: 24, items: object({
-      name: { type: "string", minLength: 1, maxLength: 120 },
-      x: integer(1, 127), y: integer(1, 127),
-      width: integer(8, 20), depth: integer(8, 20), floors: integer(1, 4),
-    }) } }),
-    paths: { type: "boolean" },
-    landmarks: { type: "array", maxItems: 16, items: object({
-      name: { type: "string", minLength: 1, maxLength: 120 }, x: integer(1, 127), y: integer(1, 127),
-    }) },
-    spawn: object({ x: integer(1, 127), y: integer(1, 127) }),
-  }),
-} as const;
+export type WorldSpecification = z.infer<typeof WorldSpecificationFields>;
+type Building = WorldSpecification["settlement"]["buildings"][number];
+export const buildingsOverlap = (a: Building, b: Building) =>
+  a.x - 2 < b.x + b.width && a.x + a.width + 2 > b.x && a.y - 2 < b.y + b.depth && a.y + a.depth + 2 > b.y;
+export const spawnOverlapsBuilding = (spawn: WorldSpecification["spawn"], b: Building) =>
+  spawn.x >= b.x - 1 && spawn.x <= b.x + b.width && spawn.y >= b.y - 1 && spawn.y <= b.y + b.depth;
 
-type Schema = { type?: string; const?: unknown; enum?: readonly unknown[]; minimum?: number; maximum?: number; minLength?: number; maxLength?: number; pattern?: string; maxItems?: number; items?: Schema; properties?: Record<string, Schema> };
-/** Validate before allocation. Cross-field constraints protect buildings and spawn. */
-export function parseWorldSpecification(value: unknown): WorldSpecification {
-  function check(input: unknown, schema: Schema, path: string): void {
-    const fail = () => { throw new TypeError(`Invalid world specification at ${path}`); };
-    if ("const" in schema && input !== schema.const) fail();
-    if (schema.enum && !schema.enum.includes(input)) fail();
-    if (schema.type === "object") {
-      if (input === null || typeof input !== "object" || Array.isArray(input)) fail();
-      const record = input as Record<string, unknown>;
-      for (const key of Object.keys(record)) if (!Object.hasOwn(schema.properties!, key)) fail();
-      for (const [key, child] of Object.entries(schema.properties!)) check(record[key], child, `${path}.${key}`);
-    }
-    if (schema.type === "array") {
-      if (!Array.isArray(input) || input.length > schema.maxItems!) fail();
-      for (let i = 0; i < (input as unknown[]).length; i++) check((input as unknown[])[i], schema.items!, `${path}[${i}]`);
-    }
-    if (schema.type === "string") {
-      if (typeof input !== "string" || input.length < (schema.minLength ?? 0) || input.length > schema.maxLength! || (schema.pattern !== undefined && !new RegExp(schema.pattern).test(input))) fail();
-    }
-    if (schema.type === "boolean" && typeof input !== "boolean") fail();
-    if (schema.type === "number" || schema.type === "integer") {
-      if (typeof input !== "number" || !Number.isFinite(input) || (schema.type === "integer" && !Number.isInteger(input)) || input < schema.minimum! || input > schema.maximum!) fail();
-    }
-  }
-  check(value, WORLD_SPECIFICATION_SCHEMA, "$");
-  const spec = value as WorldSpecification;
+/** Cross-field rules cannot be expressed by the provider's JSON Schema. */
+export const WorldSpecificationSchema = WorldSpecificationFields.superRefine((spec, ctx) => {
+  const issue = (path: (string | number)[], message: string) => ctx.addIssue({ code: "custom", path, message });
   const { width, depth, height } = spec.size;
   const base = Math.max(spec.terrain.elevation, spec.water.level + 1);
-  if (base + spec.terrain.relief + 6 >= height) throw new RangeError("Terrain exceeds world height");
-  const inside = (x: number, y: number) => x < width - 1 && y < depth - 1;
-  if (!inside(spec.spawn.x, spec.spawn.y)) throw new RangeError("Spawn outside world");
-  for (const landmark of spec.landmarks) {
-    if (!inside(landmark.x, landmark.y)) throw new RangeError("Landmark outside world");
-    if (landmark.x === spec.spawn.x && landmark.y === spec.spawn.y) throw new RangeError("Landmark overlaps spawn");
-  }
-  for (const [i, b] of spec.settlement.buildings.entries()) {
-    if (b.x + b.width >= width - 1 || b.y + b.depth >= depth - 1 || base + b.floors * 4 + 2 >= height) throw new RangeError("Building exceeds world bounds");
-    if (spec.spawn.x >= b.x - 1 && spec.spawn.x <= b.x + b.width && spec.spawn.y >= b.y - 1 && spec.spawn.y <= b.y + b.depth) throw new RangeError("Spawn overlaps building");
-    for (const other of spec.settlement.buildings.slice(0, i)) {
-      if (b.x - 2 < other.x + other.width && b.x + b.width + 2 > other.x && b.y - 2 < other.y + other.depth && b.y + b.depth + 2 > other.y) throw new RangeError("Buildings overlap");
-    }
-  }
-  return spec;
+  if (base + spec.terrain.relief + 6 >= height) issue(["size", "height"], "Terrain exceeds world height");
+  if (spec.spawn.x >= width - 1 || spec.spawn.y >= depth - 1) issue(["spawn"], "Spawn outside world");
+  spec.landmarks.forEach((landmark, i) => {
+    if (landmark.x >= width - 1 || landmark.y >= depth - 1) issue(["landmarks", i], "Landmark outside world");
+    if (landmark.x === spec.spawn.x && landmark.y === spec.spawn.y) issue(["landmarks", i], "Landmark overlaps spawn");
+  });
+  spec.settlement.buildings.forEach((b, i) => {
+    if (b.x + b.width >= width - 1 || b.y + b.depth >= depth - 1 || base + b.floors * 4 + 2 >= height) issue(["settlement", "buildings", i], "Building exceeds world bounds");
+    if (spawnOverlapsBuilding(spec.spawn, b)) issue(["spawn"], "Spawn overlaps building");
+    if (spec.settlement.buildings.slice(0, i).some(other => buildingsOverlap(b, other))) issue(["settlement", "buildings", i], "Buildings overlap");
+  });
+});
+
+/** Draft 2020-12 schema, generated from Zod; geometry remains locally enforced. */
+export const WORLD_SPECIFICATION_SCHEMA = z.toJSONSchema(WorldSpecificationSchema);
+export function worldSpecificationError(error: unknown): string {
+  if (error instanceof z.ZodError) return error.issues.map(issue => {
+    const path = issue.path.reduce<string>((path, part) => typeof part === "number" ? `${path}[${part}]` : `${path}.${String(part)}`, "$");
+    return `${path}: ${issue.message}`;
+  }).join("; ");
+  if (error instanceof RangeError) return error.message;
+  return "$: Expected a complete JSON world specification";
+}
+export function parseWorldSpecification(value: unknown): WorldSpecification {
+  const result = WorldSpecificationSchema.safeParse(value);
+  if (!result.success) throw new TypeError(`Invalid world specification at ${worldSpecificationError(result.error)}`);
+  return result.data;
 }

@@ -10,6 +10,8 @@ export interface BookGeneration {
   model: BookModel;
   source: "vertex" | "example";
   fallbackReason?: "disabled" | "credentials" | "provider" | "invalid-output";
+  fallbackDetail?: string;
+  repairs?: string[];
   durationMs: number;
   usage?: { inputTokens: number; outputTokens: number };
 }

@@ -25,10 +25,12 @@ export {
   chunkCellIndex,
 } from "./world";
 export type { WorldSpecification } from "./generator/specification";
-export { WORLD_SPECIFICATION_SCHEMA, parseWorldSpecification } from "./generator/specification";
+export { WorldSpecificationSchema, WORLD_SPECIFICATION_SCHEMA, parseWorldSpecification, worldSpecificationError } from "./generator/specification";
 export { generateWorld } from "./generator/generate";
 export { WORLD_EXAMPLES } from "./generator/examples";
 export { prototypeSurface, generatePrototypeChunk, connectPrototypePath } from "./generator/chunk-path-prototype";
 export { deriveShadowWorld, findInfluenceOrigin, influenceAt } from "./shadow";
 export type { VillageObject, ObjectPlacement, VillageOptions } from "./generator/object-village";
 export { generateObjectVillage, DEFAULT_VILLAGE } from "./generator/object-village";
+
+export { repairWorldSpecification } from "./generator/repair";

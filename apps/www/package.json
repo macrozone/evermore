@@ -12,9 +12,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@ai-sdk/google-vertex": "^5.0.101",
     "@evermore/core": "workspace:*",
     "@evermore/world": "workspace:*",
-    "google-auth-library": "^11.1.0",
+    "ai": "^7.0.127",
+    "google-auth-library": "^10.9.1",
     "next": "catalog:nextjs",
     "pixi.js": "^8.21.0",
     "react": "catalog:nextjs",

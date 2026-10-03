@@ -63,10 +63,25 @@ Tests: `pnpm --filter @evermore/world test`.
 ## G1 procedural generator
 
 `generateWorld(specification, seed)` builds a bounded world without renderer or
-network dependencies. `WORLD_SPECIFICATION_SCHEMA` exposes the JSON Schema;
+network dependencies. `WorldSpecificationSchema` is the Zod source for the
+TypeScript type, local validation and exported `WORLD_SPECIFICATION_SCHEMA`.
 `parseWorldSpecification` validates its supported fields and cross-field bounds
 before allocating cells. Version 1 limits dimensions, density and building count
 to keep client generation bounded. Both numbers and strings are supported seeds.
+
+`repairWorldSpecification(value)` returns a validated specification and path-based
+repair notes. It normalizes known CSS color names and short hex colors, discards
+unknown palette entries, rounds/clamps cell coordinates, raises vertical bounds
+and moves overlapping buildings or spawn to the nearest free position. It never
+invents missing required fields or changes unsupported semantic enums. Repairs
+are deterministic and leave the input untouched; crowded worlds that cannot fit
+still fail validation.
+
+The book API uses AI SDK structured output on Vertex, repairs before discarding
+responses, and retries once with the failing path/rule inside a shared 12-second
+deadline. The lab shows repair notes or the concrete fallback reason. Run its
+opt-in ten-passage live acceptance check with local ADC:
+`BOOK_LIVE_ACCEPTANCE=true pnpm --filter @evermore/www exec vitest run app/api/lab/book/generate.live.test.ts`.
 
 `WORLD_EXAMPLES` includes Forest village, Harbour town, Desert ruins and Mountain
 monastery. Try them at `/lab/g1-generator`, including generation timings and a
