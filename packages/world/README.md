@@ -81,3 +81,16 @@ Paths connect the start to entrances and landmarks when enabled. Paths can bridg
 water; terrain may still contain cliffs. This is an experimental scaffold:
 climate, time, mood and palette remain semantic metadata, and landmarks use
 placeholder stone columns. No permanent generation architecture is implied.
+
+## Chunk and road research prototype
+
+`generatePrototypeChunk(world, cx, cy)` explicitly generates one horizontal chunk
+column from global coordinates and the world's seed. Existing allocated columns
+are preserved. `connectPrototypePath(world, start, goal)` experiments with A*
+roads on loaded terrain, preserving elevation and placing plank decks above water.
+It returns the paved path or `null` without edits when no route is found.
+
+This is separate from G1, with a fixed river fixture, fixed bridge height and a
+bounded search budget. It does not provide unbounded storage or renderer streaming.
+See [the research comparison and runnable example](../../docs/lab/chunks-and-paths-research.md)
+for constraints, sources and proposed chunk boundary contracts.
