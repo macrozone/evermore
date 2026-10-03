@@ -40,6 +40,12 @@ describe("G1 generator", () => {
       expect(() => parseWorldSpecification(bad)).toThrow();
     }
   });
+  it("rejects inherited-name extras, sparse arrays and landmarks at spawn", () => {
+    const spec = structuredClone(WORLD_EXAMPLES[0]!);
+    expect(() => parseWorldSpecification({ ...spec, constructor: "unexpected" })).toThrow();
+    expect(() => parseWorldSpecification({ ...spec, palette: new Array(1) })).toThrow();
+    expect(() => parseWorldSpecification({ ...spec, landmarks: [{ name: "Blocked start", ...spec.spawn }] })).toThrow("Landmark overlaps spawn");
+  });
   it("does not mutate input and supports worlds without buildings or paths", () => {
     const spec = structuredClone(WORLD_EXAMPLES[0]!);
     spec.paths = false;

@@ -59,12 +59,12 @@ export function parseWorldSpecification(value: unknown): WorldSpecification {
     if (schema.type === "object") {
       if (input === null || typeof input !== "object" || Array.isArray(input)) fail();
       const record = input as Record<string, unknown>;
-      for (const key of Object.keys(record)) if (!(key in schema.properties!)) fail();
+      for (const key of Object.keys(record)) if (!Object.hasOwn(schema.properties!, key)) fail();
       for (const [key, child] of Object.entries(schema.properties!)) check(record[key], child, `${path}.${key}`);
     }
     if (schema.type === "array") {
       if (!Array.isArray(input) || input.length > schema.maxItems!) fail();
-      (input as unknown[]).forEach((item, i) => check(item, schema.items!, `${path}[${i}]`));
+      for (let i = 0; i < (input as unknown[]).length; i++) check((input as unknown[])[i], schema.items!, `${path}[${i}]`);
     }
     if (schema.type === "string") {
       if (typeof input !== "string" || input.length < (schema.minLength ?? 0) || input.length > schema.maxLength! || (schema.pattern !== undefined && !new RegExp(schema.pattern).test(input))) fail();
@@ -81,7 +81,10 @@ export function parseWorldSpecification(value: unknown): WorldSpecification {
   if (base + spec.terrain.relief + 6 >= height) throw new RangeError("Terrain exceeds world height");
   const inside = (x: number, y: number) => x < width - 1 && y < depth - 1;
   if (!inside(spec.spawn.x, spec.spawn.y)) throw new RangeError("Spawn outside world");
-  for (const landmark of spec.landmarks) if (!inside(landmark.x, landmark.y)) throw new RangeError("Landmark outside world");
+  for (const landmark of spec.landmarks) {
+    if (!inside(landmark.x, landmark.y)) throw new RangeError("Landmark outside world");
+    if (landmark.x === spec.spawn.x && landmark.y === spec.spawn.y) throw new RangeError("Landmark overlaps spawn");
+  }
   for (const [i, b] of spec.settlement.buildings.entries()) {
     if (b.x + b.width >= width - 1 || b.y + b.depth >= depth - 1 || base + b.floors * 4 + 2 >= height) throw new RangeError("Building exceeds world bounds");
     if (spec.spawn.x >= b.x - 1 && spec.spawn.x <= b.x + b.width && spec.spawn.y >= b.y - 1 && spec.spawn.y <= b.y + b.depth) throw new RangeError("Spawn overlaps building");
