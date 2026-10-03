@@ -64,3 +64,10 @@
   .settingsGrid { grid-template-columns: 1fr 1fr; }
   .json { grid-column: span 2; }
 }
+
+.generation { max-width: 960px; margin: 28px auto; padding: 20px; border: 1px solid #6f7c6b; border-radius: 4px; font-size: 14px; }
+.generationControls { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; }
+.generationControls label { display: grid; gap: 6px; }
+.generationControls select { max-width: 100%; background: #1d2e27; color: #ece1cb; border: 1px solid #768271; padding: 8px; font: inherit; }
+.fallback { color: #eacb96; }
+.debug pre { max-height: 360px; overflow: auto; padding: 16px; background: #102019; font: 12px/1.6 monospace; white-space: pre-wrap; overflow-wrap: anywhere; }

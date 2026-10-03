@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState, type CSSProperties } from "react";
 
 import styles from "./book.module.css";
+import { BOOK_MODELS, DEFAULT_BOOK_MODEL, type BookGeneration, type BookModel } from "./generation";
 
 const questions = ["Who are you and where are you?", "Where do you sleep?"] as const;
 const fonts = {
@@ -20,6 +21,30 @@ export default function BookExperiment() {
   const [bookWidth, setBookWidth] = useState(960);
   const [turnDuration, setTurnDuration] = useState(600);
   const [copyStatus, setCopyStatus] = useState("");
+  const [model, setModel] = useState<BookModel>(() => {
+    const query = typeof window === "undefined" ? null : new URLSearchParams(window.location.search).get("model");
+    return BOOK_MODELS.includes(query as BookModel) ? query as BookModel : DEFAULT_BOOK_MODEL;
+  });
+  const [generation, setGeneration] = useState<BookGeneration | null>(null);
+  const [pending, setPending] = useState(false);
+  const [generationError, setGenerationError] = useState("");
+  const revision = useRef(0);
+  const invalidate = () => { revision.current++; setGeneration(null); setGenerationError(""); };
+  const generate = async () => {
+    const current = revision.current;
+    setPending(true); setGenerationError(""); setGeneration(null);
+    try {
+      const response = await fetch("/api/lab/book", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers, model }), signal: AbortSignal.timeout(20_000),
+      });
+      if (!response.ok) throw new Error("Generation failed. Please try again.");
+      const result = await response.json() as BookGeneration;
+      if (revision.current === current) setGeneration(result);
+    } catch {
+      if (revision.current === current) setGenerationError("Could not reach the book generator. Please try again.");
+    } finally { setPending(false); }
+  };
   const pageHeading = useRef<HTMLHeadingElement>(null);
   const settings = JSON.stringify({ font, fontSize, bookWidth, turnDuration }, null, 2);
   const theme = {
@@ -68,7 +93,7 @@ export default function BookExperiment() {
                     value={answers[page]}
                     maxLength={4000}
                     placeholder={page === 0 ? "I am a wandering botanist, living beside a forest…" : "In a small room above the kitchen, beneath a quilt…"}
-                    onChange={(event) => setAnswers(answers.map((answer, index) => index === page ? event.target.value : answer))}
+                    onChange={(event) => { invalidate(); setAnswers(answers.map((answer, index) => index === page ? event.target.value : answer)); }}
                   />
                 </label>
               ) : (
@@ -90,6 +115,22 @@ export default function BookExperiment() {
             <span className={styles.pageNumber}>{page * 2 + 2}</span>
           </div>
         </div>
+      </section>
+      <section className={styles.generation} aria-label="World specification generator">
+        <div className={styles.generationControls}>
+          <label>Generation model<select value={model} onChange={(event) => { invalidate(); setModel(event.target.value as BookModel); }}>
+            {BOOK_MODELS.map(value => <option key={value} value={value}>{value}</option>)}
+          </select></label>
+          <button type="button" disabled={pending || answers.some(answer => answer.trim().length === 0)} onClick={() => void generate()}>{pending ? "Writing your world…" : "Generate world specification"}</button>
+        </div>
+        <p role="status">{pending ? "Turning your two passages into a world…" : generation ? `${generation.source === "vertex" ? "Generated with Vertex AI" : "Example fallback"} · ${generation.model} · ${generation.durationMs} ms · seed ${generation.seed}` : "Write both passages, then generate your beginning."}</p>
+        {generation?.source === "example" && <p className={styles.fallback}>An example world is shown: {generation.fallbackReason === "disabled" ? "live generation is disabled" : generation.fallbackReason === "credentials" ? "Vertex credentials are unavailable" : generation.fallbackReason === "invalid-output" ? "the model returned an invalid world" : "the selected model could not be reached"}. It is selected by theme and does not fully interpret your passages.</p>}
+        {generation?.usage && <p>Tokens · {generation.usage.inputTokens} input / {generation.usage.outputTokens} output</p>}
+        {generationError.length > 0 && <p role="alert">{generationError}</p>}
+        <details open className={styles.debug}>
+          <summary>World specification JSON</summary>
+          <pre>{generation ? JSON.stringify({ specification: generation.specification, seed: generation.seed }, null, 2) : "Your world specification will appear here."}</pre>
+        </details>
       </section>
       <p className={styles.footnote}>An early book study. Your words stay here until you leave or reload the page.</p>
       <details className={styles.settings} open>

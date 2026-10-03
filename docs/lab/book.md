@@ -2,7 +2,7 @@
 
 Bead: `evermore-1fo.7.1`; Route: `/lab/book`, Eintrag in der zentralen Registry.
 
-Die zwei Fragen führen zur lesbaren Zusammenfassung; beide Antworten bleiben beim Zurückblättern und Bearbeiten erhalten. Leere Antworten erlauben kein Weiterblättern. Antworten leben nur im Komponenten-State und gehen beim Verlassen oder Neuladen verloren; diese Scheibe generiert keine Welt.
+Die zwei Fragen führen zur lesbaren Zusammenfassung; beide Antworten bleiben beim Zurückblättern und Bearbeiten erhalten. Leere Antworten erlauben kein Weiterblättern. Antworten leben nur im Komponenten-State und gehen beim Verlassen oder Neuladen verloren; die ursprüngliche UI-Scheibe generiert keine Welt. Die Erweiterung «Buch 2» unten erzeugt nun eine Spezifikation.
 
 Der Look bleibt lokal in `apps/www/app/lab/book/book.module.css`. Papier, Tinte und Akzent sind CSS-Variablen; das Einstellpanel steuert Schriftfamilie, Schriftgrösse, Buchbreite und Animationsdauer über weitere Variablen. JSON lässt sich kopieren oder bei gesperrter Clipboard-API manuell auswählen. Systemschriften halten die Studie unabhängig von den Pixel-Komponenten und zusätzlichen Font-Downloads. Unter 700px werden die Buchseiten untereinander dargestellt; reduzierte Bewegung deaktiviert die Animation.
 
@@ -20,3 +20,21 @@ Offene Review-Fragen an maw: Ist die Einband-Ornamentik ausreichend? Soll sich d
 Frozen-Lockfile-Installation, Typecheck, Lint, vollständige Tests und Produktionsbuild erfolgreich. Headless Chromium gegen den Produktionsserver geprüft: leere/Whitespace-Antwort blockiert Weiter, beide Fragen, Zusammenfassung, Antwort-Erhalt beim Bearbeiten, Schriftumschaltung, JSON, Clipboard-Erfolg und manueller Fallback, kein horizontaler Overflow bei 390px, reduzierte Bewegung, Registry-Link und keine Browserfehler. Screenshots nach Abschluss der Animation aufgenommen.
 
 Runtime meldet Node 23.6 statt der vorgesehenen Node-22-Version; alle Checks waren erfolgreich.
+
+## Buch 2: Antworten → Weltspezifikation
+
+Bead: `evermore-1fo.7.2`. Beide Antworten gehen per `POST /api/lab/book` an eine Node-Serverroute. Die Antwort enthält G1-Spezifikation, deterministischen Seed aus beiden Antworten, Quelle (`vertex`/`example`), Modell, Laufzeit und bei Live-Ausgabe Tokenzahlen. Die aufklappbare JSON-Ansicht bleibt neben den Generierungsreglern; Änderungen an Antwort oder Modell verwerfen bisherige und noch ausstehende Ergebnisse.
+
+Modelle: `gemini-3.5-flash-lite` (Default), `gemini-3.8-flash` (LOW thinking), `claude-sonnet-5-5`. Auswahl im Panel oder z.B. `/lab/book?model=gemini-3.8-flash`. Die Allowlist verhindert freie Provider-URLs/Modellnamen. Gemini verwendet `generateContent` + `responseJsonSchema`, Claude `rawPredict` + `output_config`; zusätzlich prüft G1 lokal alle Feld- und Geometriegrenzen. Trunkierte, blockierte oder ungültige Ausgaben gelangen nicht als Live-Welt in den Client.
+
+Zugang nur auf dem Server via Application Default Credentials (`gcloud auth application-default login` lokal, Service-Account auf Cloud Run). `GOOGLE_CLOUD_PROJECT` überschreibt `maw-evermore`, `BOOK_VERTEX_LOCATION` überschreibt `eu` (EU-Host `aiplatform.eu.rep.googleapis.com`). Claude benötigt Modellfreischaltung und die Structured-Outputs-Org-Policy aus evermore-1fo.11. Credentials niemals als `NEXT_PUBLIC_*` setzen. Die Route gibt keine Tokens, Credential-Dateipfade oder rohen Providerfehler aus und speichert keine Antworten. Die einschlägigen Variablen werden für `pnpm dev` durch Turbo durchgereicht.
+
+Ohne ADC bzw. bei Providerfehler, 12s-Budget oder ungültiger Ausgabe wird ein G1-Beispiel per grober Themenzuordnung gewählt (Wald/Küste/Wüste/Berg), sichtbar als Fallback markiert. `BOOK_VERTEX_DISABLED=true` erzwingt das ohne Authentifizierungsversuch. Beispiele interpretieren keine konkreten Schlafplätze; das wird im UI erklärt. Eingaben: genau zwei nichtleere Antworten, je höchstens 4000 Zeichen; Request-Stream höchstens 40KB. Keine Renderer-Integration in dieser Scheibe.
+
+Quellen für die Adapter: [Vertex-Endpoints](https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations), [Claude Structured Outputs](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/partner-models/claude/structured-outputs), [Vertex-Quickstart](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart). Modellwahl folgt der Projekt-Recherche evermore-1fo.11; tatsächliche Verfügbarkeit hängt vom Projektzugang ab.
+
+Reviewbilder: [Desktop mit Spezifikation](screenshots/book-specification-desktop.png), [Mobil mit Spezifikation](screenshots/book-specification-mobile.png), jeweils bewusst mit deaktivierter Live-Generierung. Worauf achten: Ist die Trennung zwischen echter Interpretation und thematischem Beispiel klar? Bleiben Antworten, Modellwahl und JSON gut lesbar, besonders bei 390px? Offene Fragen: Soll die spätere Schlafposition im Gebäude liegen (G1 v1 erlaubt Spawn nur ausserhalb), und welche semantischen Details fehlen im G1-Schema?
+
+Validierung: 21 fokussierte API/Adapter-Tests; Headless-Chromium-Flow für beide Antworten, Modell/Query, JSON, Themen-Fallback, Ergebnisverwerfung nach Änderungen und während laufender Anfrage, Netzwerkfehler, 390px ohne horizontalen Overflow und keine Browserfehler. Modelldauern/-kosten lassen sich bei Live-Zugang über Laufzeit/Tokenzahlen vergleichen; Beispiel-Laufzeiten sind keine Modellmessung.
+
+Live-Vergleich (2026-10-03, botanischer Waldort/Schlafzimmer über Küche, Einzelmessungen): Flash-Lite mit Geometriebeispiel lieferte eine gültige Welt in 5467ms (1790 Input-/386 Output-Tokens), Flash in 5344ms (1524/474). Geschätzte Textkosten anhand der EU-Preise aus evermore-1fo.11: ca. $0.00165 bzw. $0.00322 pro Welt, ohne Infrastruktur; wegen unterschiedlicher Promptversionen kein kontrollierter Leistungsvergleich. Frühe Flash-Lite-Ausgaben wurden verworfen; das gültige Geometriebeispiel im Prompt verbessert die Anleitung. Claude: HTTP 404 («Modell nicht gefunden oder Projektzugang fehlt»), deshalb Beispiel-Fallback; keine Aussage zur Claude-Qualität/Latenz/Kosten möglich.

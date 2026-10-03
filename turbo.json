@@ -6,7 +6,7 @@
       "description": "Starts all apps locally in development mode.",
       "cache": false,
       "persistent": true,
-      "passThroughEnv": ["BASE_PORT"]
+      "passThroughEnv": ["BASE_PORT", "GOOGLE_APPLICATION_CREDENTIALS", "GOOGLE_CLOUD_PROJECT", "BOOK_VERTEX_LOCATION", "BOOK_VERTEX_DISABLED"]
     },
     "build": {
       "description": "Builds the project for production (ci/cd).",

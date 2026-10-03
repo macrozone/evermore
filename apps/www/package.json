@@ -14,12 +14,14 @@
   "dependencies": {
     "@evermore/core": "workspace:*",
     "@evermore/world": "workspace:*",
+    "google-auth-library": "^11.1.0",
     "next": "catalog:nextjs",
     "pixi.js": "^8.21.0",
     "react": "catalog:nextjs",
     "react-dom": "catalog:nextjs",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
+    "server-only": "^0.0.1",
     "three": "^0.186.1"
   },
   "devDependencies": {
