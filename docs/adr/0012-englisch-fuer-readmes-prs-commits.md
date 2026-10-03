@@ -1,4 +1,4 @@
-# 0011 – Englisch für READMEs, Pull Requests, Commits und Code-Kommentare
+# 0012 – Englisch für READMEs, Pull Requests, Commits und Code-Kommentare
 
 - Status: accepted
 - Datum: 2026-10-03
