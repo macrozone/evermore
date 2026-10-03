@@ -34,3 +34,40 @@ describe("image-space shell", () => {
     expect(() => reconstruct(source, { ...settings, heightScale: 13 })).toThrow();
   });
 });
+
+describe("top surfaces and anchored facade geometry", () => {
+  const topMap = raster(8, 40, (_, y) => y < 8 ? [204, 204, 204] : [51, 51, 51]);
+  const mask = raster(8, 40, (_, y) => y >= 8 && y < 32 ? [255, 255, 255] : [0, 0, 0]);
+  const options = { ...settings, method: "facade" as const };
+  it("puts the wall from ground to eave on one ground column and interpolates heights", () => {
+    const result = reconstruct(raster(8, 40, () => [150, 80, 40]), options, topMap, mask);
+    // Ground is z=2; eave is z=8; bottom anchor screen row 4 + z=2.
+    for (let z = 2; z <= 8; z++) expect(result.world.getCell(0, 6, z)).not.toBe(AIR);
+    expect(result.world.getCell(0, 6, 1)).toBe(AIR);
+    expect(result.world.getCell(0, 6, 9)).toBe(AIR);
+    expect(result.world.getCell(0, 1, 2)).toBe(AIR); // no separate extrusion of facade image rows
+    expect(result.tiles.slice(1, 4).map(tile => tile.height)).toEqual([9, 6, 3]);
+    expect(result.unresolvedFacades).toBe(0);
+    expect(deserializeWorld(serializeWorld(result.world)).getCell(0, 6, 8)).not.toBe(AIR);
+  });
+  it("keeps geometry independent of dark timber, bright windows and bogus facade map values", () => {
+    const dark = reconstruct(raster(8, 40, () => [10, 10, 10]), options, topMap, mask);
+    const brightMap = raster(8, 40, (_, y) => y >= 8 && y < 32 ? [255, 255, 255] : y < 8 ? [204, 204, 204] : [51, 51, 51]);
+    const bright = reconstruct(raster(8, 40, () => [240, 200, 180]), options, brightMap, mask);
+    expect(bright.tiles.map(tile => tile.height)).toEqual(dark.tiles.map(tile => tile.height));
+    expect([...bright.cellColors!.keys()]).toEqual([...dark.cellColors!.keys()]);
+  });
+  it("omits unanchored and inverted walls rather than guessing heights", () => {
+    const source = raster(8, 40, () => [80, 80, 80]);
+    const inverted = raster(8, 40, (_, y) => y < 8 ? [51, 51, 51] : [204, 204, 204]);
+    expect(reconstruct(source, options, inverted, mask).unresolvedFacades).toBe(1);
+    const edge = raster(8, 40, (_, y) => y < 16 ? [255, 255, 255] : [0, 0, 0]);
+    expect(reconstruct(source, options, topMap, edge).unresolvedFacades).toBe(1);
+    expect(reconstruct(source, { ...options, heightScale: 0 }, topMap, mask).world.height).toBe(4);
+  });
+  it("rejects a missing or mismatched mask", () => {
+    const source = raster(8, 40, () => [80, 80, 80]);
+    expect(() => reconstruct(source, options, topMap)).toThrow("facade mask");
+    expect(() => reconstruct(source, options, topMap, raster(8, 8, () => [0, 0, 0]))).toThrow("dimensions");
+  });
+});

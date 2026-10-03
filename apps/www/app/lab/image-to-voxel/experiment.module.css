@@ -1,24 +1,24 @@
-.stage { position: relative; border: 1px solid #343b4c; border-radius: 12px; overflow: hidden; background: #141c25; padding-bottom: 245px; }
-.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #343b4c; }
+.stage { position: relative; border: 1px solid #343b4c; border-radius: 12px; overflow: hidden; background: #141c25; padding-bottom: 250px; }
+.comparison { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #343b4c; }
 .figure { margin: 0; min-width: 0; background: #141c25; }
-.figure figcaption { padding: 12px; color: #ded8cb; font-size: 14px; }
-.source, .result { position: relative; height: 440px; }
-.source { display: flex; align-items: center; }
+.figure figcaption { padding: 12px; color: #ded8cb; font-size: 14px; min-height: 62px; }
+.source, .result { position: relative; height: 300px; }
+.source { display: flex; align-items: center; justify-content: center; }
 .sourceRaster { position: relative; width: 100%; max-height: 100%; }
 .source img { width: 100%; height: 100%; object-fit: fill; image-rendering: pixelated; }
 .grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, #fff6 1px, transparent 1px), linear-gradient(to bottom, #fff6 1px, transparent 1px); }
-.controls { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; gap: 12px 22px; flex-wrap: wrap; padding: 12px 16px; border: 1px solid #727c91; border-radius: 8px; background: #172030f5; }
+.controls { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 12px 22px; flex-wrap: wrap; padding: 12px 16px; border: 1px solid #727c91; border-radius: 8px; background: #172030f5; }
 .controls legend { padding: 0 6px; color: #e7c77d; }
 .controls label { display: flex; gap: 6px; flex-direction: column; font-size: 13px; }
 .controls label:has(input[type=checkbox]) { flex-direction: row; align-items: center; }
-.controls input[type=range] { width: 160px; accent-color: #e7c77d; }
+.controls input[type=range] { width: 140px; accent-color: #e7c77d; }
+.controls input[type=number] { width: 80px; background: #253044; padding: 5px; }
 .controls select { max-width: 240px; background: #253044; padding: 5px; border-radius: 4px; }
 .controls button, .actions button { border: 1px solid #e7c77d; padding: 6px 10px; border-radius: 5px; }
+.controls button:disabled, .actions button:disabled { opacity: .4; }
+.estimate { font-size: 12px; color: #a8b0c0; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; align-items: center; }
-.actions button:disabled { opacity: .4; }
 .actions label { display: flex; flex-direction: column; gap: 5px; font-size: 14px; }
 .notes { display: grid; gap: 12px; font-size: 14px; color: #a8b0c0; }
-@media (min-width: 1100px) { .stage { padding-bottom: 0; } .source, .result { height: 650px; padding-bottom: 180px; } .source { display: flex; align-items: center; }
-.sourceRaster { position: relative; width: 100%; max-height: 100%; }
-.source img { object-fit: fill; } }
-@media (max-width: 700px) { .source, .result { height: 270px; } .stage { padding-bottom: 420px; } .controls { gap: 12px; } .controls input[type=range] { width: 120px; } }
+@media (max-width: 1050px) { .comparison { grid-template-columns: 1fr 1fr; } .source, .result { height: 220px; } .stage { padding-bottom: 340px; } }
+@media (max-width: 700px) { .source, .result { height: 150px; } .stage { padding-bottom: 510px; } .controls { gap: 10px; } .controls input[type=range] { width: 120px; } .controls select { max-width: 180px; } }

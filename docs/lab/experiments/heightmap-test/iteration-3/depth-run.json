@@ -1,0 +1,11 @@
+{
+  "model": "depth-anything/Depth-Anything-V2-Small-hf",
+  "durationSeconds": 8.42477083299309,
+  "apiCostUsd": 0,
+  "device": "cpu",
+  "meaning": "relative camera proximity, normalized per image; not world height",
+  "size": [
+    1376,
+    768
+  ]
+}
