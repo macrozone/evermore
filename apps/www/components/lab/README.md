@@ -1,21 +1,21 @@
-# Lab-Bausteine
+# Lab building blocks
 
-Neue Experimente in `apps/www/lib/catalog.ts` registrieren (Name, Beschreibung,
-Status, Route). `/lab` filtert die Kategorie `experiment`; die Startseiten-Übersicht
-kann dieselbe Registry verwenden. `planned`-Einträge werden ohne Link angezeigt.
+Register new experiments in `apps/www/lib/catalog.ts` (name, description,
+status, route). `/lab` filters the `experiment` category; the home page overview
+can use the same registry. `planned` entries are shown without a link.
 
-Die Server-Seite enthält Titel und Beschreibung. Eine kleine Client-Komponente
-lädt den eigentlichen Renderer mit `next/dynamic` und `ssr: false` – siehe
-`app/lab/controls/controls-client.tsx`. Das Lab-Layout setzt `noindex, nofollow`
-für alle Unterseiten.
+The server page contains the title and description. A small client component
+loads the actual renderer with `next/dynamic` and `ssr: false` – see
+`app/lab/controls/controls-client.tsx`. The lab layout sets `noindex, nofollow`
+for all subpages.
 
-`useMovement(surfaceRef)` liefert ein Ref auf die gedrückten Keyboard-Codes.
-`movementFromKeys(keys.current)` gibt einen normalisierten Bewegungsvektor
-(x Ost, y Süd) für den Renderloop zurück. Die Oberfläche muss `tabIndex={0}`
-haben; Tasten werden nur dort abgefangen. Eingabefelder bleiben bedienbar.
-Fokusverlust, versteckter Tab und Unmount leeren den Zustand.
+`useMovement(surfaceRef)` returns a ref to the currently pressed keyboard codes.
+`movementFromKeys(keys.current)` returns a normalized movement vector
+(x east, y south) for the render loop. The surface must have `tabIndex={0}`;
+keys are only captured there. Input fields stay usable.
+Losing focus, a hidden tab and unmounting clear the state.
 
-`DebugOverlay` erhält `{ fps, position: { x, y, z }, seed }` vom Renderer.
-Snapshots nur etwa viermal pro Sekunde veröffentlichen, nicht pro Frame.
-Die Controls-Sandbox zeigt ein einfaches Einstellpanel und kopierbares JSON.
-Ihr Seed ist nur Diagnose-Metadatum; sie generiert noch keine Welt.
+`DebugOverlay` receives `{ fps, position: { x, y, z }, seed }` from the renderer.
+Publish snapshots only about four times per second, not every frame.
+The controls sandbox shows a simple settings panel and copyable JSON.
+Its seed is only diagnostic metadata; it does not generate a world yet.

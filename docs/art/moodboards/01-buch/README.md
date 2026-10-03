@@ -1,52 +1,52 @@
 # Moodboard 1 – Book of Evermore
 
-Das Book of Evermore ist der Anfang und das Werkzeug jedes Spielers: ein altes, elegantes Buch mit verschnörkeltem Einband, Goldprägung, Metallbeschlägen und einem Juwelen-Emblem. Es liegt im warmen Kerzenlicht auf einem geschnitzten Pult, umgeben von Regalen im Halbdunkel – geborgen, ruhig, ein wenig geheimnisvoll. Aufgeschlagen zeigt es leere Zeilen und einen Federkiel: Es wartet darauf, dass man hineinschreibt. Die Variante «Worte werden Welt» zeigt das Leitmotiv direkt: Aus den Seiten wächst eine kleine Pixel-Landschaft. Die Bilder dürfen malerischer sein als Spielszenen, bleiben aber im Pixel-Look.
+The Book of Evermore is every player's starting point and tool: an old, elegant book with an ornate cover, gold embossing, metal fittings and a jeweled emblem. It lies in warm candlelight on a carved lectern, surrounded by shelves in half-darkness – sheltered, calm, a little mysterious. Opened, it shows blank lines and a quill: it is waiting for someone to write in it. The «Worte werden Welt» ("words become world") variant shows the central motif directly: a small pixel landscape grows out of the pages. The images may be more painterly than game scenes, but stay in the pixel look.
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 1 (2026-10-03, Objekt-/Frontalansicht)
+## Iteration 1 (2026-10-03, object/front view)
 
-Das Buch als Objekt, nicht als Spielszene – daher frontal bzw. leicht von oben. `buch-auf-lichtung.jpg` ist bereits in achsenparalleler Draufsicht (passt zum Feedback von maw zur Welt-Perspektive). Eine Iteration 2 mit `it2-`-Präfix war für dieses Board nicht nötig.
+The book as an object, not as a game scene – hence front view or slightly from above. `buch-auf-lichtung.jpg` already uses the axis-aligned top-down view (matching maw's feedback on the world perspective). An iteration 2 with the `it2-` prefix was not needed for this board.
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `einband-pult-kerzenlicht.jpg` | Geschlossenes Buch mit Goldfiligran, Eckbeschlägen und Juwelen-Emblem auf einem Pult zwischen zwei Kerzen, Bücherregale im Dunkel. |
-| `offene-seite-federkiel.jpg` | Aufgeschlagenes Buch mit leeren, linierten Pergamentseiten und Ornament-Ecken, Federkiel im Tintenfass, Kerzen und Kamin im Hintergrund. |
-| `worte-werden-welt.jpg` | Aus den aufgeschlagenen Seiten wächst eine Pixel-Landschaft mit Hütte, Weg, Bäumen und einem Bach, der als Wasserfall über den Seitenrand fällt. |
-| `buch-auf-lichtung.jpg` | Das leuchtende Buch auf einem Steinsockel in einer nächtlichen Waldlichtung, davor eine kleine Spielfigur – Draufsicht wie im Spiel. |
+| `einband-pult-kerzenlicht.jpg` | Closed book with gold filigree, corner fittings and a jeweled emblem on a lectern between two candles, bookshelves in the dark. |
+| `offene-seite-federkiel.jpg` | Open book with blank, ruled parchment pages and ornamental corners, quill in an inkwell, candles and fireplace in the background. |
+| `worte-werden-welt.jpg` | A pixel landscape with a cottage, path, trees and a stream grows out of the open pages; the stream falls over the page edge as a waterfall. |
+| `buch-auf-lichtung.jpg` | The glowing book on a stone pedestal in a forest clearing at night, a small player character in front of it – top-down view as in the game. |
 
-Auffälligkeiten:
-- `einband-pult-kerzenlicht.jpg` wurde im ersten Versuch mit dem Schriftzug «BOOK OF EVERMORE» auf dem Einband erzeugt (Vorgabe: kein Text) und vor Einführung der Append-only-Regel durch den zweiten Versuch (ohne Titel, Draufsicht aufs Pult) überschrieben. Der erste Versuch ist nicht mehr vorhanden.
-- Die Bilder sind JPEG (`.jpg`); das Tool hatte sie als `.png` benannt, am 2026-10-03 umbenannt.
+Notes:
+- The first attempt at `einband-pult-kerzenlicht.jpg` had the lettering «BOOK OF EVERMORE» on the cover (brief: no text). Before the append-only rule was introduced, it was overwritten by the second attempt (no title, top-down view of the lectern). The first attempt no longer exists.
+- The images are JPEG (`.jpg`); the tool had named them `.png`, renamed on 2026-10-03.
 
-## Farbstimmung
+## Color mood
 
-Per k-Means über alle Bilder des Boards berechnet (Python, ohne Pillow; Bilder via `sips` verkleinert).
+Computed with k-means over all images of the board (Python, without Pillow; images downscaled with `sips`).
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#11090F` | fast schwarzes Raumdunkel |
-| `#351B14` | dunkles Holz, Schatten |
-| `#673A1E` | Pult- und Einbandleder |
-| `#9A7646` | Gold im Halbschatten, Pergament im Schatten |
-| `#D7AA71` | Kerzenlicht auf Pergament |
-| `#0E2245` | Nachtblau (Lichtung) |
-| `#4A535F` | kühles Grau (Stein, Federkiel) |
+| `#11090F` | near-black room darkness |
+| `#351B14` | dark wood, shadows |
+| `#673A1E` | lectern and cover leather |
+| `#9A7646` | gold in half-shadow, parchment in shadow |
+| `#D7AA71` | candlelight on parchment |
+| `#0E2245` | night blue (clearing) |
+| `#4A535F` | cool gray (stone, quill) |
 
-## Referenzen
+## References
 
-- *Stardew Valley* (Gemütlichkeit, warme Innenräume)
-- *Children of Morta* (weiches Licht, Partikel)
-- 16-Bit-SNES-Action-RPGs (*Zelda: A Link to the Past*, *Secret of Mana*)
-- Klassische Buchkunst: Goldprägung, Filigran, Eckbeschläge, Prachteinbände
+- *Stardew Valley* (coziness, warm interiors)
+- *Children of Morta* (soft light, particles)
+- 16-bit SNES action RPGs (*Zelda: A Link to the Past*, *Secret of Mana*)
+- Classic bookbinding: gold embossing, filigree, corner fittings, ornate bindings
 
 ## Prompts
 
-**einband-pult-kerzenlicht.jpg** (zweiter Versuch, aktuell)
+**einband-pult-kerzenlicht.jpg** (second attempt, current)
 ```
 Pixel art in the style of a 16-bit SNES RPG but modern: soft dynamic lighting, shadows, floating dust particles, cozy atmosphere like Stardew Valley and Children of Morta; uniform pixel density, crisp sharp pixels. IMPORTANT: no text, no letters, no title, no writing anywhere in the image. Scene: an ancient, elegant leather-bound tome lying closed on a carved wooden lectern in a quiet study. The cover has no title, only purely decorative ornament: embossed gold filigree, swirling flourishes, vines, corner metal fittings and a central ornate jeweled emblem. Warm candlelight from two candles beside it casts glowing light pools and long soft shadows; dark wood shelves fade into shadow behind. Slightly painterly lighting, but clearly pixel art.
 ```
-(Erster Versuch, überschrieben: gleicher Prompt ohne den «IMPORTANT: no text …»-Satz, Buch als «the "Book of Evermore"» benannt – daraus entstand der Titel-Schriftzug.)
+(First attempt, overwritten: same prompt without the «IMPORTANT: no text …» sentence, with the book named «the "Book of Evermore"» – which produced the title lettering.)
 
 **offene-seite-federkiel.jpg**
 ```

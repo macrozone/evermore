@@ -1,56 +1,56 @@
-# Moodboard 2 – Eigene Welt
+# Moodboard 2 – Own World
 
-Die eigene Welt ist das Zuhause des Spielers: warm, vertraut und lebendig, je nach Beschreibung des Spielers als Waldhütte, Fischerhaus oder Lager in einer Wüstenruine. Licht erzählt die Stimmung – Fensterlicht, Laternen, Lagerfeuer und Öllampen werfen sichtbare warme Lichtinseln in kühlere Umgebung. Der Look ist Pixel-Art mit SNES-Anmutung, aber modern umgesetzt: weiches dynamisches Licht, gerichtete Schatten, Partikel (Glühwürmchen, Funken, Pollen). Gemütlichkeit wie in *Stardew Valley*, Licht- und Partikelarbeit wie in *Children of Morta*. Dieselben Orte erscheinen in [Board 4 – Schattenwelt](../04-schattenwelt/README.md) als verzerrte Spiegelung.
+The player's own world is their home: warm, familiar and alive – a forest cottage, a fisherman's house or a camp in desert ruins, depending on the player's description. Light tells the mood – window light, lanterns, campfires and oil lamps cast visible warm pools of light into cooler surroundings. The look is pixel art with an SNES feel, but done in a modern way: soft dynamic light, directional shadows, particles (fireflies, sparks, pollen). Coziness as in *Stardew Valley*, light and particle work as in *Children of Morta*. The same places appear in [Board 4 – Shadow World](../04-schattenwelt/README.md) as a distorted mirror image.
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 2 (2026-10-03, achsenparallele Draufsicht)
+## Iteration 2 (2026-10-03, axis-aligned top-down view)
 
-Feedback maw: keine 45°-Isometrie, sondern achsenparallele Draufsicht wie *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthografisch, Blick von «Süden», Kanten horizontal/vertikal, Dächer und Fassaden sichtbar).
+Feedback from maw: no 45° isometry, but an axis-aligned top-down view like *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthographic, looking from the "south", edges horizontal/vertical, roofs and facades visible).
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `it2-waldhuette-abend.jpg` | Waldhütte mit Strohdach am Abend, warme Fenster- und Laternenlichtkegel auf Weg und Wiese, Bach mit Brücke, Gemüsegarten, Glühwürmchen. |
-| `it2-waldhuette-tag.jpg` | Dieselbe Szene am sonnigen Vormittag mit kurzen Schatten, Lichtflecken unter den Bäumen, Schmetterlingen und Glitzern auf dem Bach. |
-| `it2-hafenstadt-abend.jpg` | Steinernes Fischerhaus am Kai, Steg mit Laternen und zwei Booten, Fischtrockengestell, Netze und Möwen im Abendblau. |
-| `it2-wuestenruine-nacht.jpg` | Wohnlich eingerichtete Sandsteinruine mit Teppichen, Kissen, Teetisch, Öllampen und Lagerfeuer, umgeben von mondbeschienenen Dünen. |
+| `it2-waldhuette-abend.jpg` | Thatched forest cottage in the evening, warm window and lantern light on path and meadow, stream with bridge, vegetable garden, fireflies. |
+| `it2-waldhuette-tag.jpg` | The same scene on a sunny late morning with short shadows, dappled light under the trees, butterflies and sparkles on the stream. |
+| `it2-hafenstadt-abend.jpg` | Stone fisherman's house on the quay, jetty with lanterns and two boats, fish-drying rack, nets and seagulls in the evening blue. |
+| `it2-wuestenruine-nacht.jpg` | Homely sandstone ruin with rugs, cushions, tea table, oil lamps and campfire, surrounded by moonlit dunes. |
 
-Auffälligkeit: Bei `it2-wuestenruine-nacht.jpg` sind Dünen und Sternenhimmel am Rand eher seitlich gesehen, die Ruine selbst ist in Draufsicht – Perspektive nicht ganz konsistent.
+Note: in `it2-wuestenruine-nacht.jpg` the dunes and starry sky at the edges are seen more from the side, while the ruin itself is top-down – the perspective is not fully consistent.
 
-## Iteration 1 (2026-10-03, 45° isometrisch)
+## Iteration 1 (2026-10-03, 45° isometric)
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `waldhuette-abend.jpg` | Waldhütte am Abend mit Garten, Bach, Brücke und Laterne, Mondsichel über dem Wald (vorbestehend, Prompt nicht dokumentiert). |
-| `waldhuette-tag.jpg` | Dieselbe Waldhütte am sonnigen Vormittag mit Lichtstrahlen durch die Bäume und Blumenwiese. |
-| `hafenstadt-abend.jpg` | Fischerhaus auf einem Holzsteg am Meer bei Dämmerung, Laternen, Boote, Möwen, warmes Fensterlicht. |
-| `wuestenruine-nacht.jpg` | Zuhause in einer Wüstenruine bei Nacht mit Lagerfeuer, Teppichen, Öllampen und Sternenhimmel. |
+| `waldhuette-abend.jpg` | Forest cottage in the evening with garden, stream, bridge and lantern, crescent moon above the forest (pre-existing, prompt not documented). |
+| `waldhuette-tag.jpg` | The same forest cottage on a sunny late morning with light rays through the trees and a flower meadow. |
+| `hafenstadt-abend.jpg` | Fisherman's house on a wooden pier by the sea at dusk, lanterns, boats, seagulls, warm window light. |
+| `wuestenruine-nacht.jpg` | Home in desert ruins at night with campfire, rugs, oil lamps and starry sky. |
 
-## Farbstimmung
+## Color mood
 
-Dominante Farben per Median-Cut (Pillow) über alle Bilder des Boards berechnet; Lichtakzente aus den Bildern geschätzt.
+Dominant colors computed with median cut (Pillow) over all images of the board; light accents estimated from the images.
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#234B55` | Nachtgrün/Petrol (Schatten, Wasser, Abendwiese) |
-| `#120E29` | tiefes Nachtindigo (Himmel, Meer) |
-| `#18478F` | Bachblau |
-| `#6CA652` | sattes Wiesengrün (Tag) |
-| `#87513F` | Holz, Fachwerk, Steg |
-| `#CC7442` | Terrakotta, Ziegel, Kürbis |
-| `#B0B158` | Strohdach, Sand |
-| `#F2A43A` | warmes Lampen-/Feuerlicht (geschätzt) |
+| `#234B55` | night green/petrol (shadows, water, evening meadow) |
+| `#120E29` | deep night indigo (sky, sea) |
+| `#18478F` | stream blue |
+| `#6CA652` | rich meadow green (day) |
+| `#87513F` | wood, timber framing, jetty |
+| `#CC7442` | terracotta, bricks, pumpkin |
+| `#B0B158` | thatched roof, sand |
+| `#F2A43A` | warm lamp/fire light (estimated) |
 
-## Referenzen
+## References
 
-- *Stardew Valley* – Gemütlichkeit, Zuhause, Garten; achsenparallele Draufsicht
-- *Secret of Mana*, *Zelda: A Link to the Past* – SNES-Draufsicht, Fassaden und Dächer sichtbar
-- *Children of Morta* – dynamisches Licht, Schatten, Partikel auf Pixel-Art
-- Art Bible: [`docs/art/README.md`](../../README.md), Vision Abschnitt 5
+- *Stardew Valley* – coziness, home, garden; axis-aligned top-down view
+- *Secret of Mana*, *Zelda: A Link to the Past* – SNES top-down view, facades and roofs visible
+- *Children of Morta* – dynamic light, shadows, particles on pixel art
+- Art Bible: [`docs/art/README.md`](../../README.md), Vision section 5
 
 ## Prompts
 
-Erzeugt mit `create_asset` (media-pipeline, Modell `gemini-3-pro-image-preview`), Seitenverhältnis 16:9. Die Bilder sind JPEG (`.jpg`); das Tool hatte sie als `.png` benannt, am 2026-10-03 umbenannt.
+Generated with `create_asset` (media-pipeline, model `gemini-3-pro-image-preview`), aspect ratio 16:9. The images are JPEG (`.jpg`); the tool had named them `.png`, renamed on 2026-10-03.
 
 ### Iteration 2
 
@@ -68,7 +68,7 @@ Erzeugt mit `create_asset` (media-pipeline, Modell `gemini-3-pro-image-preview`)
 
 ### Iteration 1
 
-**waldhuette-abend.jpg** – vorbestehend, Prompt nicht dokumentiert.
+**waldhuette-abend.jpg** – pre-existing, prompt not documented.
 
 **waldhuette-tag.jpg**
 > Video game environment scene: a small thatched-roof timber-framed forest cottage with stone base and chimney, wooden door with a hanging lantern, rain barrel at the side, a fenced vegetable garden with pumpkins, cabbages and carrots to the right, wildflowers in the grass, a winding blue stream in the foreground crossed by a small wooden plank bridge, a dirt path from the door to the bridge, surrounded by deciduous trees and pine forest. Time: sunny late morning, bright warm sunlight from the upper left, crisp short shadows cast by trees, house and fence, dappled light through the leaves, sparkling highlights on the stream, butterflies and floating pollen particles, a thin wisp of chimney smoke, clear blue sky with a few soft clouds. Fresh greens, warm golden light, cheerful and cozy. Style: pixel art reminiscent of 16-bit SNES action RPGs, but modern: soft dynamic lighting, cast shadows and particles like in Children of Morta, coziness like Stardew Valley. Three-quarter top-down view (classic action RPG perspective, looking down at an angle). Uniform pixel density across the whole scene, crisp sharp pixels, no blur, no smoothing. No text, no letters, no UI, no HUD. 16:9 widescreen.
@@ -79,7 +79,7 @@ Erzeugt mit `create_asset` (media-pipeline, Modell `gemini-3-pro-image-preview`)
 **wuestenruine-nacht.jpg**
 > Video game environment scene: a cozy home built inside ancient sandstone desert ruins at night. Crumbling sandstone walls and broken columns with carved patterns form a partially roofed shelter, with a canvas awning stretched between pillars. Inside and in the courtyard: layered colorful woven rugs and carpets in red, ochre and indigo, cushions, a low wooden table with a teapot, clay pots and baskets, a sleeping mat, hanging brass oil lamps and small oil lamps on ledges glowing warm orange. In the center of the courtyard a crackling campfire with rising sparks and embers, casting a warm flickering circle of light and long soft shadows across the sand and walls. A date palm and some desert shrubs, sand dunes beyond the ruins. Time: clear night, deep blue sky full of stars and a faint milky way, cool blue moonlight on the dunes contrasting with the warm firelight. Cozy, safe, magical. Style: pixel art reminiscent of 16-bit SNES action RPGs, but modern: soft dynamic lighting with visible light falloff, cast shadows and particles like in Children of Morta, coziness like Stardew Valley. Three-quarter top-down view (classic action RPG perspective, looking down at an angle). Uniform pixel density across the whole scene, crisp sharp pixels, no blur, no smoothing. No text, no letters, no UI, no HUD. 16:9 widescreen.
 
-### Nachtrag: Prompt für `waldhuette-abend.jpg` (Iteration 1, erzeugt von der Planungs-Session)
+### Addendum: prompt for `waldhuette-abend.jpg` (iteration 1, generated by the planning session)
 
 ```
 Pixel art scene inspired by 16-bit SNES action RPGs, with modern lighting like Children of Morta and the coziness of Stardew Valley. Three-quarter top-down view of a small cozy cottage at dusk at the edge of a forest meadow: warm orange light glowing from the windows and a lantern by the door casting soft light pools on the grass, chimney smoke, a vegetable garden with a wooden fence, flowers, a small stream with a wooden bridge. Consistent pixel density, crisp pixels, no blur, rich but harmonious warm palette with cool blue evening shadows. No text, no UI.

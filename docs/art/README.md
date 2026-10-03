@@ -1,62 +1,62 @@
 # Evermore – Art Bible
 
-> Massstab für alle visuellen Entscheidungen und für Reviews durch den Art Director (`.claude/agents/art-director.md`). Grundlage: [ADR 0010](../adr/0010-art-direction-welt-pixel-art-ui-offen.md) und [Vision, Abschnitt 5](../vision.md#5-look--feel). Lebendes Dokument: Wenn maw einem Review widerspricht oder etwas neu festlegt, wird es hier als Regel ergänzt (mit Datum). *Offen* markierte Punkte sind nicht entschieden.
+> Yardstick for all visual decisions and for reviews by the art director (`.claude/agents/art-director.md`). Basis: [ADR 0010](../adr/0010-art-direction-welt-pixel-art-ui-offen.md) and [Vision, section 5](../vision.md#5-look--feel). Living document: when maw disagrees with a review or sets something new, it is added here as a rule (with date). Points marked *open* are not decided.
 
-## 1. Grundhaltung
+## 1. Core principles
 
-- **Die Welt ist der Star.** Pixel-Art, die an SNES-Rollenspiele erinnert, aber modern sein darf.
-- **Cozy Zuhause.** Das eigene Zuhause fühlt sich geborgen und warm an – sofern der Spieler nicht ausdrücklich etwas anderes wünscht.
-- **Licht erzählt.** Lichtquellen erhellen ihre Umgebung sichtbar; Licht und Schatten geben Tiefe und Stimmung.
-- **Einheitlich trotz Generierung.** Generierte und von Spielern gewünschte Inhalte müssen stilistisch zusammenpassen. Der Pixel-Look stilisiert und hält das zusammen.
+- **The world is the star.** Pixel art reminiscent of SNES role-playing games, but allowed to be modern.
+- **Cozy home.** The player's own home feels safe and warm – unless the player explicitly wants something else.
+- **Light tells the story.** Light sources visibly light up their surroundings; light and shadow give depth and mood.
+- **Consistent despite generation.** Generated content and content requested by players must fit together stylistically. The pixel look stylizes and holds it together.
 
-## 2. Welt
+## 2. World
 
-| Thema | Regel |
+| Topic | Rule |
 |---|---|
-| Stil | Pixel-Art, SNES-inspiriert; modern erlaubt: dynamisches Licht, weiche Schatten, Partikel, flüssige Animation |
-| Referenzen | SNES-RPGs, *Children of Morta*, *Stardew Valley* (weitere *offen*) |
-| Farben | Keine feste 16-Farben-Beschränkung. Harmonische, eher warme Grundstimmung in der eigenen Welt; Paletten pro Welt/Biom erlaubt |
-| Pixeldichte | Einheitlich innerhalb einer Szene (Figuren, Objekte, Terrain gleiche Pixelgrösse); keine gemischten Auflösungen |
-| Perspektive | **Achsenparallele Draufsicht** wie *Stardew Valley*, *Secret of Mana*, *Zelda: ALttP* (orthografisch, Blick von Süden, Kanten horizontal/vertikal), mit echter Vertikalität. 45°-isometrisch bleibt eine spätere Option. |
-| Licht | Lichtquellen (Feuer, Laternen, Fenster, Magie) mit sichtbarem Lichtkegel/-abfall; Schatten mit Richtung; Tag/Nacht möglich (*offen*) |
-| Lesbarkeit | Begehbares vs. unpassierbares Terrain auf einen Blick unterscheidbar; Spielerfigur hebt sich immer ab; Verdeckung durch Bäume/Gebäude halbtransparent statt verschluckend |
+| Style | Pixel art, SNES-inspired; modern touches allowed: dynamic light, soft shadows, particles, smooth animation |
+| References | SNES RPGs, *Children of Morta*, *Stardew Valley* (more *open*) |
+| Colors | No fixed 16-color limit. Harmonious, rather warm base mood in the player's own world; palettes per world/biome allowed |
+| Pixel density | Uniform within a scene (characters, objects, terrain have the same pixel size); no mixed resolutions |
+| Perspective | **Axis-aligned top-down view** like *Stardew Valley*, *Secret of Mana*, *Zelda: ALttP* (orthographic, looking from the south, edges horizontal/vertical), with real verticality. 45° isometric remains a later option. |
+| Light | Light sources (fire, lanterns, windows, magic) with a visible light cone/falloff; directional shadows; day/night possible (*open*) |
+| Readability | Walkable vs. impassable terrain distinguishable at a glance; the player character always stands out; occlusion by trees/buildings is semi-transparent instead of hiding the player |
 
-### Stimmungen
+### Moods
 
-| Bereich | Wirkung | Referenz |
+| Area | Effect | Reference |
 |---|---|---|
-| Eigene Welt | warm, vertraut, lebendig; je nach Beschreibung des Spielers | Stardew Valley, SNES-RPGs |
-| Traumwelt | leer, schwebend, schmale Pfade im Nichts | Chaos in *Hades* |
-| Schattenwelt | vertraut, aber verzerrt und bedrohlich; dieselben Formen wie die eigene Welt, verdreht | Dark World (*Zelda: ALttP*), Upside Down (*Stranger Things*) |
+| Own world | warm, familiar, alive; depending on the player's description | Stardew Valley, SNES RPGs |
+| Dream world | empty, floating, narrow paths in the void | Chaos in *Hades* |
+| Shadow world | familiar but distorted and threatening; the same shapes as the player's own world, twisted | Dark World (*Zelda: ALttP*), Upside Down (*Stranger Things*) |
 
 ## 3. UI
 
-- Stil **offen** (Entscheidung `evermore-azi`). **Nicht** automatisch Pixel-Look; Pixel-Schriften und 16-Farben-Palette sind kein UI-Standard (ADR 0010).
-- Erste Richtung von maw: **Formensprache von Büchern** – schlicht, elegant, Einband verschnörkelt (Ornamente, Rahmen, Prägung, Buchtypografie).
-- UI tritt hinter die Welt zurück; gut lesbar.
+- Style **open** (decision `evermore-azi`). **Not** automatically a pixel look; pixel fonts and a 16-color palette are not a UI standard (ADR 0010).
+- First direction from maw: **design language of books** – simple, elegant, ornate cover (ornaments, frames, embossing, book typography).
+- The UI stays behind the world; easy to read.
 
-## 4. Do's & Don'ts
+## 4. Do's & don'ts
 
 **Do**
-- Warmes Licht und kleine, vertraute Details rund ums Zuhause.
-- Lichtquellen wirken lassen – besonders nachts.
-- Einheitliche Pixelgrösse und klare Silhouetten.
+- Warm light and small, familiar details around the home.
+- Let light sources shine – especially at night.
+- Uniform pixel size and clear silhouettes.
 
 **Don't**
-- Pixel-Schriften und Retro-Paletten für die gesamte UI.
-- Gemischte Auflösungen oder weichgezeichnete (unscharf skalierte) Pixel.
-- Flaches, unbeleuchtetes Aussehen ohne Schatten.
+- Pixel fonts and retro palettes for the entire UI.
+- Mixed resolutions or blurred (smoothly scaled) pixels.
+- A flat, unlit look without shadows.
 
-## 5. Review-Kriterien (für den Art Director)
+## 5. Review criteria (for the art director)
 
-1. Passt es zur Grundhaltung (Welt als Star, cozy, Licht erzählt, einheitlich)?
-2. Stil der Welt: SNES-Anmutung, modern umgesetzt, Pixeldichte konsistent?
-3. Licht und Schatten: Lichtquellen sichtbar, Stimmung stimmig zum Bereich?
-4. Lesbarkeit: Terrain, Spielerfigur, Verdeckung?
-5. UI: hält es sich an die offene Richtung (Buch-Formensprache) und tritt es zurück?
-6. Was fehlt in dieser Art Bible, um das zu beurteilen? → als Frage an maw.
+1. Does it fit the core principles (world as the star, cozy, light tells the story, consistent)?
+2. World style: SNES feel, done in a modern way, consistent pixel density?
+3. Light and shadow: light sources visible, mood matching the area?
+4. Readability: terrain, player character, occlusion?
+5. UI: does it follow the open direction (book design language) and stay in the background?
+6. What is missing from this Art Bible to judge it? → as a question to maw.
 
-## 6. Änderungslog
+## 6. Changelog
 
-- 2026-10-03: Perspektive festgelegt: achsenparallele Draufsicht statt 45°-isometrisch (maw). Begründung u.a.: generierte Bilder lassen sich so leichter in Tiles/Sprites/Voxel umwandeln. Moodboards sind append-only (Iterationen bleiben sichtbar).
-- 2026-10-02: Erstfassung aus ADR 0010 und Vision (Licht, Tag/Nacht, cozy Zuhause, UI-Richtung Buch).
+- 2026-10-03: Perspective set: axis-aligned top-down view instead of 45° isometric (maw). Rationale includes: generated images are easier to convert into tiles/sprites/voxels this way. Moodboards are append-only (iterations stay visible).
+- 2026-10-02: First version based on ADR 0010 and the vision (light, day/night, cozy home, UI direction book).

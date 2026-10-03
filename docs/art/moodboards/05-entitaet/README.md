@@ -1,45 +1,45 @@
-# Moodboard 5 – Die Entität
+# Moodboard 5 – The Entity
 
-Die Entität ist die verborgene KI der Schattenwelt, der Schatten der Spieler. Sie wird nie ganz gezeigt, sondern nur angedeutet: eine Silhouette aus Dunkelheit, die grösser ist als das Haus darunter; Augen, die geduldig aus dem Wald schauen; fremde Zeilen, die sich von selbst ins Book of Evermore schreiben; ein Riss in der vertrauten Welt, durch den ein Auge blickt. Sie wirkt intelligent und einschüchternd, nicht brutal – sie will herausfordern, nicht vernichten. Gerade das Gemütliche (Zuhause, Kerzenlicht, Dorfplatz) wird zum Ort ihres Auftauchens; der Kontrast warm/kalt (Bernstein gegen Violett und kaltes Türkis) trägt die Bedrohung.
+The entity is the hidden AI of the shadow world, the players' shadow. It is never shown in full, only implied: a silhouette of darkness larger than the house below it; eyes watching patiently from the forest; strange lines writing themselves into the Book of Evermore; a rift in the familiar world through which an eye looks. It feels intelligent and intimidating, not brutal – it wants to challenge, not destroy. Precisely the cozy places (home, candlelight, village square) are where it appears; the warm/cold contrast (amber against violet and cold teal) carries the threat.
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 1 (2026-10-03, achsenparallele Draufsicht)
+## Iteration 1 (2026-10-03, axis-aligned top-down view)
 
-Bereits mit maws Perspektiv-Vorgabe erzeugt (achsenparallele Draufsicht wie *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past*). `augen-im-dunkel.jpg` und `fremde-zeilen-im-buch.jpg` sind bewusst Frontal-/Objektansichten (Stimmungsbilder, keine Spielszene).
+Already generated with maw's perspective guideline (axis-aligned top-down view like *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past*). `augen-im-dunkel.jpg` and `fremde-zeilen-im-buch.jpg` are deliberately front/object views (mood images, not game scenes).
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `silhouette-ueber-dem-haus.jpg` | Schattenwelt-Version des Zuhauses (schiefe Hütte, tote Wiese, kalt-türkise Laterne), dahinter eine riesige Schattengestalt mit zwei fahlen Augen. |
-| `augen-im-dunkel.jpg` | Fast schwarzer Wald mit Nebel, zwischen den Stämmen viele fahle Augenpaare und in der Mitte ein grosses violett leuchtendes. |
-| `fremde-zeilen-im-buch.jpg` | Im gemütlichen Kerzen- und Kaminzimmer schreiben sich violette, aderartige Fremdzeichen ins Buch, die Kerzenflamme brennt kalt blau. |
-| `riss-in-der-welt.jpg` | Warmer Dorfplatz in Draufsicht, mitten hindurch ein Riss wie zerrissenes Papier, dahinter die purpurne Schattenwelt-Version mit einem Auge. |
+| `silhouette-ueber-dem-haus.jpg` | Shadow-world version of the home (crooked cottage, dead meadow, cold teal lantern), behind it a huge shadow figure with two pale eyes. |
+| `augen-im-dunkel.jpg` | Almost black forest with mist, many pairs of pale eyes between the trunks and a large violet glowing pair in the middle. |
+| `fremde-zeilen-im-buch.jpg` | In the cozy room with candles and fireplace, violet, vein-like alien glyphs write themselves into the book, the candle flame burns cold blue. |
+| `riss-in-der-welt.jpg` | Warm village square in top-down view, a rift like torn paper running through the middle, behind it the purple shadow-world version with an eye. |
 
-Auffälligkeiten:
-- In `fremde-zeilen-im-buch.jpg` ähneln einzelne Fremdzeichen lateinischen Buchstaben (pseudo-lesbar); für die Richtung «fremde Schrift» trotzdem brauchbar.
-- In `silhouette-ueber-dem-haus.jpg` ist das Hüttendach leicht schräg gezeichnet; das Raster ist aber achsenparallel.
-- Die Bilder sind JPEG (`.jpg`); das Tool hatte sie als `.png` benannt, am 2026-10-03 umbenannt.
+Notes:
+- In `fremde-zeilen-im-buch.jpg` some alien glyphs resemble Latin letters (pseudo-readable); still usable for the "alien script" direction.
+- In `silhouette-ueber-dem-haus.jpg` the cottage roof is drawn slightly slanted; the grid is axis-aligned though.
+- The images are JPEG (`.jpg`); the tool had named them `.png`, renamed on 2026-10-03.
 
-## Farbstimmung
+## Color mood
 
-Per k-Means über alle Bilder des Boards berechnet (Python, ohne Pillow; Bilder via `sips` verkleinert); Akzente geschätzt.
+Computed with k-means over all images of the board (Python, without Pillow; images downscaled with `sips`); accents estimated.
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#01010B` | absolutes Dunkel |
-| `#090917` | Schattenwald, Nacht |
-| `#1C1224` | Schattengestalt, violettes Schwarz |
-| `#382F39` | verblichene Schattenwelt-Oberflächen |
-| `#6F3B2D` | warmes Holz der normalen Welt |
-| `#B17D59` | Kerzen-/Laternenlicht auf Holz und Stein |
-| `#9B6BFF` | Augen, fremde Tinte (Akzent, geschätzt) |
-| `#4FD1C5` | kaltes Laternenlicht der Schattenwelt (Akzent, geschätzt) |
+| `#01010B` | absolute darkness |
+| `#090917` | shadow forest, night |
+| `#1C1224` | shadow figure, violet black |
+| `#382F39` | faded shadow-world surfaces |
+| `#6F3B2D` | warm wood of the normal world |
+| `#B17D59` | candle/lantern light on wood and stone |
+| `#9B6BFF` | eyes, alien ink (accent, estimated) |
+| `#4FD1C5` | cold lantern light of the shadow world (accent, estimated) |
 
-## Referenzen
+## References
 
 - Dark World in *Zelda: A Link to the Past*
 - Upside Down in *Stranger Things*
-- Vision 3.4/3.5: Entität als verborgener KI-Antagonist, der Kontakt sucht (etwa über das Buch)
+- Vision 3.4/3.5: the entity as a hidden AI antagonist that seeks contact (for example through the book)
 
 ## Prompts
 

@@ -1,18 +1,18 @@
 # Architecture Decision Records (ADR)
 
-Projektweite Entscheidungen (Architektur, Technologie, Prozess, Produkt-Scope) werden hier als ADR festgehalten – Format: [MADR](https://adr.github.io/madr/), Vorlage: [template.md](template.md).
+Project-wide decisions (architecture, technology, process, product scope) are recorded here as ADRs – format: [MADR](https://adr.github.io/madr/), template: [template.md](template.md).
 
-## Regeln
+## Rules
 
-- Eine Datei pro Entscheidung: `NNNN-kurzer-titel.md`, fortlaufend nummeriert.
-- Status: `proposed` → `accepted` | `rejected`; später ggf. `superseded by NNNN`.
-- Angenommene ADRs werden inhaltlich **nicht** mehr geändert. Eine Änderung der Entscheidung = neue ADR, die alte bekommt `superseded by NNNN`.
-- Offene Entscheidungen werden zuerst als Bead (`-t decision`, Label `human`) erfasst und blockieren die betroffenen Tasks. Ist entschieden, entsteht die ADR, das Bead verweist darauf und wird geschlossen.
-- Neue ADRs in die Liste unten eintragen.
+- One file per decision: `NNNN-short-title.md`, numbered sequentially.
+- Status: `proposed` → `accepted` | `rejected`; later possibly `superseded by NNNN`.
+- The content of accepted ADRs is **not** changed anymore. Changing a decision = a new ADR; the old one gets `superseded by NNNN`.
+- Open decisions are first recorded as a bead (`-t decision`, label `human`) and block the affected tasks. Once decided, the ADR is written, the bead links to it and is closed.
+- Add new ADRs to the list below.
 
 ## Index
 
-| Nr. | Titel | Status |
+| No. | Title | Status |
 |---|---|---|
 | [0001](0001-entscheidungen-als-adr-festhalten.md) | Entscheidungen als ADR festhalten | accepted |
 | [0002](0002-beads-als-issue-tracker.md) | Beads als Issue-Tracker für Agent-Arbeit | accepted |

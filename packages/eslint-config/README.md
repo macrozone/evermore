@@ -1,15 +1,15 @@
 # @evermore/eslint-config
 
-Gemeinsame ESLint-Flat-Configs (ESLint 9, typescript-eslint).
+Shared ESLint flat configs (ESLint 9, typescript-eslint).
 
-- `@evermore/eslint-config/base` – Libraries und Services (`packages/*`)
-- `@evermore/eslint-config/nextjs` – Next.js-Apps (base + React, React Hooks, `@next/next` core web vitals)
+- `@evermore/eslint-config/base` – libraries and services (`packages/*`)
+- `@evermore/eslint-config/nextjs` – Next.js apps (base + React, React Hooks, `@next/next` core web vitals)
 
-TypeScript-Dateien werden typbasiert gelintet (`projectService`, nächstes `tsconfig.json`).
-Dazu gehören `strict-boolean-expressions` (keine Truthiness-Checks auf Zahlen/Strings),
-`no-floating-promises` und `no-misused-promises`.
+TypeScript files are linted with type information (`projectService`, nearest `tsconfig.json`).
+This includes `strict-boolean-expressions` (no truthiness checks on numbers/strings),
+`no-floating-promises` and `no-misused-promises`.
 
-## Verwendung in einem Package
+## Usage in a package
 
 ```jsonc
 // package.json
@@ -24,7 +24,7 @@ Dazu gehören `strict-boolean-expressions` (keine Truthiness-Checks auf Zahlen/S
 
 ```js
 // eslint.config.js
-import base from "@evermore/eslint-config/base"; // bzw. /nextjs
+import base from "@evermore/eslint-config/base"; // or /nextjs
 export default base;
 ```
 
@@ -33,10 +33,10 @@ export default base;
 { "extends": "@evermore/tsconfig/base.json" }
 ```
 
-Next.js-Apps erweitern `@evermore/tsconfig/nextjs.json` und ergänzen `include`
+Next.js apps extend `@evermore/tsconfig/nextjs.json` and add `include`
 (`next-env.d.ts`, `**/*.ts`, `**/*.tsx`, `.next/types/**/*.ts`).
-Weil damit auch `next.config.ts` im Projekt liegt, verzichtet das `nextjs`-Preset
-auf `allowDefaultProject`: jede TS-Datei der App muss vom `tsconfig.json` erfasst sein.
+Since `next.config.ts` is then part of the project too, the `nextjs` preset
+does without `allowDefaultProject`: every TS file of the app must be covered by `tsconfig.json`.
 
-TypeScript 6 setzt `types` standardmässig auf `[]`: wer Node-APIs nutzt, ergänzt
-`"types": ["node"]` (und `@types/node` aus `catalog:typescript-types`).
+TypeScript 6 sets `types` to `[]` by default: if you use Node APIs, add
+`"types": ["node"]` (and `@types/node` from `catalog:typescript-types`).

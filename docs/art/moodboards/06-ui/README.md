@@ -1,57 +1,57 @@
 # Moodboard 6 – UI & HUD
 
-Die UI ist **nicht** standardmässig Pixel-UI (ADR 0010). Hauptrichtung von maw ist die Formensprache von Büchern: schlicht und elegant, mit verschnörkeltem Einband-Rahmen, Goldfiligran, Eckbeschlägen, Pergament- und Ledertönen und klassischer Serifen-Buchtypografie. Sie liegt hochaufgelöst und scharf über einer Pixel-Art-Spielszene und tritt dahinter zurück: das HUD als dezenter Rahmen mit HP und «Inspiration», das Inventar als aufgeschlagenes Buch, der Wunsch-Dialog als einzelne Buchseite mit Federkiel. Zum Vergleich gibt es eine Alternative in moderner, ruhiger, minimalistischer Gestaltung (Frosted Glass, Sans-Serif, ein Akzent).
+The UI is **not** pixel UI by default (ADR 0010). maw's main direction is the design language of books: simple and elegant, with an ornate cover frame, gold filigree, corner fittings, parchment and leather tones and classic serif book typography. It sits crisp and high-resolution on top of a pixel-art game scene and stays in the background: the HUD as a subtle frame with HP and "Inspiration", the inventory as an open book, the wish dialog as a single book page with a quill. For comparison there is an alternative in a modern, calm, minimalist design (frosted glass, sans-serif, one accent).
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 1 (2026-10-03, achsenparallele Draufsicht im Hintergrund)
+## Iteration 1 (2026-10-03, axis-aligned top-down view in the background)
 
-Die Spielszenen im Hintergrund wurden bereits mit maws Perspektiv-Vorgabe erzeugt (achsenparallele Draufsicht wie *Stardew Valley*, *Zelda: A Link to the Past*).
+The game scenes in the background were already generated with maw's perspective guideline (axis-aligned top-down view like *Stardew Valley*, *Zelda: A Link to the Past*).
 
-**Hauptrichtung: Buch-Formensprache**
+**Main direction: book design language**
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `buch-hud.jpg` | Feiner goldener Einbandrahmen mit Leder-Eckbeschlägen um die Gartenszene; oben links HP-Balken und Tintenfass-Anzeige «Inspiration» in Serifenschrift, unten rechts ein Buch-Symbol als Menü. |
-| `inventar-buchseite.jpg` | Inventar als aufgeschlagenes Buch mit Lesezeichenband, Item-Raster in gravierten Rahmen links, Detailillustration rechts – erster Versuch (mit Blindtext). |
-| `inventar-buchseite-v2.jpg` | Zweiter Versuch: gleiches Prinzip, reich ornamentierte rechte Seite, Platzhalterlinien statt Text, rotes Seidenband. |
-| `wunsch-dialog.jpg` | Wunsch-Dialog als einzelne Pergamentseite mit Goldranken, leerer Schreibzeile und Federkiel, darunter ein ornamentierter «Inspiration»-Balken; HP als Herzemblem oben rechts. |
+| `buch-hud.jpg` | Fine golden cover frame with leather corner fittings around the garden scene; top left an HP bar and an inkwell gauge "Inspiration" in a serif font, bottom right a book icon as the menu. |
+| `inventar-buchseite.jpg` | Inventory as an open book with a ribbon bookmark, item grid in engraved frames on the left, detail illustration on the right – first attempt (with filler text). |
+| `inventar-buchseite-v2.jpg` | Second attempt: same principle, richly ornamented right page, placeholder lines instead of text, red silk ribbon. |
+| `wunsch-dialog.jpg` | Wish dialog as a single parchment page with golden vines, an empty writing line and a quill, below it an ornamented "Inspiration" bar; HP as a heart emblem top right. |
 
-**Alternative: modern-minimalistisch**
+**Alternative: modern minimalist**
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `alternative-minimal.jpg` | Erster Versuch – vom Generator als Gegenüberstellung mit Überschriften «Alternative Direction / Original Direction» gerendert (rechts Pixel-UI); nicht als Vorgabe verwenden. |
-| `alternative-minimal-v2.jpg` | Zweiter Versuch: ein Frosted-Glass-Panel oben links mit HP- und Inspiration-Balken in Sans-Serif, drei runde Outline-Icons unten rechts. |
+| `alternative-minimal.jpg` | First attempt – the generator rendered it as a side-by-side comparison with the headings «Alternative Direction / Original Direction» (pixel UI on the right); do not use as a guideline. |
+| `alternative-minimal-v2.jpg` | Second attempt: one frosted-glass panel top left with HP and Inspiration bars in sans-serif, three round outline icons bottom right. |
 
-Auffälligkeiten:
-- `inventar-buchseite.jpg` enthält Lorem-ipsum-Blindtext (Vorgabe: nur kurze Labels) → `-v2` erzeugt. In `-v2` sind die Platzhalterzeilen als Kritzel gerendert.
-- `alternative-minimal.jpg` ist ein Split-Vergleich mit Überschriften statt einer Einzelszene → `-v2` erzeugt.
-- In `buch-hud.jpg` und `inventar-buchseite-v2.jpg` sind Rahmen und Icons teils leicht «pixelig» geraten; die Typografie ist aber durchgehend serifenbetont und hochaufgelöst.
-- Die Bilder sind JPEG (`.jpg`); das Tool hatte sie als `.png` benannt, am 2026-10-03 umbenannt.
+Notes:
+- `inventar-buchseite.jpg` contains lorem ipsum filler text (brief: short labels only) → `-v2` generated. In `-v2` the placeholder lines are rendered as scribbles.
+- `alternative-minimal.jpg` is a split comparison with headings instead of a single scene → `-v2` generated.
+- In `buch-hud.jpg` and `inventar-buchseite-v2.jpg` frames and icons came out slightly "pixelated" in places; the typography, however, is consistently serif-based and high-resolution.
+- The images are JPEG (`.jpg`); the tool had named them `.png`, renamed on 2026-10-03.
 
-## Farbstimmung
+## Color mood
 
-Per k-Means über die Bilder der Hauptrichtung berechnet (Python, ohne Pillow; Bilder via `sips` verkleinert); Gold geschätzt.
+Computed with k-means over the images of the main direction (Python, without Pillow; images downscaled with `sips`); gold estimated.
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#D6C29C` | Pergament |
-| `#8F6F4C` | Leder, gealtertes Papier |
-| `#52392B` | dunkles Leder, Holz |
-| `#C9A44C` | Goldfiligran, Rahmenlinien (geschätzt) |
-| `#B3262B` | HP-Rot, Seidenband (geschätzt) |
-| `#223937` | Spielszene Nachtgrün |
-| `#211F21` | Abdunklung hinter Menüs |
+| `#D6C29C` | parchment |
+| `#8F6F4C` | leather, aged paper |
+| `#52392B` | dark leather, wood |
+| `#C9A44C` | gold filigree, frame lines (estimated) |
+| `#B3262B` | HP red, silk ribbon (estimated) |
+| `#223937` | game scene night green |
+| `#211F21` | dimming behind menus |
 
-Alternative (minimal): `#20252C` (Glas-Panel), `#E8A85A` (Bernstein-Akzent, geschätzt), `#8E9BF0` (Inspiration-Blau, geschätzt), `#3E483E` (Szene).
+Alternative (minimal): `#20252C` (glass panel), `#E8A85A` (amber accent, estimated), `#8E9BF0` (Inspiration blue, estimated), `#3E483E` (scene).
 
-## Referenzen
+## References
 
-- Klassische Buchkunst: Prachteinbände, Goldprägung, Filigran, Exlibris, Lesezeichenbänder
-- Buchtypografie mit Serifen (z. B. Garamond-/Caslon-artig)
-- Spielszenen: *Stardew Valley*, *Zelda: A Link to the Past*
-- Alternative: zeitgenössische minimalistische Spiel-HUDs (Frosted Glass, eine Akzentfarbe)
+- Classic bookbinding: ornate bindings, gold embossing, filigree, bookplates, ribbon bookmarks
+- Serif book typography (e.g. Garamond/Caslon-like)
+- Game scenes: *Stardew Valley*, *Zelda: A Link to the Past*
+- Alternative: contemporary minimalist game HUDs (frosted glass, one accent color)
 
 ## Prompts
 

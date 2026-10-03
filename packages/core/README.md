@@ -1,15 +1,15 @@
 # @evermore/core
 
-Domänenneutrale Business-Logik, die Apps (`apps/www`) und künftige Services teilen.
-Kein Framework-Code (React, Next.js, Datenbank) – nur Typen und reine Funktionen.
+Domain-neutral business logic shared by apps (`apps/www`) and future services.
+No framework code (React, Next.js, database) – only types and pure functions.
 
-Das Package wird **ohne Build-Schritt** als TypeScript-Quelle konsumiert
-(`exports` zeigt auf `src/index.ts`). Next.js-Apps tragen es deshalb in
-`transpilePackages` ein (siehe `apps/www/next.config.ts`).
+The package is consumed as TypeScript source **without a build step**
+(`exports` points to `src/index.ts`). Next.js apps therefore list it in
+`transpilePackages` (see `apps/www/next.config.ts`).
 
 ```ts
 import { getGameInfo } from "@evermore/core";
 ```
 
-Tests liegen neben dem Code (`src/**/*.test.ts`) und laufen mit Vitest:
+Tests live next to the code (`src/**/*.test.ts`) and run with Vitest:
 `pnpm --filter @evermore/core test`.

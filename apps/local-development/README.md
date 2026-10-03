@@ -1,29 +1,29 @@
 # local-development
 
-Lokale Hilfsdienste per `docker compose` (Datei: [`docker-compose.yml`](docker-compose.yml)).
+Local helper services via `docker compose` (file: [`docker-compose.yml`](docker-compose.yml)).
 
-| Dienst       | Image                                       | Host-Port (Env)   | Default | Container-Port |
+| Service      | Image                                       | Host port (env)   | Default | Container port |
 | ------------ | ------------------------------------------- | ----------------- | ------- | -------------- |
 | `db`         | `postgres:17`                               | `DB_PORT`         | `3030`  | `5432`         |
 | `task-queue` | `ghcr.io/aertje/cloud-tasks-emulator` (gRPC) | `TASK_QUEUE_PORT` | `3031`  | `8123`         |
 
-Die Defaults entsprechen dem Port-Slot des Hauptcheckouts (`BASE_PORT=3000`, DB `+30`, Task-Queue `+31`). Worktrees setzen eigene Ports und einen eigenen `COMPOSE_PROJECT_NAME` (siehe evermore-ab1.2); ohne `COMPOSE_PROJECT_NAME` heisst das Projekt `evermore`.
+The defaults match the port slot of the main checkout (`BASE_PORT=3000`, DB `+30`, task queue `+31`). Worktrees set their own ports and their own `COMPOSE_PROJECT_NAME` (see evermore-ab1.2); without `COMPOSE_PROJECT_NAME` the project is named `evermore`.
 
-## Befehle
+## Commands
 
 ```bash
-pnpm --filter @evermore/local-development services:up     # beide Dienste im Hintergrund starten, wartet bis bereit
-pnpm --filter @evermore/local-development services:down   # stoppen, Daten bleiben
-pnpm --filter @evermore/local-development services:reset  # stoppen und Daten löschen
+pnpm --filter @evermore/local-development services:up     # start both services in the background, waits until ready
+pnpm --filter @evermore/local-development services:down   # stop, data is kept
+pnpm --filter @evermore/local-development services:reset  # stop and delete data
 ```
 
-`pnpm dev` startet die Dienste im Vordergrund mit (`docker compose up`).
+`pnpm dev` also starts the services in the foreground (`docker compose up`).
 
-## Zugang
+## Access
 
 - Postgres: `postgresql://evermore:evermore@localhost:${DB_PORT}/evermore`
-- Cloud-Tasks-Emulator: gRPC auf `localhost:${TASK_QUEUE_PORT}`, Queue `projects/evermore/locations/local/queues/default`. Aus dem Container erreicht der Emulator Apps auf dem Host über `host.docker.internal`.
+- Cloud Tasks emulator: gRPC on `localhost:${TASK_QUEUE_PORT}`, queue `projects/evermore/locations/local/queues/default`. From inside the container, the emulator reaches apps on the host via `host.docker.internal`.
 
-## Daten
+## Data
 
-Postgres speichert in das **benannte Volume** `db-data`, das pro Compose-Projekt angelegt wird (`<COMPOSE_PROJECT_NAME>_db-data`). Es übersteht `services:down` und wird erst mit `services:reset` (`docker compose down -v`) gelöscht. Der Task-Emulator hält seinen Zustand nur im Speicher.
+Postgres stores its data in the **named volume** `db-data`, created per Compose project (`<COMPOSE_PROJECT_NAME>_db-data`). It survives `services:down` and is only deleted by `services:reset` (`docker compose down -v`). The task emulator keeps its state in memory only.

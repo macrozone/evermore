@@ -1,57 +1,57 @@
-# Moodboard 4 – Schattenwelt
+# Moodboard 4 – Shadow World
 
-Die Schattenwelt ist die verzerrte Spiegelung der eigenen Welt – wie die Dark World in *Zelda: A Link to the Past* oder das Upside Down in *Stranger Things*. Dieselben Orte, Formen und Anordnungen wie in [Board 2 – Eigene Welt](../02-eigene-welt/README.md), aber verdreht, verfallen und bedrohlich: kahle, krallenartige Bäume, schwarzes öliges Wasser, verrottete Teppiche mit Augenmustern. Die Farben sind entsättigt und krank (Grau-Violett, Ascheweiss, kränkliches Grün); das Licht ist fremd und kalt – grünliche und violette Flammen statt warmem Feuer. Das Zuhause, und besonders das Bett, ist hier das Zentrum der grössten Gefahr: Aus Türen, Nischen und unter dem Bett starren Augen, schwarze Tentakel kriechen hervor.
+The shadow world is the distorted mirror image of the player's own world – like the Dark World in *Zelda: A Link to the Past* or the Upside Down in *Stranger Things*. The same places, shapes and layouts as in [Board 2 – Own World](../02-eigene-welt/README.md), but twisted, decayed and threatening: bare, clawlike trees, black oily water, rotten rugs with eye patterns. The colors are desaturated and sickly (gray-violet, ash white, sickly green); the light is alien and cold – greenish and violet flames instead of warm fire. Here the home, and especially the bed, is the center of the greatest danger: eyes stare out of doors, niches and from under the bed, black tentacles creep out.
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 2 (2026-10-03, achsenparallele Draufsicht)
+## Iteration 2 (2026-10-03, axis-aligned top-down view)
 
-Feedback maw: keine 45°-Isometrie, sondern achsenparallele Draufsicht wie *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthografisch, Blick von «Süden», Kanten horizontal/vertikal, Dächer und Fassaden sichtbar).
+Feedback from maw: no 45° isometry, but an axis-aligned top-down view like *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthographic, looking from the "south", edges horizontal/vertical, roofs and facades visible).
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `it2-waldhuette-schatten.jpg` | Die Waldhütte mit zerfressenem Strohdach, offene Tür mit Augen und Tentakeln im grünen Licht, grinsende Faulkürbisse, schwarzer Bach und gebrochene Brücke. |
-| `it2-hafenstadt-schatten.jpg` | Das schiefe Fischerhaus mit giftgrünen Fenstern und bleichen Händen in der Tür, violette Laternen, gekenterte Boote und Tentakel im schwarzen Wasser. |
-| `it2-wuestenruine-schatten.jpg` | Die Ruine mit Säulen wie Rippen, Teppiche mit Augenmustern, kaltes grün-violettes Lagerfeuer und ein lauerndes Wesen im Schlafbereich. |
-| `it2-bett-schatten.jpg` | Erster Versuch Innenraum – ungewollt wieder isometrisch/diagonal, daher verworfen, aber als Zwischenstand behalten. |
-| `it2-bett-schatten-b.jpg` | Schlafzimmer in Draufsicht: unter dem Bett lebende Dunkelheit mit Augen und Tentakeln, einzige Lichtquelle eine grüne Kerze. |
+| `it2-waldhuette-schatten.jpg` | The forest cottage with a gnawed thatched roof, open door with eyes and tentacles in green light, grinning rotten pumpkins, black stream and broken bridge. |
+| `it2-hafenstadt-schatten.jpg` | The crooked fisherman's house with toxic-green windows and pale hands in the doorway, violet lanterns, capsized boats and tentacles in the black water. |
+| `it2-wuestenruine-schatten.jpg` | The ruin with columns like ribs, rugs with eye patterns, a cold green-violet campfire and a creature lurking in the sleeping area. |
+| `it2-bett-schatten.jpg` | First interior attempt – unintentionally isometric/diagonal again, so discarded, but kept as an intermediate result. |
+| `it2-bett-schatten-b.jpg` | Bedroom in top-down view: living darkness with eyes and tentacles under the bed, a green candle as the only light source. |
 
-Auffälligkeiten: `it2-hafenstadt-schatten.jpg` ist eher frontal als steil von oben (Kanten aber achsenparallel). Innenräume driften beim Generator leicht in die Isometrie; der Prompt für `-b` beschreibt die Kamera deshalb sehr explizit (Rückwand als Band oben, Seitenwände als dünne Ränder).
+Notes: `it2-hafenstadt-schatten.jpg` is more frontal than steeply from above (but edges are axis-aligned). For interiors the generator tends to drift into isometry; the prompt for `-b` therefore describes the camera very explicitly (back wall as a band at the top, side walls as thin borders).
 
-## Iteration 1 (2026-10-03, 45° isometrisch)
+## Iteration 1 (2026-10-03, 45° isometric)
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `waldhuette-schatten.jpg` | Verfallene Waldhütte mit leuchtenden Augen in Fenstern und Tür, kahle Bäume, schwarzer Bach, bleicher Mond. |
-| `hafenstadt-schatten.jpg` | Fischerhaus mit grün glühenden Fenstern und Händen in der Tür, morscher Steg, violette Laternen, Raben, Tentakel im Wasser. |
-| `wuestenruine-schatten.jpg` | Ruine mit verdrehten, umrankten Säulen, Augenteppichen, grünem Feuer und Wesen in der dunklen Nische. |
-| `bett-schatten.jpg` | Schlafzimmer mit lebender Dunkelheit und Augen unter dem Bett, grüner Kerze und offenem Schrank. |
+| `waldhuette-schatten.jpg` | Decayed forest cottage with glowing eyes in windows and door, bare trees, black stream, pale moon. |
+| `hafenstadt-schatten.jpg` | Fisherman's house with green glowing windows and hands in the doorway, rotten jetty, violet lanterns, ravens, tentacles in the water. |
+| `wuestenruine-schatten.jpg` | Ruin with twisted, overgrown columns, eye rugs, green fire and a creature in the dark niche. |
+| `bett-schatten.jpg` | Bedroom with living darkness and eyes under the bed, green candle and open wardrobe. |
 
-## Farbstimmung
+## Color mood
 
-Dominante Farben per Median-Cut (Pillow) über alle Bilder des Boards berechnet; Lichtakzente aus den Bildern geschätzt.
+Dominant colors computed with median cut (Pillow) over all images of the board; light accents estimated from the images.
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#050407` | Leere, Türöffnungen, schwarzes Wasser |
-| `#322A39` | Schatten-Violett |
-| `#443C49` | gequetschtes Lila (Holz, Wände) |
-| `#5E575F` | Grau-Violett (Boden, Nebel) |
-| `#858B88` | Aschegrau (Sand, Nebel) |
-| `#8FD9A8` | kaltes Giftgrün (Fenster, Kerze, Feuer; geschätzt) |
-| `#9B6BD6` | fremdes Violett (Laternen, Fenster; geschätzt) |
+| `#050407` | void, doorways, black water |
+| `#322A39` | shadow violet |
+| `#443C49` | bruised purple (wood, walls) |
+| `#5E575F` | gray-violet (ground, fog) |
+| `#858B88` | ash gray (sand, fog) |
+| `#8FD9A8` | cold toxic green (windows, candle, fire; estimated) |
+| `#9B6BD6` | alien violet (lanterns, windows; estimated) |
 
-## Referenzen
+## References
 
-- *Zelda: A Link to the Past* – Dark World als Spiegelung der Light World; achsenparallele SNES-Draufsicht
-- *Stranger Things* – Upside Down: vertraute Orte, verfallen, Asche-Partikel, fremdes Licht
-- *Stardew Valley*, *Secret of Mana* – Perspektive (Iteration 2)
-- *Children of Morta* – Licht, Schatten, Partikel auf Pixel-Art
-- Art Bible: [`docs/art/README.md`](../../README.md), Vision Abschnitt 5 («gerade dieser Ort ist in der Schattenwelt der gefährlichste»)
+- *Zelda: A Link to the Past* – Dark World as a mirror of the Light World; axis-aligned SNES top-down view
+- *Stranger Things* – Upside Down: familiar places, decayed, ash particles, alien light
+- *Stardew Valley*, *Secret of Mana* – perspective (iteration 2)
+- *Children of Morta* – light, shadows, particles on pixel art
+- Art Bible: [`docs/art/README.md`](../../README.md), Vision section 5 ("in the shadow world, this very place is the most dangerous")
 
 ## Prompts
 
-Erzeugt mit `create_asset` (media-pipeline, Modell `gemini-3-pro-image-preview`), Seitenverhältnis 16:9. Die Bilder sind JPEG (`.jpg`); das Tool hatte sie als `.png` benannt, am 2026-10-03 umbenannt.
+Generated with `create_asset` (media-pipeline, model `gemini-3-pro-image-preview`), aspect ratio 16:9. The images are JPEG (`.jpg`); the tool had named them `.png`, renamed on 2026-10-03.
 
 ### Iteration 2
 
@@ -64,7 +64,7 @@ Erzeugt mit `create_asset` (media-pipeline, Modell `gemini-3-pro-image-preview`)
 **it2-wuestenruine-schatten.jpg**
 > Video game environment scene, the "shadow world" dark mirror version of a cozy home in desert ruins (like the Dark World in Zelda: A Link to the Past or the Upside Down in Stranger Things). Same layout as the cozy version: a shelter inside ancient sandstone ruins at the top of the scene with broken columns and a stretched awning, a courtyard below with rugs and cushions, hanging oil lamps, a campfire in the center, dunes at the edges. But everything is twisted and decayed: columns cracked and bent like ribs, the awning torn and hanging like a membrane, rugs rotten and stained with patterns warped into staring eye shapes. The campfire burns with a cold pale green-violet flame casting long distorted shadows, oil lamps flicker sickly violet. In the dark sheltered sleeping area at the back, where the bed is, a dark shape lurks with glowing pale eyes — the home is the center of the greatest danger. The palm is dead and bleached, the dunes ashen grey. Desaturated, sickly palette: grey-violet, bruised purple, sickly green, ash grey, dull bone. Floating ash and dust particles drifting upward. Threatening, eerie, uncanny but recognizable. PERSPECTIVE (important): axis-aligned top-down view like Stardew Valley, Secret of Mana and Zelda: A Link to the Past — orthographic, camera looking down from the south at a steep angle, all edges strictly horizontal and vertical, wall fronts and tops both visible, NOT isometric, NOT 45-degree diagonal, no diagonal grid, no vanishing point. Style: pixel art reminiscent of 16-bit SNES action RPGs, but modern: soft dynamic lighting, cast shadows and particles like in Children of Morta, the twisted counterpart of Stardew Valley coziness. Uniform pixel density across the whole scene, crisp sharp pixels, no blur, no smoothing. No text, no letters, no UI, no HUD. 16:9 widescreen.
 
-**it2-bett-schatten.jpg** (Ergebnis isometrisch, verworfen)
+**it2-bett-schatten.jpg** (result isometric, discarded)
 > Video game interior scene, the "shadow world" dark mirror version of the player's cozy bedroom (like the Dark World in Zelda: A Link to the Past or the Upside Down in Stranger Things). A small room inside a cottage with wooden floorboards, a single wooden bed with quilt and pillow against the back (top) wall, a nightstand with a candle, a wardrobe, a small window in the back wall, a rug, a bookshelf — the familiar cozy home. But twisted and decayed: floorboards warped and split, walls cracked, the quilt torn and stained, the wardrobe door ajar onto blackness. Under and behind the bed a pool of living darkness with black tendrils creeping across the floor and several pale glowing eyes staring from beneath the bed — something lurks there; the bed is the center of the greatest danger. The candle burns with a cold pale green flame, the only light, casting long distorted shadows; through the window a sickly violet glow. Dust and ash particles in the air, cobwebs. Desaturated, sickly palette: grey-violet, bruised purple, sickly green, ash grey. Eerie, uncanny, threatening but recognizable as a home. PERSPECTIVE (important): axis-aligned top-down interior view like house interiors in Stardew Valley, Secret of Mana and Zelda: A Link to the Past — orthographic, camera looking down from the south at a steep angle, back wall face visible at the top, side walls as thin strips, floor seen from above, all edges strictly horizontal and vertical, NOT isometric, NOT 45-degree diagonal, no diagonal grid, no vanishing point. Style: pixel art reminiscent of 16-bit SNES action RPGs, but modern: soft dynamic lighting, cast shadows and particles like in Children of Morta, the twisted counterpart of Stardew Valley coziness. Uniform pixel density across the whole scene, crisp sharp pixels, no blur, no smoothing. No text, no letters, no UI, no HUD. 16:9 widescreen.
 
 **it2-bett-schatten-b.jpg**

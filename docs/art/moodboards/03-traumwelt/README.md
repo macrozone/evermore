@@ -1,53 +1,53 @@
-# Moodboard 3 – Traumwelt
+# Moodboard 3 – Dream World
 
-Die Traumwelt beginnt dort, wo die gemütliche Welt des Spielers aufhört: Der Boden bricht ab, Erdbrocken treiben davon, und dahinter liegt eine leere, schwebende Weite in tiefem Indigo und Violett. Schmale leuchtende Pfade führen durchs Nichts und verbinden schwebende Fragmente – einen Torbogen, einen einsamen Baum, ein Stück Brücke, eine Laterne. In der Ferne hängen die Welten anderer Spieler als kleine Inseln mit eigener Palette, verbunden durch zarte Lichtfäden. Die Stimmung ist ruhig, schwerelos, leicht melancholisch; am äussersten Rand kündigt sich mit einem Portal die Schattenwelt an.
+The dream world begins where the player's cozy world ends: the ground breaks off, chunks of earth drift away, and beyond lies an empty, floating expanse in deep indigo and violet. Narrow glowing paths lead through the nothing and connect floating fragments – an archway, a lone tree, a piece of bridge, a lantern. In the distance, other players' worlds hang as small islands with their own palettes, connected by delicate threads of light. The mood is calm, weightless, slightly melancholic; at the outermost rim, a portal hints at the shadow world.
 
-Moodboards sind append-only: Jede Iteration bleibt erhalten und zeigt die Entwicklung.
+Moodboards are append-only: every iteration is kept and shows how the direction evolved.
 
-## Iteration 2 (2026-10-03, achsenparallele Draufsicht)
+## Iteration 2 (2026-10-03, axis-aligned top-down view)
 
-Feedback maw: keine 45°-Isometrie, sondern achsenparallele Draufsicht wie *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthografisch, Blick von «Süden», Kanten horizontal/vertikal, kein Diagonal-Raster). Pfade sind jetzt Kachel-Pfade mit rechtwinkligen Abzweigungen, Inseln rechteckig.
+Feedback from maw: no 45° isometry, but an axis-aligned top-down view like *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (orthographic, looking from the "south", edges horizontal/vertical, no diagonal grid). Paths are now tile paths with right-angle turns, islands are rectangular.
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `it2-rand-der-welt.jpg` | Wiese mit Hütte, Zaun und Laterne endet an einer geraden Kante; quadratische Erdbrocken treiben ins Violett, goldene Trittsteine führen hinaus. |
-| `it2-pfade-im-nichts.jpg` | Kachelbreite, cyan leuchtende Pfade mit rechtwinkligen Kurven verbinden Torbogen, Baum, Brücke und Laterne; Figur mit Laterne. |
-| `it2-ferne-welten.jpg` | Vom Grasrand mit Laterne aus sieht man vier Inselwelten (Schneedorf, Hafen, Oase, Dschungel mit Wasserfall), verbunden durch Lichtfäden. |
-| `it2-rand-portal.jpg` | Rechteckige Steinplattform mit Säulenresten, in der Mitte ein violett-rotes Portal, ringsum treiben Tür, Fenster und Dach einer Hütte. |
+| `it2-rand-der-welt.jpg` | A meadow with a cottage, fence and lantern ends at a straight edge; square chunks of earth drift into the violet, golden stepping stones lead out. |
+| `it2-pfade-im-nichts.jpg` | One-tile-wide, cyan glowing paths with right-angle turns connect an archway, tree, bridge and lantern; character with a lantern. |
+| `it2-ferne-welten.jpg` | From the grassy edge with a lantern you see four island worlds (snow village, harbor, oasis, jungle with waterfall), connected by threads of light. |
+| `it2-rand-portal.jpg` | Rectangular stone platform with remains of pillars, a violet-red portal in the middle, a cottage's door, window and roof drifting around it. |
 
-Auffälligkeit: In `it2-rand-der-welt.jpg` verläuft der Trittstein-Pfad treppenförmig diagonal (aber kachelachsenparallel); die Erdkante ist eher Draufsicht ohne sichtbare Abbruchfläche.
+Note: in `it2-rand-der-welt.jpg` the stepping-stone path runs diagonally in steps (but aligned to the tile axes); the earth edge is seen more from the top, without a visible break-off face.
 
-## Iteration 1 (2026-10-03, 45° isometrisch)
+## Iteration 1 (2026-10-03, 45° isometric)
 
-| Bild | Beschreibung |
+| Image | Description |
 |---|---|
-| `rand-der-welt.jpg` | Isometrische Wiesen-Insel mit Steinhütte und Laterne, die an der Kante zerbröckelt; goldene Trittsteine führen in die violette Leere. |
-| `pfade-im-nichts.jpg` | Geschwungene, kreuzende Lichtpfade im Indigo, Fragmente (Torbogen, Baum, Brücke, Laterne), Figur mit Laterne. |
-| `ferne-welten.jpg` | Schwebende Inselwelten verbunden durch Lichtfäden, vorne ein Grasrand mit Laterne. |
-| `rand-portal.jpg` | Schwebende Ruine mit wirbelndem violett-rotem Portal, verdrehte Hüttenteile treiben vorbei. |
+| `rand-der-welt.jpg` | Isometric meadow island with a stone cottage and lantern, crumbling at the edge; golden stepping stones lead into the violet void. |
+| `pfade-im-nichts.jpg` | Curved, crossing light paths in indigo, fragments (archway, tree, bridge, lantern), character with a lantern. |
+| `ferne-welten.jpg` | Floating island worlds connected by threads of light, a grassy edge with a lantern in the foreground. |
+| `rand-portal.jpg` | Floating ruin with a swirling violet-red portal, twisted cottage parts drifting past. |
 
-Auffälligkeit: `ferne-welten.jpg` enthält einen Bildschirmrahmen und eine Beschriftung «Chaos in Hades» (Referenz aus dem Prompt wurde als Text gerendert). Wird nicht als Stilvorgabe verwendet; in Iteration 2 ersetzt.
+Note: `ferne-welten.jpg` contains a screen frame and a caption «Chaos in Hades» (the reference from the prompt was rendered as text). Not used as a style guide; replaced in iteration 2.
 
-## Farbstimmung
+## Color mood
 
-Per k-Means über alle Bilder des Boards berechnet (Python, ohne Pillow; Bilder via `sips` verkleinert).
+Computed with k-means over all images of the board (Python, without Pillow; images downscaled with `sips`).
 
-| Hex | Rolle |
+| Hex | Role |
 |---|---|
-| `#070427` | tiefstes Leere-Indigo |
-| `#190D35` | Traumleere, Violett-Schwarz |
-| `#3D4376` | Nebel, ferne Schichten |
-| `#340832` | Rand zur Schattenwelt (Purpur) |
-| `#797457` | Stein, Erde der Fragmente |
-| `#AFD6CD` | leuchtende Pfade (Cyan-Weiss) |
-| `#E8B84A` | goldene Trittsteine, Laternenlicht (geschätzt) |
+| `#070427` | deepest void indigo |
+| `#190D35` | dream void, violet-black |
+| `#3D4376` | mist, distant layers |
+| `#340832` | rim toward the shadow world (purple) |
+| `#797457` | stone, earth of the fragments |
+| `#AFD6CD` | glowing paths (cyan-white) |
+| `#E8B84A` | golden stepping stones, lantern light (estimated) |
 
-## Referenzen
+## References
 
-- Chaos in *Hades* (leere, schwebende Weite, Fragmente)
-- *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (Kamera ab Iteration 2)
-- *Children of Morta* (Licht, Partikel)
-- Dark World in *Zelda: A Link to the Past* (Portal am Rand)
+- Chaos in *Hades* (empty, floating expanse, fragments)
+- *Stardew Valley*, *Secret of Mana*, *Zelda: A Link to the Past* (camera from iteration 2)
+- *Children of Morta* (light, particles)
+- Dark World in *Zelda: A Link to the Past* (portal at the rim)
 
 ## Prompts
 

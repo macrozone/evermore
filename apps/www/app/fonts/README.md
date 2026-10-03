@@ -1,18 +1,18 @@
-# Schriften
+# Fonts
 
-Beide Schriften sind self-hosted (keine Requests an Google Fonts o. Ä.) und werden über `next/font/local` in [`../fonts.ts`](../fonts.ts) eingebunden. Enthalten ist jeweils nur das Latin-Subset (UI-Texte sind englisch, siehe ADR 0007).
+Both fonts are self-hosted (no requests to Google Fonts or similar) and are loaded via `next/font/local` in [`../fonts.ts`](../fonts.ts). Only the Latin subset is included (UI texts are in English, see ADR 0007).
 
-| Schrift | Verwendung | Datei | Lizenz | Copyright |
+| Font | Usage | File | License | Copyright |
 |---|---|---|---|---|
-| [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) | Überschriften, Buttons (`font-display`) | `press-start-2p/press-start-2p-latin-400-normal.woff2` | [SIL OFL 1.1](press-start-2p/OFL.txt) | 2012 The Press Start 2P Project Authors (cody@zone38.net), Reserved Font Name «Press Start 2P» |
-| [VT323](https://fonts.google.com/specimen/VT323) | Fliesstext (`font-body`) | `vt323/vt323-latin-400-normal.woff2` | [SIL OFL 1.1](vt323/OFL.txt) | 2011 The VT323 Project Authors (peter.hull@oikoi.com) |
+| [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) | Headings, buttons (`font-display`) | `press-start-2p/press-start-2p-latin-400-normal.woff2` | [SIL OFL 1.1](press-start-2p/OFL.txt) | 2012 The Press Start 2P Project Authors (cody@zone38.net), Reserved Font Name «Press Start 2P» |
+| [VT323](https://fonts.google.com/specimen/VT323) | Body text (`font-body`) | `vt323/vt323-latin-400-normal.woff2` | [SIL OFL 1.1](vt323/OFL.txt) | 2011 The VT323 Project Authors (peter.hull@oikoi.com) |
 
-Bezugsquelle: npm-Pakete [`@fontsource/press-start-2p`](https://www.npmjs.com/package/@fontsource/press-start-2p) und [`@fontsource/vt323`](https://www.npmjs.com/package/@fontsource/vt323), Version 5.3.0 (Quelle dort: Google Fonts). Die `.woff2`-Dateien sind unverändert übernommen, der Lizenztext liegt jeweils als `OFL.txt` daneben.
+Source: npm packages [`@fontsource/press-start-2p`](https://www.npmjs.com/package/@fontsource/press-start-2p) and [`@fontsource/vt323`](https://www.npmjs.com/package/@fontsource/vt323), version 5.3.0 (their source: Google Fonts). The `.woff2` files are copied unchanged; the license text sits next to each as `OFL.txt`.
 
-## Was die OFL erlaubt
+## What the OFL allows
 
-- Nutzung, Einbettung und Weitergabe (auch kommerziell) sind erlaubt; der Lizenztext muss mitgeliefert werden – deshalb liegt `OFL.txt` neben jeder Schriftdatei.
-- Die Schriften dürfen nicht einzeln verkauft werden.
-- Wird eine Schrift verändert (z. B. eigene Glyphen), darf die abgeleitete Schrift den «Reserved Font Name» nicht tragen.
+- Use, embedding and redistribution (including commercial) are allowed; the license text must be included – that is why `OFL.txt` sits next to each font file.
+- The fonts may not be sold on their own.
+- If a font is modified (e.g. custom glyphs), the derived font may not carry the "Reserved Font Name".
 
-Neue Schriften nur mit freier Lizenz (OFL o. Ä.) aufnehmen und hier eintragen.
+Only add new fonts with a free license (OFL or similar) and list them here.

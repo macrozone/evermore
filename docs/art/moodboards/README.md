@@ -1,20 +1,20 @@
 # Moodboards
 
-Visuelle Richtung für Evermore – Massstab ist die [Art Bible](../README.md). **Append-only:** Neue Bilder kommen als neue Iteration dazu (Präfix `it2-`, `it3-` …), nichts wird überschrieben, damit die Entwicklung sichtbar bleibt. Jedes Board hat ein README mit Stimmung, Bildliste, Farbwerten, Referenzen und den verwendeten Prompts.
+Visual direction for Evermore – the [Art Bible](../README.md) is the yardstick. **Append-only:** new images are added as a new iteration (prefix `it2-`, `it3-` …), nothing is overwritten, so the evolution stays visible. Each board has a README with mood, image list, color values, references and the prompts used.
 
-| Board | Inhalt |
+| Board | Content |
 |---|---|
-| [01 Buch](01-buch/README.md) | Das Book of Evermore als Objekt, «Worte werden Welt» |
-| [02 Eigene Welt](02-eigene-welt/README.md) | Waldhütte (Tag/Abend), Hafenstadt, Wüstenruine – cozy, Licht |
-| [03 Traumwelt](03-traumwelt/README.md) | Rand der Welt, Pfade im Nichts, ferne Welten |
-| [04 Schattenwelt](04-schattenwelt/README.md) | Dieselben Szenen verzerrt gespiegelt, das Bett als gefährlichster Ort |
-| [05 Entität](05-entitaet/README.md) | Angedeutet statt gezeigt: Silhouette, Augen, fremde Zeilen, Riss |
-| [06 UI](06-ui/README.md) | Buch-Formensprache (Hauptrichtung) und minimalistische Alternative |
-| [07 Spielfiguren](07-spielfiguren/README.md) | Beispielfiguren mit Vorder-/Seiten-/Rückansicht und Laufpose |
+| [01 Book](01-buch/README.md) | The Book of Evermore as an object, «Worte werden Welt» ("words become world") |
+| [02 Own World](02-eigene-welt/README.md) | Forest cottage (day/evening), harbor town, desert ruin – cozy, light |
+| [03 Dream World](03-traumwelt/README.md) | Edge of the world, paths in the void, distant worlds |
+| [04 Shadow World](04-schattenwelt/README.md) | The same scenes as a distorted mirror, the bed as the most dangerous place |
+| [05 Entity](05-entitaet/README.md) | Implied rather than shown: silhouette, eyes, strange lines, rift |
+| [06 UI](06-ui/README.md) | Book design language (main direction) and a minimalist alternative |
+| [07 Player Characters](07-spielfiguren/README.md) | Example characters with front/side/back views and a walking pose |
 
-## Iterationen
+## Iterations
 
-- **Iteration 1 (2026-10-03):** erste Bilder, teils 45°-isometrisch.
-- **Iteration 2 (2026-10-03):** achsenparallele Draufsicht wie Stardew Valley / Secret of Mana / Zelda (Feedback maw).
+- **Iteration 1 (2026-10-03):** first images, partly 45° isometric.
+- **Iteration 2 (2026-10-03):** axis-aligned top-down view like Stardew Valley / Secret of Mana / Zelda (feedback from maw).
 
-Erzeugt mit Gemini (`gemini-3-pro-image-preview`) über das media-pipeline-Plugin der Planungs-Session. Web-Ansicht: Bead `evermore-7gqq`.
+Generated with Gemini (`gemini-3-pro-image-preview`) via the media-pipeline plugin of the planning session. Web view: bead `evermore-7gqq`.
