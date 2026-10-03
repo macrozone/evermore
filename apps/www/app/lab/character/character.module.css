@@ -1,0 +1,50 @@
+.stage { position: relative; border: 1px solid #3c494b; border-radius: 12px; background: radial-gradient(ellipse at 30% 30%, #294c3b, #142821 75%); min-height: 780px; overflow: hidden; }
+.preview { padding: 24px; margin-right: 350px; }
+.identity h2 { font-size: 24px; color: #eee5ce; }
+.identity p { font-size: 13px; color: #c0ccb9; min-height: 40px; max-width: 560px; }
+.directions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 18px 0 24px; }
+.directions figure { text-align: center; min-width: 0; margin: 0; }
+.sprite { display: flex; justify-content: center; align-items: end; height: 185px; border-bottom: 1px solid #8f9e8250; }
+.directions figcaption { text-transform: capitalize; color: #c0ccb9; font-size: 13px; padding-top: 10px; }
+.stage canvas { image-rendering: pixelated; max-width: 100%; object-fit: contain; }
+.sheet { display: flex; gap: 24px; align-items: center; margin: 0; padding: 18px; background: #14282180; border: 1px solid #8f9e8230; border-radius: 8px; }
+.sheet canvas { flex-shrink: 0; }
+.sheet figcaption { font-size: 13px; line-height: 1.8; color: #c0ccb9; }
+.controls { position: absolute; inset: 12px 12px 12px auto; width: 326px; padding: 16px; background: #18242cf5; border: 1px solid #798473; border-radius: 8px; overflow-y: auto; font-size: 13px; }
+.controls form, .controls fieldset { display: grid; gap: 10px; }
+.controls label { display: grid; gap: 5px; margin-bottom: 8px; }
+.controls input[type=range] { width: 100%; accent-color: #dfbf7c; }
+.controls select, .controls textarea, .json textarea { background: #101b24; border: 1px solid #465158; border-radius: 4px; padding: 6px; width: 100%; min-width: 0; }
+.controls textarea { resize: vertical; }
+.controls button { border: 1px solid #dfbf7c; border-radius: 5px; padding: 7px 12px; margin-bottom: 10px; }
+.controls button:disabled { opacity: .55; }
+.controls fieldset { border-top: 1px solid #465158; margin-top: 10px; padding-top: 8px; }
+.controls legend { color: #dfbf7c; padding-right: 8px; }
+.controls .check { display: flex; align-items: center; gap: 8px; }
+.parts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.parts label, .colors label { text-transform: capitalize; }
+.colors { display: flex; justify-content: space-between; gap: 4px; }
+.colors input { width: 40px; height: 26px; padding: 0; }
+.controls p { color: #c0ccb9; }
+.controls p[role=alert] { color: #ffd4bb; }
+.notes { display: grid; gap: 10px; font-size: 14px; color: #a8b0c0; margin: 18px 0; }
+.json { font-size: 14px; }
+.json textarea { margin-top: 12px; font-family: monospace; }
+@media (max-width: 1000px) {
+  .preview { margin-right: 320px; padding: 16px; }
+  .controls { width: 296px; }
+  .directions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sprite { height: 150px; }
+  .sheet { justify-content: center; gap: 8px; padding: 8px; }
+  .sheet figcaption { display: none; }
+}
+@media (max-width: 650px) {
+  .stage { height: 930px; min-height: 0; }
+  .preview { margin-right: 0; padding: 14px; }
+  .identity h2 { font-size: 20px; }
+  .identity p { min-height: 32px; }
+  .directions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin: 10px 0; }
+  .sprite { height: 150px; }
+  .sheet { display: none; }
+  .controls { inset: auto 10px 10px; width: auto; height: 460px; }
+}
