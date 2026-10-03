@@ -88,6 +88,8 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
         sun.intensity = light.sun * 2.5;
         sun.position.copy(center).addScaledVector(light.direction, extent * 1.5);
         const started = performance.now();
+        active.info.autoReset = false;
+        active.info.reset();
         active.render(scene, camera);
         recordFrame(performance.now() - started, active.info.render);
       };
