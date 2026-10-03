@@ -49,3 +49,9 @@ viewport after page load, font loading, and a configurable delay (default
 `docs/lab/screenshots/`; `--out` accepts an absolute path or a path relative
 to the repository root. HTTP errors fail instead of producing an error-page
 screenshot. `pnpm screenshot --help` shows the command syntax.
+
+For the R2 movement regression check, start this worktree's web server and run
+`node scripts/check-r2-movement.mjs http://127.0.0.1:<BASE_PORT>`. The headless
+check holds diagonal keys, verifies wall sliding and live settings without a
+renderer reset, and checks desktop/mobile overlay placement after scrolling.
+Interaction screenshots are saved under `/tmp/evermore-r2-check/`.

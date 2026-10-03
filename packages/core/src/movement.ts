@@ -86,14 +86,25 @@ export function movementFrame(state: MovementState): number {
   return state.moving ? Math.floor(state.walkTime * 10) % 4 : 0;
 }
 
-/** Retains fractional time; pauses never cause an unbounded catch-up loop. */
+/** Returns the remaining step fraction for interpolation; bounds pause catch-up. */
 export function createMovementClock() {
   let accumulator = 0;
   return (elapsed: number, step: () => void) => {
     accumulator += Math.max(0, Math.min(Number.isFinite(elapsed) ? elapsed : 0, 0.25));
     while (accumulator + 1e-10 >= MOVEMENT_STEP) {
       step();
-      accumulator -= MOVEMENT_STEP;
+      accumulator = Math.max(0, accumulator - MOVEMENT_STEP);
     }
+    return accumulator / MOVEMENT_STEP;
+  };
+}
+
+/** Blend only presentation positions; collision always uses the fixed-step state. */
+export function interpolateMovement(previous: MovementPosition, current: MovementPosition, alpha: number): MovementPosition {
+  const blend = Math.max(0, Math.min(1, alpha));
+  return {
+    x: previous.x + (current.x - previous.x) * blend,
+    y: previous.y + (current.y - previous.y) * blend,
+    z: previous.z + (current.z - previous.z) * blend,
   };
 }

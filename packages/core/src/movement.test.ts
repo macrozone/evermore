@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createMovement, createMovementClock, DEFAULT_MOVEMENT, movementFrame, MOVEMENT_STEP, stepMovement, type MovementCollision, type MovementInput } from "./movement";
+import { createMovement, createMovementClock, interpolateMovement, DEFAULT_MOVEMENT, movementFrame, MOVEMENT_STEP, stepMovement, type MovementCollision, type MovementInput } from "./movement";
 
 const instant = { ...DEFAULT_MOVEMENT, acceleration: 10000, deceleration: 10000 };
 const free: MovementCollision = (p) => p.z;
@@ -59,6 +59,32 @@ describe("movement", () => {
       return state;
     }
     expect(simulated(30)).toEqual(simulated(144));
+  });
+  it.each([60, 120, 144])("presents even subpixel motion at %i Hz", (hz) => {
+    const state = createMovement({ x: 0, y: 0, z: 0 });
+    let previous = { ...state };
+    const clock = createMovementClock();
+    const positions: number[] = [];
+    for (let frame = 0; frame < hz; frame++) {
+      const alpha = clock(1 / hz, () => {
+        previous = { ...state };
+        stepMovement(state, { x: 1, y: 0 }, instant, free);
+      });
+      positions.push(interpolateMovement(previous, state, alpha).x);
+    }
+    // After the initial one-step presentation delay, every display frame moves.
+    for (let frame = 3; frame < positions.length; frame++) {
+      expect(positions[frame]! - positions[frame - 1]!).toBeCloseTo(instant.speed / hz);
+    }
+    expect(state.x).toBeCloseTo(instant.speed);
+  });
+  it("interpolates height without mutating authoritative collision positions", () => {
+    const previous = { x: 1, y: 2, z: 3 };
+    const current = { x: 2, y: 4, z: 4 };
+    expect(interpolateMovement(previous, current, 0.5)).toEqual({ x: 1.5, y: 3, z: 3.5 });
+    expect(interpolateMovement(previous, current, -1)).toEqual(previous);
+    expect(interpolateMovement(previous, current, 2)).toEqual(current);
+    expect(current).toEqual({ x: 2, y: 4, z: 4 });
   });
   it("caps pause catch-up and retains fractional time", () => {
     const clock = createMovementClock();

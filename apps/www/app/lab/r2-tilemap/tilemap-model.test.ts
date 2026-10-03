@@ -1,3 +1,4 @@
+import { createMovement, DEFAULT_MOVEMENT, stepMovement } from "@evermore/core";
 import { createMeadowHouseWorld, M, World } from "@evermore/world";
 import { describe, expect, it } from "vitest";
 import { columnTiles, movementFloor, overlapsPlayer, project, stepPlayer } from "./tilemap-model";
@@ -63,6 +64,34 @@ describe("R2 tilemap adapter", () => {
 });
 
 describe("continuous movement floor", () => {
+  it.each([[1, 1], [1, -1], [-1, 1], [-1, -1]])("walks diagonally in the meadow (%i, %i)", (x, y) => {
+    const world = createMeadowHouseWorld();
+    const state = createMovement({ x: 30.5, y: 55.5, z: 3 });
+    for (let step = 0; step < 30; step++) stepMovement(state, { x, y }, DEFAULT_MOVEMENT, (p) => movementFloor(world, p));
+    expect((state.x - 30.5) * x).toBeGreaterThan(1);
+    expect((state.y - 55.5) * y).toBeGreaterThan(1);
+    expect(Math.abs(state.x - 30.5)).toBeCloseTo(Math.abs(state.y - 55.5));
+  });
+
+  it.each(["x", "y"] as const)("slides along a %s wall with the whole R2 footprint", (axis) => {
+    const world = new World({ width: 12, depth: 12, height: 8 });
+    for (let x = 0; x < 12; x++) for (let y = 0; y < 12; y++) {
+      world.setCell(x, y, 2, M.grass);
+      if ((axis === "x" ? x : y) === 5) {
+        world.setCell(x, y, 3, M.stone);
+        world.setCell(x, y, 4, M.stone);
+        world.setCell(x, y, 5, M.stone);
+      }
+    }
+    const state = createMovement({ x: 4.5, y: 4.5, z: 3 });
+    for (let step = 0; step < 60; step++) {
+      stepMovement(state, { x: 1, y: 1 }, DEFAULT_MOVEMENT, (p) => movementFloor(world, p));
+      expect(movementFloor(world, state)).toBe(3);
+    }
+    expect(state[axis]).toBeLessThanOrEqual(4.78);
+    expect(state[axis === "x" ? "y" : "x"]).toBeGreaterThan(7);
+  });
+
   it("traverses the actual doorway, house stairs and hill stairs continuously", () => {
     const world = createMeadowHouseWorld();
     function traverse(from: { x: number; y: number; z: number }, to: { x: number; y: number }, targetZ: number) {
