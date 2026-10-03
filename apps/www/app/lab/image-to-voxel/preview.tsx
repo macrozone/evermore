@@ -45,17 +45,20 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
       for (const chunk of result.world.chunks()) {
         const geometry = meshChunk(result.world, chunk);
         geometries.push(geometry);
-        if (sourceColors) {
+        if (sourceColors || result.cellColors !== undefined) {
           const positions = geometry.getAttribute("position");
           const colors = geometry.getAttribute("color");
           const normals = geometry.getAttribute("normal");
           for (let i = 0; i < positions.count; i += 4) {
-            let x = 0; let y = 0;
-            for (let v = i; v < i + 4; v++) { x += positions.getX(v) / 4; y -= positions.getY(v) / 4; }
-            x -= normals.getX(i) * 0.001; y += normals.getY(i) * 0.001;
+            let x = 0; let y = 0; let z = 0;
+            for (let v = i; v < i + 4; v++) { x += positions.getX(v) / 4; y -= positions.getY(v) / 4; z += positions.getZ(v) / 4; }
+            x -= normals.getX(i) * 0.001; y += normals.getY(i) * 0.001; z -= normals.getZ(i) * 0.001;
             const col = Math.max(0, Math.min(result.columns - 1, Math.floor(x)));
             const row = Math.max(0, Math.min(result.rows - 1, Math.floor(y)));
-            const color = new Color(result.tiles[col + row * result.columns]!.color);
+            const tone = 0.15 + Math.max(0, Math.floor(z)) / Math.max(1, result.world.height - 4) * 0.75;
+            const color = sourceColors
+              ? new Color(result.cellColors?.get(`${Math.floor(x)},${Math.floor(y)},${Math.floor(z)}`) ?? result.tiles[col + row * result.columns]!.color)
+              : new Color().setRGB(tone, tone, tone);
             for (let v = i; v < i + 4; v++) colors.setXYZ(v, color.r, color.g, color.b);
           }
         }
@@ -63,7 +66,7 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
         mesh.castShadow = true; mesh.receiveShadow = true;
         scene.add(mesh);
       }
-      const bounds = new Box3(new Vector3(0, -result.rows, 0), new Vector3(result.columns, 0, result.world.height - 3));
+      const bounds = new Box3(new Vector3(0, -result.world.depth, 0), new Vector3(result.columns, 0, result.world.height - 3));
       const center = bounds.getCenter(new Vector3());
       const extent = bounds.getSize(new Vector3()).length();
       sun.target.position.copy(center);

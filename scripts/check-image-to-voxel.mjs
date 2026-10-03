@@ -31,7 +31,7 @@ const record = async (source, method, geometry, anchors) => {
 };
 const screenshot = async name => { await page.locator('fieldset').evaluate(el => { el.scrollTop = 0; }); return page.screenshot({ path: new URL(name, out).pathname, fullPage: true }); };
 try {
-  await page.goto(`http://127.0.0.1:${BASE_PORT}/lab/image-to-voxel`, { waitUntil: 'networkidle' });
+  await page.goto(`http://127.0.0.1:${BASE_PORT}/lab/image-to-voxel?experiment=comparison`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.querySelector('textarea')?.value.includes('meanProjectionErrorPx'));
   for (const source of ['cabin', 'harbour']) {
     console.log('Scene',source);

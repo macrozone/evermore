@@ -5,7 +5,7 @@ import type { VisionProposal } from "./vision";
 
 const SIN = Math.SQRT1_2; const COS = Math.SQRT1_2;
 export type ProjectionMode = "relief" | "projected";
-export type HeightMethod = Settings["method"] | "vision";
+export type HeightMethod = Exclude<Settings["method"], "facade"> | "vision";
 export type ComparisonSettings = Omit<Settings, "method"> & { method: HeightMethod; projection: ProjectionMode; useAnchors: boolean };
 export type Sample = { source: Point; ground: Point; height: number; level: number; region: string; errorPx: number };
 export type Metrics = { meanProjectionErrorPx: number; maxProjectionErrorPx: number; collisions: number; unknown: number; maskIoU: Record<string, number | null>; heightErrors: { id: string; expected: number; actual: number; error: number }[] };

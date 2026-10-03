@@ -1,0 +1,38 @@
+{
+  "source": "cabin",
+  "model": "gemini-3.1-flash-lite-image",
+  "seed": 1,
+  "width": 1376,
+  "height": 768,
+  "generatedAt": "2026-10-03T22:54:23.654Z",
+  "durationMs": 3759,
+  "estimatedCostUsd": 0.033957749999999995,
+  "usage": [
+    {
+      "promptTokenCount": 1431,
+      "candidatesTokenCount": 1120,
+      "totalTokenCount": 2551,
+      "trafficType": "ON_DEMAND",
+      "promptTokensDetails": [
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1120
+        },
+        {
+          "modality": "TEXT",
+          "tokenCount": 311
+        }
+      ],
+      "candidatesTokensDetails": [
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1120
+        }
+      ]
+    }
+  ],
+  "prompts": {
+    "height": "Replace the reference with a technical TOP-SURFACE HEIGHT LABEL MAP, not a grayscale photograph. Preserve every object boundary and the exact composition. Only horizontal/upward-facing surfaces carry height. Legend: RGB(0,0,0) water; (51,51,51) ground, grass and paths (all same elevation regardless of shade); (102,102,102) bridge decks and low fence tops; (153,153,153) low roofs/low canopies; (204,204,204) cabin roof eaves and tree crowns; (255,255,255) roof ridge and chimney tops. Vertical walls, trunks and fence posts are NOT heights: mark them solid MAGENTA RGB(255,0,255). Use ONLY these seven solid codes. No gradients, no lines, no textures, no shadows, no highlights, no lettering. Ignore timber, windows, roof tiles, grass patterns and every lighting detail. Example: a cream plaster facade with dark timber and a bright window is ONE solid magenta region; all surrounding light and shadow on grass is ONE uniform #333333 region; a roof has at most two broad solid steps #cccccc and #ffffff, never individual shingles. Treat this as segmentation labels, not art."
+  },
+  "normalization": "nearest resize to source; six grayscale codes; binary facade extracted from magenta; excluded from heights; alignment must be inspected"
+}
