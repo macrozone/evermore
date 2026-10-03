@@ -30,3 +30,18 @@ The root command generates the environment and prints all addresses first.
 ## Data
 
 Postgres stores its data in the **named volume** `db-data`, created per Compose project (`<COMPOSE_PROJECT_NAME>_db-data`). It survives `services:down` and is only deleted by `services:reset` (`docker compose down -v`). The task emulator keeps its state in memory only.
+
+## Orphan stacks
+
+`pnpm dev` removes containers and networks for `evermore-<BASE_PORT>` stacks
+whose port is no longer assigned to an existing Git worktree. It also checks
+stopped containers and ignores deleted directories still registered with Git.
+Database volumes are kept, as with `services:down`. Existing worktrees keep
+their stack even while their servers are stopped. Other Compose projects and
+the legacy `evermore` project are left alone.
+
+From the repository root, run `pnpm services:prune --dry-run` to list orphan
+stacks, or `pnpm services:prune` to remove them. Docker must be available;
+cleanup fails without removing anything if worktree discovery or environment
+validation fails. Set `BASE_PORT` explicitly when using a temporary port
+override that has not been persisted in `.env.local`.

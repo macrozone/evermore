@@ -7,18 +7,20 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "dev": "pnpm catenv && node --env-file=.env.local scripts/run-dev-apps.mjs",
+    "dev": "pnpm catenv && node --env-file=.env.local scripts/prune-orphan-dev-stacks.mjs && node --env-file=.env.local scripts/run-dev-apps.mjs",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "test": "pnpm test:ports && pnpm test:screenshot && pnpm test:dev && turbo run test",
+    "test": "pnpm test:ports && pnpm test:screenshot && pnpm test:dev && pnpm test:prune && turbo run test",
     "catenv": "node --experimental-strip-types scripts/ensure-base-port.ts && catenv && node --env-file=.env.local scripts/write-claude-launch-config.mjs",
     "catladder": "catladder",
     "dev:apps": "node scripts/print-dev-urls.mjs && turbo run dev",
     "test:ports": "node --test scripts/ensure-base-port.test.mjs",
     "screenshot": "node scripts/screenshot.mjs",
     "test:screenshot": "node --test scripts/screenshot.test.mjs",
-    "test:dev": "node --test scripts/dev.test.mjs"
+    "test:dev": "node --test scripts/dev.test.mjs",
+    "services:prune": "node scripts/prune-orphan-dev-stacks.mjs",
+    "test:prune": "node --test scripts/prune-orphan-dev-stacks.test.mjs"
   },
   "devDependencies": {
     "@catladder/cli": "catalog:build-tools",
