@@ -1,0 +1,23 @@
+{
+  "map": {
+    "prompt": "A forest clearing with a small cabin, a winding dirt path, a pond and tall trees.",
+    "seed": 1,
+    "model": "gemini-3.1-flash-lite-image",
+    "width": 1024,
+    "height": 1024,
+    "durationMs": 7710,
+    "generatedAt": "2026-10-03T23:33:36.493Z",
+    "estimatedCostUsd": 0.0336,
+    "costBasis": "image-only"
+  },
+  "cached": false,
+  "requestCostUsd": 0.0336,
+  "durationMs": 7711,
+  "budget": {
+    "calls": 1,
+    "callLimit": 20,
+    "reservedUsd": 0.12313,
+    "limitUsd": 1,
+    "resetsAt": 1791074008783
+  }
+}

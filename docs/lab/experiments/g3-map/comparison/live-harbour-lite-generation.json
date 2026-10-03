@@ -1,0 +1,23 @@
+{
+  "map": {
+    "prompt": "A small harbour town with red-roofed houses, cobbled paths, timber docks and blue water.",
+    "seed": 1,
+    "model": "gemini-3.1-flash-lite-image",
+    "width": 1024,
+    "height": 1024,
+    "durationMs": 3290,
+    "generatedAt": "2026-10-03T23:33:40.208Z",
+    "estimatedCostUsd": 0.0336,
+    "costBasis": "image-only"
+  },
+  "cached": false,
+  "requestCostUsd": 0.0336,
+  "durationMs": 3290,
+  "budget": {
+    "calls": 2,
+    "callLimit": 20,
+    "reservedUsd": 0.24626,
+    "limitUsd": 1,
+    "resetsAt": 1791074008783
+  }
+}

@@ -20,6 +20,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "g3-map",
+    name: "G3 · Image to layered tilemap",
+    description: "Compare map images with colour-derived materials, uncertain layers and heuristic heights.",
+    href: "/lab/g3-map",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "character",
     name: "Character A · Paper doll",
     description: "Describe a traveller, choose parts and colours, and inspect four directions of their walk cycle.",

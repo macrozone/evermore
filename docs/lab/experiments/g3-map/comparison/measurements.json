@@ -1,0 +1,80 @@
+[
+  {
+    "source": "cabin",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 43,
+      "rows": 24
+    },
+    "metrics": "43 × 24 tiles · 216 unknown (20.9%) · ground 220 / object 87 / overhead 509"
+  },
+  {
+    "source": "harbour",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 43,
+      "rows": 24
+    },
+    "metrics": "43 × 24 tiles · 713 unknown (69.1%) · ground 111 / object 201 / overhead 7"
+  },
+  {
+    "source": "live-cabin-lite",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 32,
+      "rows": 32
+    },
+    "metrics": "32 × 32 tiles · 751 unknown (73.3%) · ground 187 / object 25 / overhead 61"
+  },
+  {
+    "source": "live-harbour-lite",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 32,
+      "rows": 32
+    },
+    "metrics": "32 × 32 tiles · 386 unknown (37.7%) · ground 404 / object 72 / overhead 162"
+  },
+  {
+    "source": "live-harbour-flash",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 32,
+      "rows": 32
+    },
+    "metrics": "32 × 32 tiles · 310 unknown (30.3%) · ground 321 / object 136 / overhead 257"
+  },
+  {
+    "source": "live-harbour-pro",
+    "settings": {
+      "tileSize": 32,
+      "maxDistance": 0.22,
+      "heightScale": 6
+    },
+    "dimensions": {
+      "columns": 32,
+      "rows": 32
+    },
+    "metrics": "32 × 32 tiles · 223 unknown (21.8%) · ground 614 / object 96 / overhead 91"
+  }
+]
