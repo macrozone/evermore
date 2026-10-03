@@ -2,6 +2,8 @@
 
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MEADOW_HOUSE_SEED, WORLD_EXAMPLES, generateWorld, deriveShadowWorld, findInfluenceOrigin, influenceAt } from "@evermore/world";
+import { LabViewport } from "../../../components/lab/lab-viewport";
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, DepthTexture, AlwaysDepth, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture, Sprite, SpriteMaterial } from "three";
 
@@ -42,7 +44,7 @@ export default function VoxelExperiment() {
   const currentLook = useRef(DEFAULT_LOOK);
   const currentLighting = useRef(DEFAULT_LIGHTING);
   const animationSeconds = useRef(0);
-  const [performanceStats, setPerformanceStats] = useState({ fps: 0, frameMs: 0, calls: 0 });
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const [lighting, setLighting] = useState(DEFAULT_LIGHTING);
   const [look, setLook] = useState(DEFAULT_LOOK);
   const [settings, setSettings] = useState(PLAYER_CAMERA);
@@ -211,9 +213,6 @@ export default function VoxelExperiment() {
       let lastWidth = 0;
       let lastHeight = 0;
       let shadowSignature = "";
-      let sampleStart = performance.now();
-      let sampleFrames = 0;
-      let sampleRenderMs = 0;
       const render = (cameraSettings: CameraSettings, lookSettings: LookSettings, lightingSettings: LightingSettings) => {
         const renderStart = performance.now();
         const { width, height } = host.getBoundingClientRect();
@@ -267,19 +266,13 @@ export default function VoxelExperiment() {
         shadowSignature = nextShadowSignature;
         screenMaterial.uniforms.saturation!.value = lookSettings.saturation;
         screenMaterial.uniforms.palette!.value = lookSettings.palette;
+        activeRenderer.info.autoReset = false;
+        activeRenderer.info.reset();
         activeRenderer.setRenderTarget(target);
         activeRenderer.render(scene, camera);
-        const calls = activeRenderer.info.render.calls;
         activeRenderer.setRenderTarget(null);
         activeRenderer.render(screen, screenCamera);
-        sampleFrames++;
-        sampleRenderMs += performance.now() - renderStart;
-        if (performance.now() - sampleStart >= 1000) {
-          setPerformanceStats({ fps: sampleFrames * 1000 / (performance.now() - sampleStart), frameMs: sampleRenderMs / sampleFrames, calls: calls + activeRenderer.info.render.calls });
-          sampleFrames = 0;
-          sampleRenderMs = 0;
-          sampleStart = performance.now();
-        }
+        recordFrame(performance.now() - renderStart, activeRenderer.info.render);
       };
       const contextLost = (event: Event) => {
         if (cancelled) return;
@@ -340,7 +333,7 @@ export default function VoxelExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; dispose(); };
-  }, [worldIndex, imported, worldSeed, generationRevision, ready, shadow, heatmap, keys]);
+  }, [worldIndex, imported, worldSeed, generationRevision, ready, shadow, heatmap, keys, recordFrame]);
 
   useEffect(() => {
     currentMovement.current = movement;
@@ -353,18 +346,14 @@ export default function VoxelExperiment() {
 
   const json = JSON.stringify({ experiment: "r1-voxel", world: worldName, shadow, heatmap, seed: worldSeed, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
   return (
-    <div className="relative grid grid-cols-[minmax(0,1fr)_minmax(150px,28%)] gap-2 rounded bg-ink">
-      <div ref={surface} tabIndex={0} role="application" aria-label="Voxel world movement" aria-describedby="voxel-controls"
-        onPointerDown={() => surface.current?.focus({ preventScroll: true })}
-        className="h-[75vh] min-h-[360px] w-full overflow-hidden rounded border border-dusk focus-visible:outline-2 focus-visible:outline-gold" />
-      <aside aria-label="Voxel experiment settings" className="grid min-w-0 break-words max-h-[75vh] min-h-[360px] content-start gap-4 overflow-y-auto rounded border border-dusk p-2 text-sm">
+    <LabViewport title="R1 · Orthographic voxels" description="Choose an example or a world sent from the Book, then generate and explore with WASD or arrow keys. Compare the block-built world from different camera angles, lighting and focus settings while it stays in view. The meadow house is a fixed comparison scene; the player marker stays visible through roofs." controls={<>
         {ready && <GenerationPanel key={JSON.stringify(handoff)} initialIndex={worldIndex} initialSeed={worldSeed} handoff={handoff} onGenerate={(index, seed) => {
           keys.current.clear();
           setSelectedWorld((previous) => ({ index, seed, revision: (previous?.revision ?? 0) + 1 }));
         }} />}
         <p aria-label="Active generation">{worldName} · Seed {worldSeed} · {generationMs.toFixed(1)} ms generation</p>
         <p id="voxel-controls">Click the world, then use WASD / arrow keys. Tab returns to settings. Follow the path to the bridge, or enter the house and take the stairs along the north wall of the kitchen.</p>
-      <p className="text-sm text-mist">Seed {worldSeed} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
+      <p className="text-sm text-mist">{stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} terrain triangles</p>
         <p aria-label="Player position">Player: {playerPosition.x.toFixed(2)}, {playerPosition.y.toFixed(2)} · Floor {playerPosition.z}</p>
         <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
           <legend>Movement & follow</legend>
@@ -465,7 +454,11 @@ export default function VoxelExperiment() {
             void navigator.clipboard.writeText(json).then(() => setCopyStatus("Copied settings."), () => setCopyStatus("Select and copy the JSON above."));
           }}>Copy settings</button><p role="status">{copyStatus}</p>
         </details>
-      </aside>
-    </div>
+    </>}>
+      <div ref={surface} tabIndex={0} role="application" aria-label="Voxel world movement" aria-describedby="voxel-controls"
+        onPointerDown={() => surface.current?.focus({ preventScroll: true })}
+        className="h-full w-full overflow-hidden focus-visible:outline-2 focus-visible:outline-gold" />
+      <RenderStats stats={performanceStats} />
+    </LabViewport>
   );
 }

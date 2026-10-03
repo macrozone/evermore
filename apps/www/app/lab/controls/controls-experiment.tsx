@@ -1,5 +1,9 @@
 "use client";
 
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
+
+import { LabViewport } from "../../../components/lab/lab-viewport";
+
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
@@ -11,6 +15,7 @@ import { movementFromKeys } from "../../../components/lab/keyboard";
 import { useMovement } from "../../../components/lab/use-movement";
 
 export default function ControlsExperiment() {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const canvas = useRef<HTMLCanvasElement>(null);
   const keys = useMovement(canvas);
   const [movement, setMovement] = useState({ ...DEFAULT_MOVEMENT });
@@ -34,6 +39,7 @@ export default function ControlsExperiment() {
     let frames = 0;
     let frame = 0;
     const tick = (now: number) => {
+      const started = performance.now();
       const delta = previous > 0 ? Math.min((now - previous) / 1000, 0.05) : 0;
       previous = now;
       const direction = movementFromKeys(keys.current);
@@ -49,6 +55,7 @@ export default function ControlsExperiment() {
         context.fillStyle = "#" + mark.color.toString(16).padStart(6, "0");
         context.fillRect(Math.round(position.x * 32) + mark.x, Math.round(position.y * 32) + mark.y, mark.width, mark.height);
       }
+      recordFrame(performance.now() - started);
       if (sampleStart === 0) sampleStart = now;
       frames++;
       if (now - sampleStart >= 250) {
@@ -60,20 +67,11 @@ export default function ControlsExperiment() {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [keys, seed, movement]);
+  }, [keys, seed, movement, recordFrame]);
 
   const settings = JSON.stringify({ seed, movement }, null, 2);
   return (
-    <div className="grid gap-5">
-      <div className="relative">
-        <canvas ref={canvas} width={640} height={384} tabIndex={0}
-          aria-label="Movement sandbox. Use WASD or arrow keys to move."
-          className="w-full rounded border border-dusk focus:outline-2 focus:outline-gold"
-          style={{ imageRendering: "pixelated" }}>
-          Your browser needs canvas support to run this experiment.
-        </canvas>
-        <DebugOverlay {...snapshot} />
-      </div>
+    <LabViewport title="Controls & diagnostics" description="Focus the canvas, then move with WASD or the arrow keys. This is a controls sandbox, not a world renderer." controls={<>
       <fieldset className="grid gap-4 rounded border border-dusk p-4">
         <legend className="px-2">Settings</legend>
         <MovementSettings value={movement} onChange={setMovement} />
@@ -90,6 +88,17 @@ export default function ControlsExperiment() {
         }}>Copy settings</button>
         <p role="status" className="text-sm text-mist">{copyStatus}</p>
       </fieldset>
-    </div>
+    </>}>
+      <div className="relative h-full">
+        <canvas ref={canvas} width={640} height={384} tabIndex={0}
+          aria-label="Movement sandbox. Use WASD or arrow keys to move."
+          className="h-full w-full focus:outline-2 focus:outline-gold"
+          style={{ imageRendering: "pixelated" }}>
+          Your browser needs canvas support to run this experiment.
+        </canvas>
+        <DebugOverlay {...snapshot} />
+        <RenderStats stats={performanceStats} />
+      </div>
+    </LabViewport>
   );
 }

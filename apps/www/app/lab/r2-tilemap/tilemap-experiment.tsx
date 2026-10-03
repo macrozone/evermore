@@ -5,6 +5,9 @@ import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
 import { WORLD_EXAMPLES, generateWorld, createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
 import { Application, Container, Graphics, Assets, Sprite, type Texture } from "pixi.js";
+import { UPDATE_PRIORITY } from "pixi.js";
+import { LabViewport } from "../../../components/lab/lab-viewport";
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
 import { movementFromKeys } from "../../../components/lab/keyboard";
@@ -47,6 +50,7 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
   setSceneMode: (scene: string) => void;
   handoffState: ReturnType<typeof useWorldHandoff>;
 }) {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
   const { handoff, error: importError, ready } = handoffState;
@@ -77,12 +81,14 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
     const host = surface.current;
     if (!host || !ready) return;
     const app = new Application();
+    let observer: ResizeObserver | undefined;
     let cancelled = false;
     let initialized = false;
     let destroyed = false;
     const destroy = () => {
       if (initialized && !destroyed) {
         destroyed = true;
+        observer?.disconnect();
         app.destroy({ removeView: true }, { children: true });
       }
     };
@@ -95,6 +101,10 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
       app.canvas.style.display = "block";
       app.canvas.style.imageRendering = "pixelated";
       host?.appendChild(app.canvas);
+      const resize = () => { if (host && !destroyed) app.renderer.resize(host.clientWidth, host.clientHeight); };
+      observer = new ResizeObserver(resize);
+      observer.observe(host!);
+      resize();
       const generatedAt = performance.now();
       const village = sceneMode === "village" ? generateObjectVillage(objectLibrary, seed, villageOptions) : null;
       const world = imported ? generateWorld(imported.specification, imported.seed) : village?.world ?? createMeadowHouseWorld();
@@ -142,11 +152,11 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
         ground.clear(); objects.clear(); overhead.clear(); avatar.clear(); light.clear(); footprintGraphics.clear();
         const projected = project(motion);
         const center = { x: Math.round(projected.x), y: Math.round(projected.y) };
-        scene.position.set(Math.round(WIDTH / 2 - center.x), Math.round(HEIGHT / 2 - center.y));
+        scene.position.set(Math.round(app.screen.width / 2 - center.x), Math.round(app.screen.height / 2 - center.y));
         const tiles: Tile[] = [];
         // Extra north/south rows include tall tiles displaced into the viewport.
-        for (let y = Math.max(0, player.y - 16); y < Math.min(world.depth, player.y + 24); y++) {
-          for (let x = Math.max(0, player.x - 21); x < Math.min(world.width, player.x + 22); x++) {
+        for (let y = Math.max(0, player.y - Math.ceil(app.screen.height / TILE / 2) - 4); y < Math.min(world.depth, player.y + Math.ceil(app.screen.height / TILE / 2) + 12); y++) {
+          for (let x = Math.max(0, player.x - Math.ceil(app.screen.width / TILE / 2) - 2); x < Math.min(world.width, player.x + Math.ceil(app.screen.width / TILE / 2) + 2); x++) {
             // Sprite collision cells must not hide the terrain beneath transparent pixels.
             if (village) tiles.push({ x, y, z: 3, material: world.getCell(x, y, 2), layer: "ground" });
             else tiles.push(...columnTiles(world, x, y, player, cutaway));
@@ -164,7 +174,7 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           const { sprite, foot, object, placement } = entry;
           const inFront = foot.y > center.y;
           (inFront ? frontSprites : behindSprites).addChild(sprite);
-          sprite.visible = layers.objects && sprite.x + sprite.width >= center.x - WIDTH / 2 && sprite.x <= center.x + WIDTH / 2 && sprite.y + sprite.height >= center.y - HEIGHT / 2 && sprite.y <= center.y + HEIGHT / 2;
+          sprite.visible = layers.objects && sprite.x + sprite.width >= center.x - app.screen.width / 2 && sprite.x <= center.x + app.screen.width / 2 && sprite.y + sprite.height >= center.y - app.screen.height / 2 && sprite.y <= center.y + app.screen.height / 2;
           const overlaps = center.x >= sprite.x && center.x < sprite.x + sprite.width && center.y >= sprite.y && center.y - TILE < foot.y;
           sprite.alpha = fade && inFront && overlaps ? 0.3 : 1;
           if (footprints && sprite.visible) {
@@ -199,6 +209,8 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
       redraw();
       let sample = 0;
       let frames = 0;
+      let frameStarted = performance.now();
+      app.ticker.add(() => { frameStarted = performance.now(); }, undefined, UPDATE_PRIORITY.HIGH);
       app.ticker.add((ticker) => {
         const delta = Math.min(ticker.deltaMS / 1000, 0.05);
         const direction = movementFromKeys(keys.current);
@@ -210,23 +222,20 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           frames = 0; sample = 0;
         }
       });
+      app.ticker.add(() => recordFrame(performance.now() - frameStarted), undefined, UPDATE_PRIORITY.UTILITY);
     }
     void start().catch(() => {
       destroy();
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; destroy(); };
-  }, [keys, movement, cutaway, fade, layers, reset, sceneMode, imported, ready, seed, villageOptions, footprints]);
+  }, [keys, movement, cutaway, fade, layers, reset, sceneMode, imported, ready, seed, villageOptions, footprints, recordFrame]);
 
   const settings = JSON.stringify({ scene: sceneMode, seed: imported?.seed ?? seed, villageOptions, movement, cutaway, fade, layers, footprints }, null, 2);
   return (
-    <div className="grid gap-5">
-      <div className="relative">
-        <div ref={surface} tabIndex={0} role="application" aria-label="Tilemap world. Use WASD or arrow keys to move."
-          className="aspect-[5/3] w-full overflow-hidden rounded border border-dusk focus:outline-2 focus:outline-gold" />
-        <DebugOverlay {...snapshot} />
-        <fieldset className="absolute right-2 top-2 max-h-[70%] w-48 overflow-auto rounded border border-dusk bg-night/95 p-3 text-xs text-mist">
-          <legend className="sr-only">World controls</legend>
+    <LabViewport title="R2 · Layered tilemap" description="Explore a world made from small terrain tiles and separate objects. Move with WASD or arrow keys and watch roofs and tree crowns fade above the player. Choose a generated world, a library village or the meadow house to compare layouts and layers." controls={<>
+        <fieldset className="grid gap-3 rounded border border-dusk p-3">
+          <legend>World controls</legend>
           <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1"><option value="generator">G1 generated world</option><option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
           {sceneMode === "generator" && <>
             <label className="mt-2 block">Specification<select aria-label="World specification" value={example} onChange={event => setExample(event.target.value)} className="block w-full bg-night p-1">
@@ -247,7 +256,6 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           <label className="mt-2 block"><input type="checkbox" checked={fade} onChange={event => setFade(event.target.checked)} /> Fade occluders</label>
           <button type="button" onClick={() => setReset(reset + 1)} className="mt-2 rounded border border-gold px-2 py-1">Reset player</button>
         </fieldset>
-      </div>
       {importError.length > 0 && <p role="alert">{importError}</p>}
       {error !== "" && <p role="alert">{error}</p>}
       <p aria-live="polite">Location: {room} · {generation}</p>
@@ -271,6 +279,11 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           void navigator.clipboard.writeText(settings).then(() => setCopyStatus("Copied settings."), () => setCopyStatus("Select and copy the JSON above."));
         }}>Copy settings</button><p role="status">{copyStatus}</p>
       </details>
-    </div>
+    </>}>
+      <div ref={surface} tabIndex={0} role="application" aria-label="Tilemap world. Use WASD or arrow keys to move."
+        className="h-full w-full overflow-hidden focus:outline-2 focus:outline-gold" />
+      <DebugOverlay {...snapshot} />
+      <RenderStats stats={performanceStats} />
+    </LabViewport>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, Vector3, WebGLRenderer, PCFShadowMap } from "three";
 import { fitCamera, meshChunk } from "../r1-voxel/voxel-model";
@@ -6,8 +8,8 @@ import { daylightAt } from "../r1-voxel/daylight";
 import type { Reconstruction } from "./model";
 
 export default function Preview({ result, rotation, hour, sourceColors }: { result: Reconstruction; rotation: number; hour: number; sourceColors: boolean }) {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const host = useRef<HTMLDivElement>(null);
-  const stats = useRef<HTMLParagraphElement>(null);
   const render = useRef<((rotation: number, hour: number) => void) | null>(null);
   const current = useRef({ rotation, hour });
   const [error, setError] = useState("");
@@ -87,14 +89,14 @@ export default function Preview({ result, rotation, hour, sourceColors }: { resu
         sun.position.copy(center).addScaledVector(light.direction, extent * 1.5);
         const started = performance.now();
         active.render(scene, camera);
-        if (stats.current) stats.current.textContent = `On demand · ${(performance.now() - started).toFixed(1)}ms · ${active.info.render.triangles} triangles · ${active.info.render.calls} draw calls`;
+        recordFrame(performance.now() - started, active.info.render);
       };
       observer = new ResizeObserver(() => render.current?.(current.current.rotation, current.current.hour));
       observer.observe(surface);
       render.current(current.current.rotation, current.current.hour);
     } catch { dispose(); queueMicrotask(() => setError("Could not start WebGL. Enable WebGL and reload to preview; world export remains available.")); }
     return dispose;
-  }, [result, sourceColors]);
+  }, [result, sourceColors, recordFrame]);
   useEffect(() => { current.current = { rotation, hour }; render.current?.(rotation, hour); }, [rotation, hour]);
-  return <><div ref={host} className="h-full w-full" /><p ref={stats} className="absolute bottom-1 left-1 bg-black/70 px-2 text-[10px] text-white" />{error !== "" && <p role="alert">{error}</p>}</>;
+  return <div className="relative h-full"><div ref={host} className="h-full min-h-64 w-full" /><RenderStats stats={performanceStats} />{error !== "" && <p role="alert">{error}</p>}</div>;
 }

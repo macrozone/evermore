@@ -1,5 +1,6 @@
 "use client";
 import { generateWorld, getMaterial, WORLD_EXAMPLES, type World, type WorldSpecification } from "@evermore/world";
+import { LabViewport } from "../../../components/lab/lab-viewport";
 import { useEffect, useRef, useState } from "react";
 import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
 import { parseWorldHandoff, saveWorldHandoff } from "../../../lib/world-handoff";
@@ -54,7 +55,7 @@ export default function GeneratorExperiment() {
     context.lineWidth = 2;
     context.strokeRect(world.spawn.x * cell, world.spawn.y * cell, cell, cell);
   }, [result, slice]);
-  return <div className="grid gap-5">
+  return <LabViewport title="G1 · World generator" description="Choose a semantic specification and seed. The map shows the highest cell in each column; inspect lower floors with the slice control." controls={<>
     <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
       <legend>Generation settings</legend>
       <label>Example <select className="bg-black p-2" value={example === null && (custom || handoff) ? "custom" : example ?? 0} onChange={e => { setDraft(null); setValidation(""); setExample(e.target.value === "custom" ? null : Number(e.target.value)); }}>
@@ -66,10 +67,12 @@ export default function GeneratorExperiment() {
     </fieldset>
     <p role="status">{importError}</p>
     <p role="status">{error !== "" ? error : (result ? `${result.milliseconds.toFixed(1)} ms · ${result.world.structures.length} structures · spawn ${result.world.spawn.x}/${result.world.spawn.y}/${result.world.spawn.z}` : "Generating…")}</p>
-    <canvas ref={canvas} width={512} height={512} aria-label={`Top-down generated world: ${spec.name}. White outline marks the player start.`} className="w-full max-w-xl border border-dusk" style={{ imageRendering: "pixelated" }} />
     <p className="text-mist">{spec.mood} · {spec.climate} · {spec.timeOfDay}. This diagnostic map uses material colours; mood, palette and daylight are metadata for future renderer integration.</p>
     <label className="grid gap-2">World specification JSON<textarea rows={14} value={draft ?? JSON.stringify(spec, null, 2)} onChange={event => { setDraft(event.target.value); setValidation(""); }} className="w-full bg-black/30 p-3 font-mono text-sm" /></label>
     <button type="button" onClick={applyJSON} className="rounded border border-gold p-2">Validate and apply JSON</button>
     <p role="status">{validation}</p>
-  </div>;
+  </>}>
+    <canvas ref={canvas} width={512} height={512} aria-label={`Top-down generated world: ${spec.name}. White outline marks the player start.`} className="w-full h-full" style={{ imageRendering: "pixelated" }} />
+  </LabViewport>;
+
 }
