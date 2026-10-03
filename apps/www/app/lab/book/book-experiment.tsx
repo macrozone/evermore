@@ -162,7 +162,7 @@ export default function BookExperiment() {
         </details>
         <p>Compare the same passages across approaches. G2 uses four small layers and single-storey houses; G1 uses a larger world. Tokens are a cost proxy; billing depends on the model and thinking tokens. Fallback maps are fixtures, not model-quality samples. Their time and any reported tokens describe the failed attempt.</p>
         {history.length > 0 && <div className={styles.comparison}><table><caption>Recent runs for the current passages</caption><thead><tr><th>Approach / model</th><th>Source</th><th>Time</th><th>Input / output / thinking tokens</th><th>Repairs</th></tr></thead><tbody>
-          {history.filter(run => run.answers === JSON.stringify(answers)).map((run, index) => <tr key={index}><td>{run.strategy.toUpperCase()} · {run.model}</td><td>{run.source}{run.fallbackReason ? ` (${run.fallbackReason})` : ""}</td><td>{run.durationMs} ms</td><td>{run.inputTokens ?? "—"} / {run.outputTokens ?? "—"} / {run.thinkingTokens ?? "—"}</td><td>{run.repaired ?? "—"}</td></tr>)}
+          {history.filter(run => run.answers === JSON.stringify(answers)).map((run, index) => <tr key={index}><td>{run.strategy.toUpperCase()} · {run.model}</td><td>{run.source}{run.fallbackReason !== undefined ? ` (${run.fallbackReason})` : ""}</td><td>{run.durationMs} ms</td><td>{run.inputTokens ?? "—"} / {run.outputTokens ?? "—"} / {run.thinkingTokens ?? "—"}</td><td>{run.repaired ?? "—"}</td></tr>)}
         </tbody></table></div>}
       </section>
       <p className={styles.footnote}>An early book study. Your words stay here until you leave or reload the page.</p>
