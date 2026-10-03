@@ -25,3 +25,4 @@ Projektweite Entscheidungen (Architektur, Technologie, Prozess, Produkt-Scope) w
 | [0009](0009-vision-und-ideenpool.md) | Produktvision als lebendes Dokument, Ideen als Beads | accepted |
 | [0010](0010-art-direction-welt-pixel-art-ui-offen.md) | Art Direction: Welt in Pixel-Art, UI-Stil offen | accepted |
 | [0011](0011-multiplayer-netcode.md) | Multiplayer und Netcode für Welten als Instanzen | proposed |
+| [0011](0011-englisch-fuer-readmes-prs-commits.md) | Englisch für READMEs, PRs, Commits und Code-Kommentare | accepted |

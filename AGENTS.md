@@ -15,7 +15,7 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 
 # Evermore – Projektrichtlinien
 
-Evermore ist ein Online-Action-Rollenspiel mit einer Welt in Pixel-Art (SNES-inspiriert, darf modern sein; UI-Stil offen, siehe ADR 0010) und starkem User Generated Content (Experimentierphase). Turborepo-Monorepo (`apps/*`, `packages/*`), Code auf GitHub, CI/CD via catladder auf Google Cloud Run. Code und UI-Texte englisch, Beads und Doku deutsch.
+Evermore ist ein Online-Action-Rollenspiel mit einer Welt in Pixel-Art (SNES-inspiriert, darf modern sein; UI-Stil offen, siehe ADR 0010) und starkem User Generated Content (Experimentierphase). Turborepo-Monorepo (`apps/*`, `packages/*`), Code auf GitHub, CI/CD via catladder auf Google Cloud Run. Englisch: Code, UI-Texte, Code-Kommentare, Commit-Messages, Pull Requests und alle READMEs; Deutsch: Beads, Vision, ADRs (ADR 0011).
 
 Die Produktvision steht in [`docs/vision.md`](docs/vision.md) – vor grösseren Features lesen; offene Punkte dort nicht selbst entscheiden.
 
