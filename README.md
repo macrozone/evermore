@@ -49,3 +49,16 @@ viewport after page load, font loading, and a configurable delay (default
 `docs/lab/screenshots/`; `--out` accepts an absolute path or a path relative
 to the repository root. HTTP errors fail instead of producing an error-page
 screenshot. `pnpm screenshot --help` shows the command syntax.
+
+To check the R1 fullscreen pixel pass against zoom/frustum-culling regressions,
+start `apps/www` in this worktree, then run:
+
+```sh
+pnpm test:r1-zoom http://127.0.0.1:<BASE_PORT> /tmp/evermore-r1-zoom
+```
+
+The headless Chromium check reads pixels immediately after the actual screen
+draw, checks every camera preset at zoom 0.5–3 (including 1.75), and verifies
+page/panel scrolling and mobile resize. It rejects a missing screen draw, a
+transparent canvas, a sky-only result, or browser/WebGL errors, and writes PNGs
+for visual review. It runs separately from unit tests and needs a local server.

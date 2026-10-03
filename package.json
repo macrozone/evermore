@@ -17,6 +17,7 @@
     "dev:apps": "node scripts/print-dev-urls.mjs && turbo run dev",
     "test:ports": "node --test scripts/ensure-base-port.test.mjs",
     "screenshot": "node scripts/screenshot.mjs",
+    "test:r1-zoom": "node scripts/check-r1-zoom.mjs",
     "test:screenshot": "node --test scripts/screenshot.test.mjs",
     "test:dev": "node --test scripts/dev.test.mjs",
     "services:prune": "node scripts/prune-orphan-dev-stacks.mjs",
