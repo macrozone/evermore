@@ -113,3 +113,65 @@ describe("orthographic camera framing", () => {
     expect(zoomed.y).toBeCloseTo(original.y * 2);
   });
 });
+
+describe("fine visual voxels", () => {
+  it("keeps fence posts visible at the coarsest subcell setting", () => {
+    const world = new World({ width: 1, depth: 1, height: 1 });
+    world.setCell(0, 0, 0, M.fence);
+    const geometry = meshChunk(world, [...world.chunks()][0]!, 2);
+    expect(geometry.getAttribute("position").count).toBeGreaterThan(0);
+    geometry.dispose();
+  });
+  it("merges flat subcell surfaces instead of multiplying triangle count", () => {
+    const world = new World({ width: 1, depth: 1, height: 1 });
+    world.setCell(0, 0, 0, M.roof);
+    const geometry = meshChunk(world, [...world.chunks()][0]!, 8);
+    expect(geometry.index?.count).toBe(36);
+    geometry.dispose();
+  });
+  it("keeps the world untouched and flat terrain inexpensive at every detail level", () => {
+    const world = new World({ width: 1, depth: 1, height: 1 });
+    world.setCell(0, 0, 0, M.grass);
+    for (const fineness of [1, 2, 4, 8] as const) {
+      const geometry = meshChunk(world, [...world.chunks()][0]!, fineness);
+      expect(geometry.index?.count).toBe(36);
+      expect(geometry.boundingBox?.min.toArray()).toEqual([0, -1, 0]);
+      expect(geometry.boundingBox!.max.distanceTo(new Vector3(1, 0, 1))).toBe(0);
+      expect(world.getCell(0, 0, 0)).toBe(M.grass);
+      geometry.dispose();
+    }
+  });
+
+  it("culls fine canopy faces across a chunk seam and emits outward triangles", () => {
+    const world = new World({ width: 33, depth: 1, height: 1 });
+    world.setCell(31, 0, 0, M.leaves);
+    world.setCell(32, 0, 0, M.leaves);
+    for (const chunk of world.chunks()) {
+      const geometry = meshChunk(world, chunk, 4);
+      const position = geometry.getAttribute("position"), normal = geometry.getAttribute("normal"), index = geometry.index!;
+      for (let i = 0; i < index.count; i += 3) {
+        const a = new Vector3().fromBufferAttribute(position, index.getX(i));
+        const b = new Vector3().fromBufferAttribute(position, index.getX(i + 1));
+        const c = new Vector3().fromBufferAttribute(position, index.getX(i + 2));
+        const n = new Vector3().fromBufferAttribute(normal, index.getX(i));
+        expect(a.x === 32 && b.x === 32 && c.x === 32 && Math.max(a.z, b.z, c.z) <= 0.5 && Math.abs(n.x) === 1).toBe(false);
+        expect(b.sub(a).cross(c.sub(a)).normalize().dot(n)).toBeCloseTo(1);
+      }
+      geometry.dispose();
+    }
+  });
+
+  it("shapes a sloped roof in subcell steps without exceeding the source cell bounds", () => {
+    const world = new World({ width: 1, depth: 2, height: 2 });
+    world.setCell(0, 1, 0, M.roof);
+    world.setCell(0, 0, 1, M.roof);
+    const geometry = meshChunk(world, [...world.chunks()][0]!, 8);
+    const positions = geometry.getAttribute("position");
+    const southEdgeHeights = [];
+    for (let i = 0; i < positions.count; i++) if (positions.getY(i) === -2) southEdgeHeights.push(positions.getZ(i));
+    expect(Math.max(...southEdgeHeights)).toBeLessThan(1);
+    expect(geometry.boundingBox?.max.z).toBe(2);
+    expect(world.getCell(0, 1, 0)).toBe(M.roof);
+    geometry.dispose();
+  });
+});
