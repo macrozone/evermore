@@ -54,6 +54,7 @@ try {
     const canvas = page.getByRole("img");
     await canvas.waitFor();
     const pixels = () => canvas.evaluate(element => element.toDataURL());
+    assert.equal(await page.getByRole("navigation", { name: "View generated world" }).count(), 0, "G2 does not use G1-only renderer links");
     const original = await pixels();
     const layer = page.getByLabel("Height layer", { exact: false });
     for (const value of ["0", "3", "1"]) {
@@ -82,6 +83,10 @@ try {
     assert.equal(await canvas.count(), 0, "strategy change discards previous map");
     await page.getByRole("button", { name: "Generate world specification" }).click();
     await canvas.waitFor();
+    const rendererLinks = page.getByRole("navigation", { name: "View generated world" });
+    await rendererLinks.waitFor();
+    assert.equal(await rendererLinks.getByRole("link").count(), 3, "G1 renderer links survive G2 integration");
+    assert.ok(await page.evaluate(() => localStorage.getItem("evermore:lastSpec")), "G1 world is saved for renderers");
     assert.equal(await page.locator("tbody tr").count(), 2, "history compares both approaches");
     assert.deepEqual(errors, [], "no browser errors");
     await page.close();

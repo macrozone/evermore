@@ -57,7 +57,9 @@ export async function generateBook(input: BookInput): Promise<BookGeneration> {
   const prompt = JSON.stringify({ whoAndWhere: input.answers[0], sleepingPlace: input.answers[1] });
   const recordUsage = (tokens: LanguageModelUsage | undefined) => {
     const counts = tokenUsage(tokens);
-    usage.inputTokens += counts.inputTokens; usage.outputTokens += counts.outputTokens;
+    usage.inputTokens += counts.inputTokens;
+    // The SDK includes reasoning in outputTokens; the comparison lists it separately.
+    usage.outputTokens += input.strategy === "g2" ? (tokens?.outputTokenDetails?.textTokens ?? Math.max(0, counts.outputTokens - (tokens?.outputTokenDetails?.reasoningTokens ?? 0))) : counts.outputTokens;
     if (input.strategy === "g2" && tokens?.outputTokenDetails?.reasoningTokens !== undefined) {
       usage.thinkingTokens = (usage.thinkingTokens ?? 0) + tokens.outputTokenDetails.reasoningTokens;
     }

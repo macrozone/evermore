@@ -80,6 +80,7 @@ describe("book generation", () => {
     const result = await generateBook(input);
     expect(result.source).toBe("vertex");
     expect(result.repairs?.length).toBeGreaterThan(0);
+    expect(result.strategy).toBe("g1");
     expect(result.usage).toEqual({ inputTokens: 120, outputTokens: 450 });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
@@ -119,7 +120,7 @@ describe("book generation", () => {
     for (const [i, change] of changes.entries()) {
       fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], name: `Answer world ${i}`, ...change }));
       const result = await generateBook({ ...input, answers: [`A botanist in home ${i}`, "A cottage bedroom"] });
-      if (result.source === "vertex") { interpreted++; expect(result.specification.name).toBe(`Answer world ${i}`); }
+      if (result.source === "vertex" && result.strategy === "g1") { interpreted++; expect(result.specification.name).toBe(`Answer world ${i}`); }
     }
     expect(interpreted).toBeGreaterThanOrEqual(9);
   });
@@ -151,7 +152,7 @@ describe("G2 provider generation", () => {
     const result = await generateBook(rasterInput);
     expect(result).toMatchObject({ strategy: "g2", source: "vertex", raster, repairedRaster: raster, report: { changedCells: 0 } });
     const body = JSON.parse(fetchMock.mock.calls[0]![1].body);
-    expect(body.generationConfig.thinkingConfig.thinkingLevel).toBe("MEDIUM");
+    expect(body.generationConfig.thinkingConfig.thinkingLevel).toBe("medium");
     expect(body.generationConfig.maxOutputTokens).toBe(16384);
     expect(body.generationConfig.responseJsonSchema.properties.layers).toBeDefined();
   });
@@ -164,11 +165,16 @@ describe("G2 provider generation", () => {
     if (result.strategy === "g2") expect(result.repairedRaster.layers[1]![8]![8]).toBe("#");
   });
   it("supports Claude direct raster output", async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({ stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(createRasterExample()) }] })));
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({
+      id: "msg_raster", type: "message", role: "assistant", model: "claude-sonnet-5-5",
+      stop_reason: "tool_use", stop_sequence: null,
+      content: [{ type: "tool_use", id: "call_raster", name: "json", input: createRasterExample() }],
+      usage: { input_tokens: 50, output_tokens: 100 },
+    }), { headers: { "Content-Type": "application/json" } }));
     expect(await generateBook({ ...rasterInput, model: "claude-sonnet-5-5" })).toMatchObject({ strategy: "g2", source: "vertex" });
     const body = JSON.parse(fetchMock.mock.calls[0]![1].body);
     expect(body.max_tokens).toBe(8192);
-    expect(body.output_config.format.schema.properties.layers).toBeDefined();
+    expect(body.tools[0].input_schema.properties.layers).toBeDefined();
   });
   it("rejects malformed grids with a labelled raster fallback and billed usage", async () => {
     const raster = createRasterExample(); raster.layers[0]![0] = "short";
@@ -183,7 +189,7 @@ describe("G2 provider generation", () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ candidates: [{ finishReason: "STOP", content: { parts: [{ text: JSON.stringify(createRasterExample()) }] } }], usageMetadata: { promptTokenCount: 100, candidatesTokenCount: 200, thoughtsTokenCount: 300 } })));
     expect(await generateBook(rasterInput)).toMatchObject({ usage: { thinkingTokens: 300 } });
     fetchMock.mockResolvedValue(new Response("null"));
-    expect(await generateBook(rasterInput)).toMatchObject({ source: "example", fallbackReason: "invalid-output" });
+    expect(await generateBook(rasterInput)).toMatchObject({ source: "example", fallbackReason: "provider" });
   });
   it("bounds G2 credential resolution within its larger budget", async () => {
     vi.useFakeTimers();
