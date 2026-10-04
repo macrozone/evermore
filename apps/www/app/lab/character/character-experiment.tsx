@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ACCESSORY_PARTS, BODY_PARTS, CHARACTER_EXAMPLES, CHARACTER_MODELS, COLOR_KEYS, HAIR_PARTS, OUTFIT_PARTS, parseCharacterSpecification, type CharacterGeneration, type CharacterModel, type CharacterSpecification } from "./specification";
 import { DIRECTIONS, paintSprite, renderCharacter, type Direction, type PixelDensity } from "./sprite";
 import styles from "./character.module.css";
+import ImageExperiment from "./image-experiment";
 
 function SpritePreview({ specification, direction, density, scale, tempo, playing, frame }: {
   specification: CharacterSpecification; direction: Direction; density: PixelDensity; scale: number; tempo: number; playing: boolean; frame: number;
@@ -64,7 +65,7 @@ const fallbackLabels = {
   provider: "The text model is unavailable.", "invalid-output": "The model returned an invalid character.",
 };
 
-export default function CharacterExperiment() {
+function PaperDollExperiment() {
   const [description, setDescription] = useState(CHARACTER_EXAMPLES[0]!.description);
   const [model, setModel] = useState<CharacterModel>(CHARACTER_MODELS[0]);
   const [specification, setSpecification] = useState<CharacterSpecification>(structuredClone(CHARACTER_EXAMPLES[0]!.specification));
@@ -157,4 +158,12 @@ export default function CharacterExperiment() {
     </div>
     <details className={styles.json}><summary>Character & settings JSON</summary><textarea aria-label="Character and settings JSON" readOnly rows={16} value={json} /></details>
   </>;
+}
+
+export default function CharacterExperiment() {
+  const [approach, setApproach] = useState("image");
+  return <><div className={styles.approaches} role="group" aria-label="Character approach">
+    <button aria-pressed={approach === "paper"} onClick={() => setApproach("paper")}>A · Paper doll</button>
+    <button aria-pressed={approach === "image"} onClick={() => setApproach("image")}>B · Image model</button>
+  </div><div hidden={approach !== "image"}><ImageExperiment /></div><div hidden={approach !== "paper"}><PaperDollExperiment /></div></>;
 }

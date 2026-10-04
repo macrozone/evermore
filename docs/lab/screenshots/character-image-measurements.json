@@ -1,0 +1,588 @@
+{
+  "replayedPreparation": true,
+  "results": [
+    {
+      "name": "pirate",
+      "status": 200,
+      "id": "8877fcccc036018339fe9f9a46fc0669",
+      "model": "gemini-3.1-flash-lite-image",
+      "durationMs": 13249,
+      "estimatedCostUsd": 0.06756675000000001,
+      "calls": [
+        {
+          "stage": "reference",
+          "durationMs": 7496,
+          "estimatedCostUsd": 0.0336305
+        },
+        {
+          "stage": "sheet",
+          "durationMs": 5496,
+          "estimatedCostUsd": 0.03393625
+        }
+      ],
+      "frames": [
+        {
+          "pixels": 14993,
+          "width": 103,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 14817,
+          "width": 103,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 14656,
+          "width": 104,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 10960,
+          "width": 96,
+          "height": 213,
+          "bottom": 242
+        },
+        {
+          "pixels": 10661,
+          "width": 83,
+          "height": 211,
+          "bottom": 239
+        },
+        {
+          "pixels": 10698,
+          "width": 86,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10542,
+          "width": 85,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10577,
+          "width": 83,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 14189,
+          "width": 101,
+          "height": 213,
+          "bottom": 236
+        },
+        {
+          "pixels": 14422,
+          "width": 103,
+          "height": 213,
+          "bottom": 236
+        },
+        {
+          "pixels": 14349,
+          "width": 102,
+          "height": 213,
+          "bottom": 236
+        },
+        {
+          "pixels": 14437,
+          "width": 102,
+          "height": 213,
+          "bottom": 236
+        },
+        {
+          "pixels": 9981,
+          "width": 71,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10538,
+          "width": 71,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10760,
+          "width": 88,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10775,
+          "width": 87,
+          "height": 213,
+          "bottom": 232
+        }
+      ]
+    },
+    {
+      "name": "smile",
+      "status": 200,
+      "id": "0f4a8e839ce517ab5b6400f865d6813b",
+      "parentId": "8877fcccc036018339fe9f9a46fc0669",
+      "model": "gemini-3.1-flash-lite-image",
+      "durationMs": 6644,
+      "estimatedCostUsd": 0.033937499999999995,
+      "calls": [
+        {
+          "stage": "edit",
+          "durationMs": 6491,
+          "estimatedCostUsd": 0.033937499999999995
+        }
+      ],
+      "frames": [
+        {
+          "pixels": 15060,
+          "width": 105,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 14947,
+          "width": 104,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 14755,
+          "width": 105,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 11004,
+          "width": 96,
+          "height": 215,
+          "bottom": 243
+        },
+        {
+          "pixels": 10693,
+          "width": 83,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10742,
+          "width": 86,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10548,
+          "width": 85,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10640,
+          "width": 83,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 14203,
+          "width": 100,
+          "height": 212,
+          "bottom": 235
+        },
+        {
+          "pixels": 14446,
+          "width": 102,
+          "height": 212,
+          "bottom": 235
+        },
+        {
+          "pixels": 14399,
+          "width": 102,
+          "height": 213,
+          "bottom": 235
+        },
+        {
+          "pixels": 14448,
+          "width": 102,
+          "height": 212,
+          "bottom": 235
+        },
+        {
+          "pixels": 10031,
+          "width": 71,
+          "height": 213,
+          "bottom": 232
+        },
+        {
+          "pixels": 10640,
+          "width": 71,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10775,
+          "width": 88,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10800,
+          "width": 87,
+          "height": 212,
+          "bottom": 232
+        }
+      ]
+    },
+    {
+      "name": "blue-hat",
+      "status": 200,
+      "id": "c1fe0cf09d73eaa069092a77fd21b665",
+      "parentId": "0f4a8e839ce517ab5b6400f865d6813b",
+      "model": "gemini-3.1-flash-lite-image",
+      "durationMs": 5858,
+      "estimatedCostUsd": 0.033937749999999996,
+      "calls": [
+        {
+          "stage": "edit",
+          "durationMs": 5726,
+          "estimatedCostUsd": 0.033937749999999996
+        }
+      ],
+      "frames": [
+        {
+          "pixels": 15155,
+          "width": 105,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 15033,
+          "width": 104,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 14839,
+          "width": 105,
+          "height": 220,
+          "bottom": 246
+        },
+        {
+          "pixels": 11055,
+          "width": 96,
+          "height": 215,
+          "bottom": 243
+        },
+        {
+          "pixels": 10741,
+          "width": 83,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10764,
+          "width": 87,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10592,
+          "width": 85,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 10674,
+          "width": 83,
+          "height": 210,
+          "bottom": 238
+        },
+        {
+          "pixels": 14223,
+          "width": 100,
+          "height": 213,
+          "bottom": 235
+        },
+        {
+          "pixels": 14542,
+          "width": 102,
+          "height": 212,
+          "bottom": 235
+        },
+        {
+          "pixels": 14470,
+          "width": 102,
+          "height": 213,
+          "bottom": 235
+        },
+        {
+          "pixels": 14499,
+          "width": 103,
+          "height": 212,
+          "bottom": 235
+        },
+        {
+          "pixels": 10039,
+          "width": 71,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10716,
+          "width": 71,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10820,
+          "width": 88,
+          "height": 212,
+          "bottom": 232
+        },
+        {
+          "pixels": 10823,
+          "width": 87,
+          "height": 212,
+          "bottom": 232
+        }
+      ]
+    },
+    {
+      "name": "donkey",
+      "status": 200,
+      "id": "ea5a174701c89bdaa7fb4f52432773dd",
+      "model": "gemini-3.1-flash-lite-image",
+      "durationMs": 8631,
+      "estimatedCostUsd": 0.06756475,
+      "calls": [
+        {
+          "stage": "reference",
+          "durationMs": 2532,
+          "estimatedCostUsd": 0.0336295
+        },
+        {
+          "stage": "sheet",
+          "durationMs": 5938,
+          "estimatedCostUsd": 0.03393525
+        }
+      ],
+      "frames": [
+        {
+          "pixels": 14469,
+          "width": 116,
+          "height": 209,
+          "bottom": 250
+        },
+        {
+          "pixels": 14005,
+          "width": 114,
+          "height": 208,
+          "bottom": 250
+        },
+        {
+          "pixels": 13866,
+          "width": 116,
+          "height": 208,
+          "bottom": 250
+        },
+        {
+          "pixels": 13884,
+          "width": 116,
+          "height": 208,
+          "bottom": 250
+        },
+        {
+          "pixels": 17128,
+          "width": 191,
+          "height": 199,
+          "bottom": 234
+        },
+        {
+          "pixels": 16320,
+          "width": 166,
+          "height": 200,
+          "bottom": 235
+        },
+        {
+          "pixels": 17644,
+          "width": 188,
+          "height": 200,
+          "bottom": 235
+        },
+        {
+          "pixels": 17302,
+          "width": 189,
+          "height": 200,
+          "bottom": 234
+        },
+        {
+          "pixels": 13779,
+          "width": 122,
+          "height": 209,
+          "bottom": 235
+        },
+        {
+          "pixels": 14452,
+          "width": 127,
+          "height": 193,
+          "bottom": 235
+        },
+        {
+          "pixels": 13724,
+          "width": 110,
+          "height": 195,
+          "bottom": 235
+        },
+        {
+          "pixels": 13302,
+          "width": 107,
+          "height": 199,
+          "bottom": 235
+        },
+        {
+          "pixels": 17714,
+          "width": 192,
+          "height": 204,
+          "bottom": 220
+        },
+        {
+          "pixels": 18386,
+          "width": 192,
+          "height": 203,
+          "bottom": 220
+        },
+        {
+          "pixels": 18343,
+          "width": 191,
+          "height": 203,
+          "bottom": 220
+        },
+        {
+          "pixels": 17859,
+          "width": 191,
+          "height": 205,
+          "bottom": 221
+        }
+      ]
+    },
+    {
+      "name": "sorceress",
+      "status": 200,
+      "id": "36b257fa5e09eab14e36fa497ac0c289",
+      "model": "gemini-3.1-flash-lite-image",
+      "durationMs": 9994,
+      "estimatedCostUsd": 0.06756775,
+      "calls": [
+        {
+          "stage": "reference",
+          "durationMs": 3834,
+          "estimatedCostUsd": 0.033631
+        },
+        {
+          "stage": "sheet",
+          "durationMs": 6024,
+          "estimatedCostUsd": 0.033936749999999995
+        }
+      ],
+      "frames": [
+        {
+          "pixels": 19070,
+          "width": 126,
+          "height": 217,
+          "bottom": 247
+        },
+        {
+          "pixels": 16183,
+          "width": 102,
+          "height": 217,
+          "bottom": 247
+        },
+        {
+          "pixels": 19686,
+          "width": 129,
+          "height": 217,
+          "bottom": 247
+        },
+        {
+          "pixels": 16976,
+          "width": 125,
+          "height": 217,
+          "bottom": 247
+        },
+        {
+          "pixels": 16525,
+          "width": 182,
+          "height": 208,
+          "bottom": 241
+        },
+        {
+          "pixels": 11512,
+          "width": 75,
+          "height": 208,
+          "bottom": 241
+        },
+        {
+          "pixels": 15109,
+          "width": 123,
+          "height": 208,
+          "bottom": 241
+        },
+        {
+          "pixels": 13736,
+          "width": 162,
+          "height": 208,
+          "bottom": 241
+        },
+        {
+          "pixels": 18998,
+          "width": 134,
+          "height": 211,
+          "bottom": 236
+        },
+        {
+          "pixels": 18949,
+          "width": 127,
+          "height": 210,
+          "bottom": 236
+        },
+        {
+          "pixels": 18824,
+          "width": 129,
+          "height": 211,
+          "bottom": 236
+        },
+        {
+          "pixels": 16305,
+          "width": 125,
+          "height": 210,
+          "bottom": 236
+        },
+        {
+          "pixels": 14635,
+          "width": 169,
+          "height": 212,
+          "bottom": 234
+        },
+        {
+          "pixels": 14901,
+          "width": 171,
+          "height": 212,
+          "bottom": 234
+        },
+        {
+          "pixels": 12452,
+          "width": 84,
+          "height": 211,
+          "bottom": 234
+        },
+        {
+          "pixels": 13018,
+          "width": 102,
+          "height": 210,
+          "bottom": 233
+        }
+      ]
+    }
+  ],
+  "browserErrors": []
+}

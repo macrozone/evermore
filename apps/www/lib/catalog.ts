@@ -37,8 +37,8 @@ export const catalog: readonly CatalogEntry[] = [
   },
   {
     id: "character",
-    name: "Character A · Paper doll",
-    description: "Describe a traveller, choose parts and colours, and inspect four directions of their walk cycle.",
+    name: "Character A/B · Paper doll & image model",
+    description: "Compare paper dolls with generated image characters, edit variants, and inspect four directions of a walk cycle.",
     href: "/lab/character",
     category: "experiment",
     status: "ready",
