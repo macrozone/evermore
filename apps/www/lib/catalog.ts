@@ -99,7 +99,7 @@ export const catalog: readonly CatalogEntry[] = [
   {
     id: "r2-tilemap",
     name: "R2 · Layered tilemap",
-    description: "Explore the meadow, house, bridge and tower in a PixiJS 3/4 tilemap.",
+    description: "Generate seeded G1 examples or explore a specification from the book in a playable layered tilemap.",
     href: "/lab/r2-tilemap",
     category: "experiment",
     status: "ready",

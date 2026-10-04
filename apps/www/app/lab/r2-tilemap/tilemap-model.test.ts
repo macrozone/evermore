@@ -1,8 +1,23 @@
-import { createMeadowHouseWorld, M, World } from "@evermore/world";
+import { generateWorld, WORLD_EXAMPLES, createMeadowHouseWorld, M, World } from "@evermore/world";
+import { createMovement, DEFAULT_MOVEMENT, stepMovement } from "@evermore/core";
 import { describe, expect, it } from "vitest";
 import { columnTiles, movementFloor, overlapsPlayer, project, stepPlayer } from "./tilemap-model";
 
 describe("R2 tilemap adapter", () => {
+  it.each(WORLD_EXAMPLES)("renders and permits movement from the generated spawn: $name", (specification) => {
+    const world = generateWorld(specification, "r2-playable");
+    const start = { x: world.spawn.x + 0.5, y: world.spawn.y + 0.5, z: world.spawn.z };
+    expect(movementFloor(world, start)).toBe(start.z);
+    expect(columnTiles(world, world.spawn.x, world.spawn.y, world.spawn, true)
+      .some(tile => tile.layer === "ground" && tile.z === start.z)).toBe(true);
+    const distances = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([x, y]) => {
+      const motion = createMovement(start);
+      for (let tick = 0; tick < 60; tick++) stepMovement(motion, { x: x!, y: y! }, DEFAULT_MOVEMENT, position => movementFloor(world, position));
+      expect(movementFloor(world, motion)).toBe(motion.z);
+      return Math.hypot(motion.x - start.x, motion.y - start.y);
+    });
+    expect(Math.max(...distances)).toBeGreaterThan(1);
+  });
   it("offsets height without rotating the map grid", () => {
     expect(project({ x: 2, y: 4, z: 3 })).toEqual({ x: 40, y: 62 });
   });

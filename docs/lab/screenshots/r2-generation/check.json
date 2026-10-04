@@ -1,0 +1,54 @@
+{
+  "examples": [
+    {
+      "name": "Forest village",
+      "distance": 1.3666666666667275,
+      "start": {
+        "worldName": "Forest village",
+        "worldSeed": "1342014883",
+        "playerX": "18.5",
+        "playerY": "42.5",
+        "playerZ": "3"
+      }
+    },
+    {
+      "name": "Harbour town",
+      "distance": 1.4333333333333975,
+      "start": {
+        "worldName": "Harbour town",
+        "worldSeed": "1325237264",
+        "playerX": "18.5",
+        "playerY": "46.5",
+        "playerZ": "3"
+      }
+    },
+    {
+      "name": "Desert ruins",
+      "distance": 1.4348828833353182,
+      "start": {
+        "worldName": "Desert ruins",
+        "worldSeed": "1375570121",
+        "playerX": "18.5",
+        "playerY": "46.5",
+        "playerZ": "2"
+      }
+    },
+    {
+      "name": "Mountain monastery",
+      "distance": 1.2879786057573746,
+      "start": {
+        "worldName": "Mountain monastery",
+        "worldSeed": "1358792502",
+        "playerX": "18.5",
+        "playerY": "46.5",
+        "playerZ": "6"
+      }
+    }
+  ],
+  "rerolledSeed": "1017880059",
+  "storageImport": true,
+  "hashPrecedence": true,
+  "invalidHash": true,
+  "mobile": true,
+  "errors": []
+}

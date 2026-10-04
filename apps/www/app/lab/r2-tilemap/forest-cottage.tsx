@@ -106,7 +106,7 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
   return <div className="grid gap-4">
     <section aria-label="Forest cottage comparison" className="sticky top-2 z-10 rounded border border-dusk bg-night p-3">
       <div className="mb-3 flex flex-wrap items-center gap-3 text-sm">
-        <label>Scene <select aria-label="Scene" value="moodboard" onChange={event=>onSceneChange(event.target.value)} className="rounded bg-night p-1"><option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+        <label>Scene <select aria-label="Scene" value="moodboard" onChange={event=>onSceneChange(event.target.value)} className="rounded bg-night p-1"><option value="moodboard">Moodboard: Forest cottage</option><option value="generator">G1 generated world</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
         <output aria-label="Cottage diagnostics" className="font-mono text-xs text-mist">{stats.fps.toFixed(0)} FPS · {stats.ms.toFixed(1)} ms · ({stats.x.toFixed(1)}, {stats.y.toFixed(1)}) · {stats.faded} faded</output>
       </div>
       <div className="grid grid-cols-2 gap-3">

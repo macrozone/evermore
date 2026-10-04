@@ -3,12 +3,13 @@
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
-import { generateWorld, createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
+import { WORLD_EXAMPLES, generateWorld, createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
 import { Application, Container, Graphics, Assets, Sprite, type Texture } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
+import { DEFAULT_SPEC_SEED, type WorldHandoff } from "../../../lib/world-handoff";
 import { useMovement } from "../../../components/lab/use-movement";
 import { columnTiles, overlapsPlayer, project, RISE, movementFloor, TILE, type Layer, type Tile } from "./tilemap-model";
 
@@ -35,9 +36,10 @@ export default function TilemapExperiment() {
   const handoffState = useWorldHandoff();
   const { handoff } = handoffState;
   const [selectedScene, setSceneMode] = useState<string | null>(null);
-  const sceneMode = selectedScene ?? (handoff ? "specification" : "moodboard");
-  if (sceneMode === "moodboard") return <ForestCottage onSceneChange={setSceneMode} />;
-  return <GeneratedTilemap sceneMode={sceneMode} setSceneMode={setSceneMode} handoffState={handoffState} />;
+  const sceneMode = selectedScene ?? (handoff ? "generator" : "moodboard");
+  if (!handoffState.ready) return <p role="status">Loading world specification…</p>;
+  if (sceneMode === "moodboard") return <>{handoffState.error !== "" && <p role="alert">{handoffState.error}</p>}<ForestCottage onSceneChange={setSceneMode} /></>;
+  return <GeneratedTilemap key={JSON.stringify(handoff)} sceneMode={sceneMode} setSceneMode={setSceneMode} handoffState={handoffState} />;
 }
 
 function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
@@ -48,7 +50,15 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
   const { handoff, error: importError, ready } = handoffState;
-  const imported = sceneMode === "specification" ? handoff : null;
+  const [example, setExample] = useState(handoff ? "imported" : "0");
+  const [specSeed, setSpecSeed] = useState<string | number>(handoff?.seed ?? DEFAULT_SPEC_SEED);
+  const [applied, setApplied] = useState<WorldHandoff>(() => handoff ?? { specification: WORLD_EXAMPLES[0]!, seed: DEFAULT_SPEC_SEED });
+  const imported = sceneMode === "generator" ? applied : null;
+  const draftSpec = example === "imported" && handoff ? handoff.specification : WORLD_EXAMPLES[Number(example)]!;
+  const generate = (nextSeed: string | number = specSeed) => {
+    setSpecSeed(nextSeed);
+    setApplied({ specification: draftSpec, seed: nextSeed });
+  };
   const [seed, setSeed] = useState(20261003);
   const [villageOptions, setVillageOptions] = useState({ ...DEFAULT_VILLAGE });
   const [generation, setGeneration] = useState("");
@@ -101,6 +111,8 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
       }
       const motion = createMovement({ x: world.spawn.x + 0.5, y: world.spawn.y + 0.5, z: world.spawn.z });
       const advance = createMovementClock();
+      host!.dataset.worldName = imported?.specification.name ?? sceneMode;
+      host!.dataset.worldSeed = String(world.seed);
       const playerCell = () => ({ x: Math.floor(motion.x), y: Math.floor(motion.y), z: motion.z });
       const scene = new Container();
       const ground = new Graphics();
@@ -123,6 +135,9 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
       }).sort((a, b) => a.foot.y !== b.foot.y ? a.foot.y - b.foot.y : a.foot.x - b.foot.x);
       app.stage.addChild(scene);
       function redraw() {
+        host!.dataset.playerX = String(motion.x);
+        host!.dataset.playerY = String(motion.y);
+        host!.dataset.playerZ = String(motion.z);
         const player = playerCell();
         ground.clear(); objects.clear(); overhead.clear(); avatar.clear(); light.clear(); footprintGraphics.clear();
         const projected = project(motion);
@@ -211,8 +226,17 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           className="aspect-[5/3] w-full overflow-hidden rounded border border-dusk focus:outline-2 focus:outline-gold" />
         <DebugOverlay {...snapshot} />
         <fieldset className="absolute right-2 top-2 max-h-[70%] w-48 overflow-auto rounded border border-dusk bg-night/95 p-3 text-xs text-mist">
-          <legend className="sr-only">Village controls</legend>
-          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1">{handoff && <option value="specification">{handoff.specification.name} (imported)</option>}<option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+          <legend className="sr-only">World controls</legend>
+          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1"><option value="generator">G1 generated world</option><option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+          {sceneMode === "generator" && <>
+            <label className="mt-2 block">Specification<select aria-label="World specification" value={example} onChange={event => setExample(event.target.value)} className="block w-full bg-night p-1">
+              {handoff && <option value="imported">{handoff.specification.name} (imported)</option>}
+              {WORLD_EXAMPLES.map((spec, index) => <option key={spec.name} value={index}>{spec.name}</option>)}
+            </select></label>
+            <label className="mt-2 block">Seed<input aria-label="World seed" maxLength={200} value={specSeed} onChange={event => setSpecSeed(event.target.value)} className="block w-full bg-night p-1" /></label>
+            <button type="button" onClick={() => generate()} className="mt-2 rounded border border-gold px-2 py-1">Generate world</button>
+            <button type="button" onClick={() => generate(crypto.getRandomValues(new Uint32Array(1))[0]!)} className="mt-2 rounded border border-dusk px-2 py-1">New seed + generate</button>
+          </>}
           {sceneMode === "village" && <>
             <label className="mt-2 block">Seed<input aria-label="Village seed" type="number" min={0} max={4294967295} value={seed} onChange={event => { const value = Number(event.target.value); if (Number.isInteger(value) && value >= 0 && value <= 4294967295) setSeed(value); }} className="block w-full bg-night p-1" /></label>
             <label className="mt-2 block">Map size<select aria-label="Map size" value={villageOptions.size} onChange={event => setVillageOptions({ ...villageOptions, size: Number(event.target.value) })} className="block w-full bg-night p-1">{[48, 64, 96, 128].map(size => <option key={size} value={size}>{size} × {size}</option>)}</select></label>
@@ -233,9 +257,13 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
         <label><input type="checkbox" checked={cutaway} onChange={(event) => setCutaway(event.target.checked)} /> Building cutaway</label>
         <label><input type="checkbox" checked={fade} onChange={(event) => setFade(event.target.checked)} /> Fade occluders</label>
         {(["ground", "objects", "overhead"] as const).map((layer) => <label key={layer}><input type="checkbox" checked={layers[layer]} onChange={(event) => setLayers({ ...layers, [layer]: event.target.checked })} /> {layer}</label>)}
-        <button type="button" onClick={() => setReset(reset + 1)} className="rounded border border-gold px-3 py-1">Reset to door</button>
+        <button type="button" onClick={() => setReset(reset + 1)} className="rounded border border-gold px-3 py-1">Reset to spawn</button>
       </fieldset>
-      <p className="text-sm text-mist">Changing settings resets the player. Village generation reuses the seven library sprites without model calls. Green footprint markers show reachable door approaches; houses are exterior objects in this slice. The meadow scene retains interiors and stairs. Movement uses a shared 60 Hz simulation. Try wall sliding, doorway corners and the stairs.</p>
+      {imported && <details><summary>Generated world specification · {imported.specification.name}</summary>
+        <p className="mt-2 text-sm text-mist">{imported.specification.mood} · {imported.specification.climate} · {imported.specification.timeOfDay}. Terrain, water and buildings come from G1; palette and mood remain metadata in this renderer.</p>
+        <textarea readOnly value={JSON.stringify(imported, null, 2)} rows={12} aria-label="Generated world specification JSON" className="mt-3 w-full rounded bg-black/30 p-3 font-mono text-sm" />
+      </details>}
+      <p className="text-sm text-mist">Choose a G1 specification and seed, then generate. New seed + generate rerolls the layout and resets the player to its safe spawn. Focus the world to move. Changing settings resets the player. Village generation reuses the seven library sprites without model calls. Green footprint markers show reachable door approaches; houses are exterior objects in this slice. The meadow scene retains interiors and stairs. Movement uses a shared 60 Hz simulation. Try wall sliding, doorway corners and the stairs.</p>
       <details><summary>Settings JSON</summary>
         <textarea readOnly value={settings} rows={12} aria-label="Settings JSON" className="mt-3 w-full rounded bg-black/30 p-3 font-mono text-sm" />
         <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => {
