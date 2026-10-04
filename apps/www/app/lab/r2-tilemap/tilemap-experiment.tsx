@@ -6,7 +6,7 @@ import { movementSprite } from "../../../components/lab/movement-sprite";
 import { WORLD_EXAMPLES, generateWorld, createMeadowHouseWorld, getMaterial, MEADOW_HOUSE_LIGHTS, generateObjectVillage, DEFAULT_VILLAGE } from "@evermore/world";
 import { Application, Container, Graphics, Assets, Sprite, type Texture } from "pixi.js";
 import { UPDATE_PRIORITY } from "pixi.js";
-import { LabViewport } from "../../../components/lab/lab-viewport";
+import { ControlGroup, LabViewport } from "../../../components/lab/lab-viewport";
 import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 import { useEffect, useRef, useState } from "react";
 import { DebugOverlay, type DebugSnapshot } from "../../../components/lab/debug-overlay";
@@ -234,8 +234,7 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
   const settings = JSON.stringify({ scene: sceneMode, seed: imported?.seed ?? seed, villageOptions, movement, cutaway, fade, layers, footprints }, null, 2);
   return (
     <LabViewport title="R2 · Layered tilemap" description="Explore a world made from small terrain tiles and separate objects. Move with WASD or arrow keys and watch roofs and tree crowns fade above the player. Choose a generated world, a library village or the meadow house to compare layouts and layers." controls={<>
-        <fieldset className="grid gap-3 rounded border border-dusk p-3">
-          <legend>World controls</legend>
+        <ControlGroup title="World controls">
           <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1"><option value="generator">G1 generated world</option><option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
           {sceneMode === "generator" && <>
             <label className="mt-2 block">Specification<select aria-label="World specification" value={example} onChange={event => setExample(event.target.value)} className="block w-full bg-night p-1">
@@ -255,18 +254,17 @@ function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
           </>}
           <label className="mt-2 block"><input type="checkbox" checked={fade} onChange={event => setFade(event.target.checked)} /> Fade occluders</label>
           <button type="button" onClick={() => setReset(reset + 1)} className="mt-2 rounded border border-gold px-2 py-1">Reset player</button>
-        </fieldset>
+        </ControlGroup>
       {importError.length > 0 && <p role="alert">{importError}</p>}
       {error !== "" && <p role="alert">{error}</p>}
       <p aria-live="polite">Location: {room} · {generation}</p>
-      <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
-        <legend className="px-2">Renderer settings</legend>
+      <ControlGroup title="Renderer settings">
         <MovementSettings value={movement} onChange={setMovement} />
         <label><input type="checkbox" checked={cutaway} onChange={(event) => setCutaway(event.target.checked)} /> Building cutaway</label>
         <label><input type="checkbox" checked={fade} onChange={(event) => setFade(event.target.checked)} /> Fade occluders</label>
         {(["ground", "objects", "overhead"] as const).map((layer) => <label key={layer}><input type="checkbox" checked={layers[layer]} onChange={(event) => setLayers({ ...layers, [layer]: event.target.checked })} /> {layer}</label>)}
         <button type="button" onClick={() => setReset(reset + 1)} className="rounded border border-gold px-3 py-1">Reset to spawn</button>
-      </fieldset>
+      </ControlGroup>
       {imported && <details><summary>Generated world specification · {imported.specification.name}</summary>
         <p className="mt-2 text-sm text-mist">{imported.specification.mood} · {imported.specification.climate} · {imported.specification.timeOfDay}. Terrain, water and buildings come from G1; palette and mood remain metadata in this renderer.</p>
         <textarea readOnly value={JSON.stringify(imported, null, 2)} rows={12} aria-label="Generated world specification JSON" className="mt-3 w-full rounded bg-black/30 p-3 font-mono text-sm" />

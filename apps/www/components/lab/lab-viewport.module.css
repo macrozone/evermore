@@ -76,6 +76,7 @@
 
 .toggle:focus-visible { outline: 2px solid #e8c878; outline-offset: -3px; }
 .content {
+  overflow-wrap: anywhere;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -86,6 +87,13 @@
 .content[hidden] { display: none; }
 .description { font-size: 0.875rem; color: #b5c1bd; }
 .content fieldset { min-width: 0; flex-direction: column; gap: 0.75rem; }
+.group { border: 1px solid #53636b; border-radius: 0.5rem; }
+.group > summary { padding: 0.75rem; cursor: pointer; color: #e8c878; }
+.group > summary:focus-visible { outline: 2px solid #e8c878; outline-offset: -3px; }
+.group > fieldset { display: grid; gap: 0.75rem; padding: 0 0.75rem 0.75rem; }
+.group fieldset fieldset { border: 0; padding: 0; }
+.content details { min-width: 0; }
+.content p { margin: 0; }
 .content label { max-width: 100%; }
 .content input:not([type="checkbox"]), .content select, .content textarea { max-width: 100%; }
 .content input[type="range"] { display: block; width: 100%; margin: 0.5rem 0 0; }

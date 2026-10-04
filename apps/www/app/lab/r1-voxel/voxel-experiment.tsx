@@ -2,7 +2,7 @@
 
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MEADOW_HOUSE_SEED, WORLD_EXAMPLES, generateWorld, deriveShadowWorld, findInfluenceOrigin, influenceAt } from "@evermore/world";
-import { LabViewport } from "../../../components/lab/lab-viewport";
+import { ControlGroup, LabViewport } from "../../../components/lab/lab-viewport";
 import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 import { useEffect, useRef, useState } from "react";
 import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, DepthTexture, AlwaysDepth, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture, Sprite, SpriteMaterial } from "three";
@@ -347,44 +347,39 @@ export default function VoxelExperiment() {
   const json = JSON.stringify({ experiment: "r1-voxel", world: worldName, shadow, heatmap, seed: worldSeed, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
   return (
     <LabViewport title="R1 · Orthographic voxels" description="Choose an example or a world sent from the Book, then generate and explore with WASD or arrow keys. Compare the block-built world from different camera angles, lighting and focus settings while it stays in view. The meadow house is a fixed comparison scene; the player marker stays visible through roofs." controls={<>
-        {ready && <GenerationPanel key={JSON.stringify(handoff)} initialIndex={worldIndex} initialSeed={worldSeed} handoff={handoff} onGenerate={(index, seed) => {
+        {ready && <ControlGroup title="Generation"><GenerationPanel key={JSON.stringify(handoff)} initialIndex={worldIndex} initialSeed={worldSeed} handoff={handoff} onGenerate={(index, seed) => {
           keys.current.clear();
           setSelectedWorld((previous) => ({ index, seed, revision: (previous?.revision ?? 0) + 1 }));
-        }} />}
+        }} /></ControlGroup>}
         <p aria-label="Active generation">{worldName} · Seed {worldSeed} · {generationMs.toFixed(1)} ms generation</p>
         <p id="voxel-controls">Click the world, then use WASD / arrow keys. Tab returns to settings. Follow the path to the bridge, or enter the house and take the stairs along the north wall of the kitchen.</p>
       <p className="text-sm text-mist">{stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} terrain triangles</p>
         <p aria-label="Player position">Player: {playerPosition.x.toFixed(2)}, {playerPosition.y.toFixed(2)} · Floor {playerPosition.z}</p>
-        <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
-          <legend>Movement & follow</legend>
+        <ControlGroup title="Movement & follow">
           <MovementSettings value={movement} onChange={setMovement} />
           <label>Camera follow ({follow} /s)<input aria-label="Camera follow" className="w-full max-w-full" type="range" min={1} max={30} step={1} value={follow} onChange={(event) => setFollow(Number(event.target.value))} /></label>
           <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => resetPlayer.current?.()}>Reset player</button>
-        </fieldset>
-        <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
-          <legend>Depth of field</legend>
+        </ControlGroup>
+        <ControlGroup title="Depth of field">
           <label><input type="checkbox" checked={look.depthOfField} onChange={(event) => setLook({ ...look, depthOfField: event.target.checked })} /> Depth of field</label>
           <label>Blur strength ({look.blurStrength} render pixels)<input aria-label="Blur strength" className="w-full max-w-full" type="range" min={0} max={6} step={1} value={look.blurStrength} onChange={(event) => setLook({ ...look, blurStrength: Number(event.target.value) })} /></label>
           <label>Focus range (±{look.focusRange} world cells)<input aria-label="Focus range" className="w-full max-w-full" type="range" min={0.5} max={30} step={0.5} value={look.focusRange} onChange={(event) => setLook({ ...look, focusRange: Number(event.target.value) })} /></label>
           <p>The sharp depth band follows the player. Nearer and farther terrain softens in whole render-pixel steps; try a wide view for a miniature effect. Top-down views separate heights rather than north and south.</p>
-        </fieldset>
-        <fieldset className="min-w-0 flex flex-wrap gap-4 border border-dusk p-3">
-          <legend>Firelight flicker</legend>
+        </ControlGroup>
+        <ControlGroup title="Firelight flicker">
           <label><input type="checkbox" checked={lighting.flicker} onChange={(event) => setLighting({ ...lighting, flicker: event.target.checked })} /> Flicker</label>
           <label>Strength ({lighting.flickerStrength.toFixed(2)})<input aria-label="Flicker strength" type="range" min={0} max={0.4} step={0.01} value={lighting.flickerStrength} onChange={(event) => setLighting({ ...lighting, flickerStrength: Number(event.target.value) })} /></label>
           <label>Speed ({lighting.flickerSpeed.toFixed(1)}×)<input aria-label="Flicker speed" type="range" min={0} max={6} step={0.1} value={lighting.flickerSpeed} onChange={(event) => setLighting({ ...lighting, flickerSpeed: Number(event.target.value) })} /></label>
           <span className="text-sm">Fire only · lanterns and windows stay steady</span>
-        </fieldset>
-        <fieldset className="min-w-0 flex flex-wrap items-center gap-4 border border-dusk p-3">
-          <legend>World & danger</legend>
+        </ControlGroup>
+        <ControlGroup title="World & danger">
           {([false, true] as const).map((value) => <button key={String(value)} type="button" className="rounded border border-gold px-3 py-1" aria-pressed={shadow === value} onClick={() => setShadow(value)}>{value ? "Shadow" : "Normal"}</button>)}
           <label><input type="checkbox" checked={heatmap} onChange={(event) => setHeatmap(event.target.checked)} /> Danger heatmap</label>
           <p className="text-sm">Blue: low danger · Red: high danger. Influence peaks at the first bed (or spawn), fading with horizontal distance.</p>
-        </fieldset>
+        </ControlGroup>
         {importError.length > 0 && <p role="alert">{importError}</p>}
         {error !== "" && <p role="alert">{error}</p>}
-        <fieldset className="min-w-0 flex flex-wrap gap-5 rounded border border-dusk p-4">
-          <legend className="px-2">Camera settings</legend>
+        <ControlGroup title="Camera settings">
           <div className="flex w-full flex-wrap gap-2" role="group" aria-label="Camera presets">
             {CAMERA_PRESETS.map((preset, index) => (
               <button key={preset.label} type="button"
@@ -406,10 +401,9 @@ export default function VoxelExperiment() {
           </label>
           <button className="rounded border border-gold px-3 py-1" type="button" onClick={() => setSettings({ ...settings, zoom: 1 })}>Wide view</button>
           <button className="rounded border border-gold px-3 py-1" type="button" onClick={() => setSettings(PLAYER_CAMERA)}>Reset camera</button>
-        </fieldset>
+        </ControlGroup>
         <p className="text-sm text-mist">Inclination is measured above the horizon. Rotation 0° looks from the south. Zoom 1× uses the world-sized frame around the player; higher zoom gives a closer look.</p>
-        <fieldset className="min-w-0 flex flex-wrap gap-5 rounded border border-dusk p-4">
-          <legend className="px-2">Day, night & local lights</legend>
+        <ControlGroup title="Day, night & local lights">
           <div className="flex w-full flex-wrap gap-2" role="group" aria-label="Time presets">
             {([["Day", 12], ["Evening", 18], ["Night", 0]] as const).map(([label, hour]) => (
               <button key={label} type="button" className="rounded border border-gold px-3 py-1" aria-pressed={lighting.hour === hour && !lighting.play} onClick={() => setLighting({ ...lighting, hour, play: false })}>{label}</button>
@@ -428,10 +422,9 @@ export default function VoxelExperiment() {
           ))}
           <label><input type="checkbox" checked={lighting.localLights} onChange={(event) => setLighting({ ...lighting, localLights: event.target.checked })} /> Local lights</label>
           <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => setLighting(DEFAULT_LIGHTING)}>Reset lighting</button>
-        </fieldset>
+        </ControlGroup>
         <p className="text-sm text-mist">Sunrise at 06:00, sunset at 18:00. Sun and moon move in opposite arcs, changing shadow direction and length. At night, compare warm windows, the two lanterns and the garden fire against cool moonlight. The indoor hearth stays behind the roof in this exterior view.</p>
-        <fieldset className="min-w-0 flex flex-wrap gap-5 rounded border border-dusk p-4">
-          <legend className="px-2">Pixel look & lighting</legend>
+        <ControlGroup title="Pixel look & lighting">
           {([
             ["resolution", "Maximum render width", 320, 1280, 40],
             ["pixelSize", "Minimum pixel size", 1, 6, 1],
@@ -445,7 +438,7 @@ export default function VoxelExperiment() {
           <label><input type="checkbox" checked={look.shadows} onChange={(event) => setLook({ ...look, shadows: event.target.checked })} /> Cast shadows</label>
           <label><input type="checkbox" checked={look.palette} onChange={(event) => setLook({ ...look, palette: event.target.checked })} /> Tonal palette</label>
           <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => setLook(DEFAULT_LOOK)}>Reset look</button>
-        </fieldset>
+        </ControlGroup>
         <p className="text-sm text-mist">The world renders to a low-resolution texture and scales up with nearest filtering. Maximum width and minimum pixel size work together; the finer default keeps roof and foliage detail visible. The optional palette reduces colour tones after lighting.</p>
         <details><summary>Settings JSON</summary>
           <textarea readOnly value={json} rows={12} aria-label="Settings JSON" className="mt-3 w-full rounded bg-black/30 p-3 font-mono text-sm" />

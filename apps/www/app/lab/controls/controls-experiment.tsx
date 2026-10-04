@@ -2,7 +2,7 @@
 
 import { RenderStats, useRenderStats } from "../../../components/lab/render-stats";
 
-import { LabViewport } from "../../../components/lab/lab-viewport";
+import { ControlGroup, LabViewport } from "../../../components/lab/lab-viewport";
 
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MovementSettings } from "../../../components/lab/movement-settings";
@@ -71,9 +71,8 @@ export default function ControlsExperiment() {
 
   const settings = JSON.stringify({ seed, movement }, null, 2);
   return (
-    <LabViewport title="Controls & diagnostics" description="Focus the canvas, then move with WASD or the arrow keys. This is a controls sandbox, not a world renderer." controls={<>
-      <fieldset className="grid gap-4 rounded border border-dusk p-4">
-        <legend className="px-2">Settings</legend>
+    <LabViewport title="Controls & diagnostics" description="Move the small character with WASD or the arrow keys after clicking the scene. Change speed, acceleration and corner handling to compare how movement feels. The plain background helps you focus on controls; the position and performance readings show what changes." controls={<>
+      <ControlGroup title="Settings">
         <MovementSettings value={movement} onChange={setMovement} />
         <label className="flex flex-wrap items-center gap-3">Seed
           <input className="rounded border border-dusk bg-black/30 px-2 py-1" value={seed} onChange={(event) => setSeed(event.target.value)} />
@@ -87,7 +86,7 @@ export default function ControlsExperiment() {
           void navigator.clipboard.writeText(settings).then(() => setCopyStatus("Copied settings."), () => setCopyStatus("Select and copy the JSON above."));
         }}>Copy settings</button>
         <p role="status" className="text-sm text-mist">{copyStatus}</p>
-      </fieldset>
+      </ControlGroup>
     </>}>
       <div className="relative h-full">
         <canvas ref={canvas} width={640} height={384} tabIndex={0}

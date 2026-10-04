@@ -6,6 +6,8 @@ import { FOREST_COTTAGE_ART as art, cottageOccludes, createForestCottageWorld } 
 import { useMovement } from '../../../components/lab/use-movement';
 import { movementFromKeys } from '../../../components/lab/keyboard';
 import { movementSprite } from '../../../components/lab/movement-sprite';
+import { ControlGroup, LabViewport } from '../../../components/lab/lab-viewport';
+import { RenderStats, useRenderStats } from '../../../components/lab/render-stats';
 import { movementFloor } from './tilemap-model';
 
 type ArtLayer = 'ground' | 'decoration' | 'objects' | 'facade' | 'overhead' | 'light';
@@ -13,6 +15,7 @@ const initialLayers: Record<ArtLayer, boolean> = { ground:true, decoration:true,
 const reference = '/moodboards/02-eigene-welt/images/it2-waldhuette-tag.jpg';
 
 export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene: string) => void }) {
+  const { stats: performanceStats, recordFrame } = useRenderStats();
   const surface = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const keys = useMovement(surface);
@@ -23,7 +26,7 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
   const [layers, setLayers] = useState(initialLayers);
   const [reset, setReset] = useState(0);
   const [error, setError] = useState('');
-  const [stats, setStats] = useState({ fps:0, ms:0, x:21.5, y:16.5, faded:0 });
+  const [stats, setStats] = useState({ x:21.5, y:16.5, faded:0 });
   const [copied, setCopied] = useState('');
   const options = useRef({ night, grid, collision, fade, layers });
   useEffect(() => { options.current = { night, grid, collision, fade, layers }; }, [night,grid,collision,fade,layers]);
@@ -41,10 +44,11 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
       const world=createForestCottageWorld();
       const motion=createMovement({ x:world.spawn.x+0.5, y:world.spawn.y+0.5, z:world.spawn.z });
       const advance=createMovementClock();
-      let previous=performance.now(), sample=0, frames=0;
+      let previous=performance.now(), sample=0;
       ctx.imageSmoothingEnabled=false;
       function draw(now:number) {
         if(cancelled || !ctx) return;
+        const started = performance.now();
         const elapsed=(now-previous)/1000; previous=now;
         const dt=Math.min(elapsed,0.05);
         advance(dt,()=>stepMovement(motion,movementFromKeys(keys.current),DEFAULT_MOVEMENT,p=>movementFloor(world,p)));
@@ -91,8 +95,9 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
           for(let ty=0;ty<=384;ty+=16){ctx.moveTo(0,ty+0.5);ctx.lineTo(688,ty+0.5);}ctx.stroke();
         }
         if(surface.current) { surface.current.dataset.playerX=String(motion.x);surface.current.dataset.playerY=String(motion.y);surface.current.dataset.faded=String(faded); }
-        sample+=elapsed;frames++;
-        if(sample>=0.25) {setStats({fps:frames/sample,ms:sample/frames*1000,x:motion.x,y:motion.y,faded});sample=0;frames=0;}
+        recordFrame(performance.now() - started);
+        sample+=elapsed;
+        if(sample>=0.25) {setStats({x:motion.x,y:motion.y,faded});sample=0;}
         frame=requestAnimationFrame(draw);
       }
       frame=requestAnimationFrame(draw);
@@ -100,37 +105,25 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
     setError('');
     void start().catch(cause=>{if(!cancelled) setError(cause instanceof Error?cause.message:'The cottage could not load.');});
     return()=>{cancelled=true;cancelAnimationFrame(frame);};
-  },[keys,reset]);
+  },[keys,reset,recordFrame]);
 
   const settings=JSON.stringify({scene:'moodboard',night,grid,collision,fade,layers},null,2);
-  return <div className="grid gap-4">
-    <section aria-label="Forest cottage comparison" className="sticky top-2 z-10 rounded border border-dusk bg-night p-3">
-      <div className="mb-3 flex flex-wrap items-center gap-3 text-sm">
-        <label>Scene <select aria-label="Scene" value="moodboard" onChange={event=>onSceneChange(event.target.value)} className="rounded bg-night p-1"><option value="moodboard">Moodboard: Forest cottage</option><option value="generator">G1 generated world</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
-        <output aria-label="Cottage diagnostics" className="font-mono text-xs text-mist">{stats.fps.toFixed(0)} FPS · {stats.ms.toFixed(1)} ms · ({stats.x.toFixed(1)}, {stats.y.toFixed(1)}) · {stats.faded} faded</output>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <figure><figcaption className="mb-1 text-xs text-mist">Moodboard · original</figcaption>
-          {/* The original reference must remain directly comparable at its native aspect ratio. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={reference} alt="Forest cottage moodboard with a thatched roof, vegetable garden and river bridge" width={1376} height={768} className="w-full" />
-        </figure>
-        <figure><figcaption className="mb-1 text-xs text-mist">R2 · 43 × 24 tiles · WASD / arrows</figcaption>
-          <div ref={surface} tabIndex={0} role="application" aria-label="Forest cottage movement" className="focus:outline-2 focus:outline-gold">
-            <canvas ref={canvas} width={688} height={384} className="block w-full [image-rendering:pixelated]" />
-          </div>
-        </figure>
-      </div>
-      <fieldset aria-label="Cottage controls" className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-        <legend className="sr-only">Cottage controls</legend>
+  return <LabViewport title="R2 · Layered tilemap" description="Walk through a forest cottage built from small terrain tiles and separate roof and tree pictures. Click the scene and move with WASD or arrow keys; watch the roof and treetops fade above the character. Compare it with the original picture in the controls, then try night lighting or hide layers to see how it is put together. This scene is hand-built, so its hidden ground and cut-out edges are still approximate." controls={<>
+    <ControlGroup title="Scene & reference">
+      <label>Scene <select aria-label="Scene" value="moodboard" onChange={event=>onSceneChange(event.target.value)} className="rounded bg-night p-1"><option value="moodboard">Moodboard: Forest cottage</option><option value="generator">G1 generated world</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+      <figure><figcaption className="mb-1 text-xs text-mist">Moodboard · original</figcaption>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={reference} alt="Forest cottage moodboard with a thatched roof, vegetable garden and river bridge" width={1376} height={768} className="w-full" />
+      </figure>
+    </ControlGroup>
+    <ControlGroup title="Cottage controls">
         <label className="flex items-center gap-2">Day / night <input aria-label="Night amount" type="range" min={0} max={1} step={0.05} value={night} onChange={event=>setNight(Number(event.target.value))} className="w-24" /></label>
         <label><input type="checkbox" checked={grid} onChange={event=>setGrid(event.target.checked)} /> Tile grid</label>
         <label><input type="checkbox" checked={collision} onChange={event=>setCollision(event.target.checked)} /> Collision</label>
         <label><input type="checkbox" checked={fade} onChange={event=>setFade(event.target.checked)} /> Fade occluders</label>
         {(Object.keys(layers) as ArtLayer[]).map(layer=><label key={layer}><input type="checkbox" checked={layers[layer]} onChange={event=>setLayers({...layers,[layer]:event.target.checked})} /> {layer}</label>)}
         <button onClick={()=>setReset(value=>value+1)} className="rounded border border-gold px-2 py-1">Reset player</button>
-      </fieldset>
-    </section>
+    </ControlGroup>
     {error !== '' && <p role="alert">{error}</p>}
     <p className="text-sm text-mist">Walk north through the door and south across the bridge. The roof and tree crowns fade over your character; only trunks, walls, the garden and water block movement. Toggle layers to see the terrain beneath them. The evening slider adds warm lantern light to the extracted daytime art.</p>
     <p className="text-sm text-mist">{art.ground.length} ground cells reuse {art.tileCount} extracted 16 px tiles; {art.sprites.length} separate sprites carry the roof, trees, facade and details. This is an authored reconstruction with collision data, not a generated world. Mask edges and hidden ground are approximate; extracting reusable terrain borders is a next step. No model calls were needed.</p>
@@ -138,5 +131,11 @@ export default function ForestCottage({ onSceneChange }: { onSceneChange: (scene
       if(typeof navigator.clipboard === 'undefined'){setCopied('Select and copy the JSON above.');return;}
       void navigator.clipboard.writeText(settings).then(()=>setCopied('Copied settings.'),()=>setCopied('Select and copy the JSON above.'));
     }} className="rounded border border-gold px-2 py-1">Copy settings</button><p role="status">{copied}</p></details>
-  </div>;
+  </>}>
+    <div ref={surface} tabIndex={0} role="application" aria-label="Forest cottage movement" className="h-full w-full focus:outline-2 focus:outline-gold">
+      <canvas ref={canvas} width={688} height={384} className="block h-full w-full [image-rendering:pixelated]" />
+    </div>
+    <output aria-label="Cottage diagnostics" className="pointer-events-none absolute left-3 top-18 rounded bg-black/80 px-3 py-2 font-mono text-xs text-white">Position: ({stats.x.toFixed(1)}, {stats.y.toFixed(1)}) · {stats.faded} faded</output>
+    <RenderStats stats={performanceStats} />
+  </LabViewport>;
 }

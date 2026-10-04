@@ -6,7 +6,8 @@ can use the same registry. `planned` entries are shown without a link.
 
 Viewport experiments use `LabViewport` for the title, a full-screen preview and
 a collapsible controls overlay (right panel on desktop, 30% bottom sheet on
-mobile). The preview remains mounted when the panel is collapsed. A small client component
+mobile). Use `ControlGroup` for native, keyboard-accessible collapsible settings
+groups; hiding a group preserves its values. The preview remains mounted when the panel is collapsed. A small client component
 loads the actual renderer with `next/dynamic` and `ssr: false` – see
 `app/lab/controls/controls-client.tsx`. The lab layout sets `noindex, nofollow`
 for all subpages.
@@ -28,3 +29,9 @@ time. On-demand renderers show zero FPS while idle. Three.js renderers also
 provide triangles and draw calls; reset renderer.info once per complete frame
 so multipass rendering includes shadows and the screen pass. `RenderStats`
 keeps these measurements visible outside the scrolling controls.
+
+With the worktree dev server running, use
+`node scripts/check-lab-overlays.mjs http://127.0.0.1:<BASE_PORT>` from the root
+to check desktop/mobile bounds, overlay scrolling, disclosure continuity,
+slider extremes, keyboard movement and time-lapse. The headless check refreshes
+the `overlay-*` screenshots in `docs/lab/screenshots`.

@@ -1,6 +1,6 @@
 "use client";
 import { generateWorld, getMaterial, WORLD_EXAMPLES, type World, type WorldSpecification } from "@evermore/world";
-import { LabViewport } from "../../../components/lab/lab-viewport";
+import { ControlGroup, LabViewport } from "../../../components/lab/lab-viewport";
 import { useEffect, useRef, useState } from "react";
 import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
 import { parseWorldHandoff, saveWorldHandoff } from "../../../lib/world-handoff";
@@ -55,16 +55,15 @@ export default function GeneratorExperiment() {
     context.lineWidth = 2;
     context.strokeRect(world.spawn.x * cell, world.spawn.y * cell, cell, cell);
   }, [result, slice]);
-  return <LabViewport title="G1 · World generator" description="Choose a semantic specification and seed. The map shows the highest cell in each column; inspect lower floors with the slice control." controls={<>
-    <fieldset className="flex flex-wrap gap-5 rounded border border-dusk p-4">
-      <legend>Generation settings</legend>
+  return <LabViewport title="G1 · World generator" description="Turn a world description into a repeatable map by choosing an example and a seed. Colours show different ground and building materials, and the white outline marks where the player starts. Lower the visible layer to look beneath roofs or edit the world description below to compare layouts." controls={<>
+    <ControlGroup title="Generation settings">
       <label>Example <select className="bg-black p-2" value={example === null && (custom || handoff) ? "custom" : example ?? 0} onChange={e => { setDraft(null); setValidation(""); setExample(e.target.value === "custom" ? null : Number(e.target.value)); }}>
         {(custom || handoff) && <option value="custom">Imported specification</option>}
         {WORLD_EXAMPLES.map((s, i) => <option key={s.name} value={i}>{s.name}</option>)}
       </select></label>
       <label>Seed <input className="bg-black p-2" value={seed} onChange={e => setSeed(e.target.value)} /></label>
       <label>Highest visible layer ({slice}) <input type="range" min={0} max={spec.size.height - 1} value={Math.min(slice, spec.size.height - 1)} onChange={e => setSlice(Number(e.target.value))} /></label>
-    </fieldset>
+    </ControlGroup>
     <p role="status">{importError}</p>
     <p role="status">{error !== "" ? error : (result ? `${result.milliseconds.toFixed(1)} ms · ${result.world.structures.length} structures · spawn ${result.world.spawn.x}/${result.world.spawn.y}/${result.world.spawn.z}` : "Generating…")}</p>
     <p className="text-mist">{spec.mood} · {spec.climate} · {spec.timeOfDay}. This diagnostic map uses material colours; mood, palette and daylight are metadata for future renderer integration.</p>

@@ -33,3 +33,11 @@ export function LabViewport({ title, description, children, controls }: {
     </main>
   );
 }
+
+/** Native disclosure keeps control values and renderer state intact when collapsed. */
+export function ControlGroup({ title, children }: { title: string; children: ReactNode }) {
+  return <details className={styles.group} open>
+    <summary>{title}</summary>
+    <fieldset><legend className="sr-only">{title}</legend>{children}</fieldset>
+  </details>;
+}
