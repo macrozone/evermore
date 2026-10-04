@@ -4,7 +4,7 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 
 // Run against an already-started local lab; all interaction and captures are headless.
-const origin = new URL(process.argv[2] ?? 'http://127.0.0.1:9500');
+const origin = new URL(process.argv[2] ?? 'http://localhost:9500');
 assert.ok(['localhost', '127.0.0.1'].includes(origin.hostname));
 const destination = path.resolve(process.argv[3] ?? 'docs/lab/experiments/g3b-map');
 await mkdir(destination, { recursive: true });

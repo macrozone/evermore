@@ -33,18 +33,18 @@ Use Vision polygons as an inspectable collision draft and image masks as an over
 
 ## Reproduce and inspect
 
-Start the local app in this worktree. For headless captures and movement/layout assertions:
+Start the local app in this worktree. Use the `localhost` origin printed by Next.js; its development origin guard can block browser resources when the server is accessed as `127.0.0.1`. For headless captures and movement/layout assertions:
 
 ```sh
-node scripts/check-g3b-map.mjs http://127.0.0.1:<BASE_PORT>
+node scripts/check-g3b-map.mjs http://localhost:<BASE_PORT>
 pnpm screenshot '/lab/g3b-map?source=cabin&approach=vision' --wait 3000 --out docs/lab/experiments/g3b-map/cabin-vision.png
 ```
 
 Regenerate baseline samples only when deliberately spending the local lab budget:
 
 ```sh
-node scripts/generate-g3b-samples.mjs http://127.0.0.1:<BASE_PORT>
-node scripts/check-g3b-live.mjs http://127.0.0.1:<BASE_PORT>
+node scripts/generate-g3b-samples.mjs http://localhost:<BASE_PORT>
+node scripts/check-g3b-live.mjs http://localhost:<BASE_PORT>
 ```
 
 Local live APIs require development mode and a same-loopback origin before ADC is used. Source images are fixed local moodboards or bounded inline generated images, never fetched arbitrary URLs. Mask extraction reserves a separate $1/hour estimate budget, at most 16 calls, before provider requests; failures retain their reservation. Identical in-flight calls are shared and successful results are cached with bounded eviction. Reservations are process-local estimates, not a billing cap. Map generation reuses G3 and has its own budget.

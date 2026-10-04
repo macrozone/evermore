@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 // Deliberately spends the local lab budget; run only when verifying live generation.
-const origin=new URL(process.argv[2]??'http://127.0.0.1:9500');
+const origin=new URL(process.argv[2]??'http://localhost:9500');
 assert.ok(['localhost','127.0.0.1'].includes(origin.hostname));
 const browser=await chromium.launch({headless:true});
 try{
