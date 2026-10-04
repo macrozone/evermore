@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {writeFile, mkdir} from 'node:fs/promises';
+const origin=new URL(process.argv[2]??'http://localhost:5600');
+assert.ok(['localhost','127.0.0.1'].includes(origin.hostname));
+const response=await fetch(new URL('/api/lab/m1-walk',origin),{method:'POST',headers:{'Content-Type':'application/json',origin:origin.origin},body:JSON.stringify({model:'gemini-3.1-flash-lite-image',maskModel:'gemini-3.5-flash-lite'}),signal:AbortSignal.timeout(250_000)});
+const data=await response.json();
+assert.ok(response.ok,`${response.status}: ${data.error}`);
+await mkdir('apps/www/public/m1-walk',{recursive:true});
+await writeFile('apps/www/public/m1-walk/cabin-interior.json',JSON.stringify(data.room,null,2));
+await writeFile('apps/www/public/m1-walk/cabin-interior.png',Buffer.from(data.room.image.split(',')[1],'base64'));
+console.log(JSON.stringify({id:data.room.id,imageMs:data.room.durationMs,maskMs:data.room.mask.durationMs,cost:data.requestCostUsd,door:data.room.door}));

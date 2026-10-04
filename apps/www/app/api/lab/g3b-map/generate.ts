@@ -17,7 +17,7 @@ export async function sourceBytes(input: MaskInput) {
 }
 type Source=Awaited<ReturnType<typeof sourceBytes>>;
 type Payload={ candidates?: {finishReason?:string;content?:{parts?:{text?:string;thought?:boolean;inlineData?:{data:string;mimeType:string}}[]}}[];usageMetadata?:{promptTokenCount?:number;candidatesTokenCount?:number;thoughtsTokenCount?:number} };
-export async function callMaskVertex(input: MaskInput, source: Source):Promise<Omit<MaskResult,"durationMs"|"generatedAt">> {
+export async function callMaskVertex(input: MaskInput, source: Source, instruction?: string):Promise<Omit<MaskResult,"durationMs"|"generatedAt">> {
   if(process.env.NODE_ENV!=="development") throw new MapProviderError("Live masks require local development.");
   const project=process.env.GOOGLE_CLOUD_PROJECT??"maw-evermore";
   if(!/^[a-z][a-z0-9-]+$/.test(project)) throw new MapProviderError("Invalid Vertex project.");
@@ -27,7 +27,7 @@ export async function callMaskVertex(input: MaskInput, source: Source):Promise<O
   headers.set("Content-Type","application/json");headers.set("x-goog-user-project",project);
   let response:Response;
   try {response=await fetch(`https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${input.model}:generateContent`,{
-    method:"POST",headers,cache:"no-store",signal:AbortSignal.timeout(120_000),body:JSON.stringify({contents:[{role:"user",parts:[{text:input.approach==="image"?IMAGE_INSTRUCTION:VISION_INSTRUCTION},{inlineData:{mimeType:"image/png",data:source.bytes.toString("base64")}}]}],generationConfig:input.approach==="image"?{maxOutputTokens:4096,responseModalities:["IMAGE"],imageConfig:{imageSize:"1K",aspectRatio:Math.abs(source.width/source.height-1)<.1?"1:1":"16:9"}}:{maxOutputTokens:16384,responseMimeType:"application/json",thinkingConfig:{thinkingLevel:input.model==="gemini-3.5-flash-lite"?"MINIMAL":"LOW"}}})});}
+    method:"POST",headers,cache:"no-store",signal:AbortSignal.timeout(120_000),body:JSON.stringify({contents:[{role:"user",parts:[{text:instruction ?? (input.approach==="image"?IMAGE_INSTRUCTION:VISION_INSTRUCTION)},{inlineData:{mimeType:"image/png",data:source.bytes.toString("base64")}}]}],generationConfig:input.approach==="image"?{maxOutputTokens:4096,responseModalities:["IMAGE"],imageConfig:{imageSize:"1K",aspectRatio:Math.abs(source.width/source.height-1)<.1?"1:1":"16:9"}}:{maxOutputTokens:16384,responseMimeType:"application/json",thinkingConfig:{thinkingLevel:input.model==="gemini-3.5-flash-lite"?"MINIMAL":"LOW"}}})});}
   catch {throw new MapProviderError("Vertex timed out or could not connect. No fallback used.");}
   if(!response.ok){await response.body?.cancel();throw new MapProviderError(`Vertex returned HTTP ${response.status} for ${input.model}. No fallback used.`);}
   const payload=await response.json() as Payload, candidate=payload.candidates?.[0],parts=candidate?.content?.parts;

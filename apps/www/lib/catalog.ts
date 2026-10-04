@@ -37,6 +37,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "m1-walk",
+    name: "M1 · A home you can enter",
+    description: "Walk through the forest cabin door into a matching generated room, then return outside. Cached interiors and editable masks.",
+    href: "/lab/m1-walk",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "g3b-map",
     name: "G3b · Walk on the picture",
     description: "Original map pixels, image-edit vs. vision masks, collision and translucent overhead silhouettes.",

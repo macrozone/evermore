@@ -8,7 +8,7 @@ export class MapLimitError extends Error {}
 export class MapProviderError extends Error {}
 const auth = new GoogleAuth({ scopes: ["https://www.googleapis.com/auth/cloud-platform"] });
 type Payload = { candidates?: { content?: { parts?: { inlineData?: { data: string; mimeType: string } }[] } }[]; usageMetadata?: { promptTokenCount?: number; thoughtsTokenCount?: number; candidatesTokensDetails?: { modality: string; tokenCount: number }[] } };
-export async function callVertex(input: MapInput) {
+export async function callVertex(input: MapInput, reference?: { bytes: Buffer; instruction: string }) {
   if (process.env.NODE_ENV !== "development") throw new MapProviderError("Live maps require local development.");
   const project = process.env.GOOGLE_CLOUD_PROJECT ?? "maw-evermore";
   if (!/^[a-z][a-z0-9-]+$/.test(project)) throw new MapProviderError("Invalid Vertex project configuration.");
@@ -22,7 +22,7 @@ export async function callVertex(input: MapInput) {
   try {
     response = await fetch(`https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${input.model}:generateContent`, {
       method: "POST", headers, cache: "no-store", signal: AbortSignal.timeout(90_000),
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: `${MAP_STYLE}\nMap description: ${JSON.stringify(input.prompt)}` }] }], generationConfig: { seed: input.seed, maxOutputTokens: MAX_OUTPUT_TOKENS, responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1", imageSize: "1K" } } }),
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: reference?.instruction ?? `${MAP_STYLE}\nMap description: ${JSON.stringify(input.prompt)}` }, ...(reference ? [{ inlineData: { mimeType: "image/png", data: reference.bytes.toString("base64") } }] : [])] }], generationConfig: { seed: input.seed, maxOutputTokens: MAX_OUTPUT_TOKENS, responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1", imageSize: "1K" } } }),
     });
   } catch { throw new MapProviderError("Vertex timed out or could not connect. No model fallback was used."); }
   if (!response.ok) { await response.body?.cancel(); throw new MapProviderError(`Vertex returned HTTP ${response.status} for ${input.model}. Check model access; no fallback was used.`); }

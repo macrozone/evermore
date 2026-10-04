@@ -1,0 +1,79 @@
+{
+  "start": {
+    "x": 500,
+    "y": 540,
+    "hidden": false
+  },
+  "door": {
+    "x": 500,
+    "y": 450.9333333333319,
+    "hidden": false
+  },
+  "fadeObserved": true,
+  "inside": {
+    "x": 510.976,
+    "y": 839.768,
+    "hidden": false
+  },
+  "unchangedInteriorPixels": 0,
+  "furniture": {
+    "x": 393.1093333333275,
+    "y": 699.5013333333412,
+    "hidden": false
+  },
+  "returned": {
+    "x": 500,
+    "y": 475,
+    "hidden": false
+  },
+  "cachedRoom": "901c982f31cdac0c349ff5c605c625fa78f7c044985d132f758f34351f484f90",
+  "scrolled": {
+    "controls": {
+      "x": 1125,
+      "y": 93,
+      "width": 290,
+      "height": 794
+    },
+    "canvas": {
+      "x": 207,
+      "y": 93,
+      "width": 724,
+      "height": 724
+    },
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  "mobile": {
+    "controls": {
+      "x": 25,
+      "y": 506.25,
+      "width": 340,
+      "height": 304.75
+    },
+    "canvas": {
+      "x": 25,
+      "y": 46.625,
+      "width": 340,
+      "height": 340
+    },
+    "viewport": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "touch": {
+    "start": {
+      "x": 512,
+      "y": 783.960031077348,
+      "hidden": false
+    },
+    "end": {
+      "x": 512,
+      "y": 746.0933644106834,
+      "hidden": false
+    }
+  },
+  "fps": 60
+}
