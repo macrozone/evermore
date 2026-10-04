@@ -37,6 +37,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "g3b-map",
+    name: "G3b · Walk on the picture",
+    description: "Original map pixels, image-edit vs. vision masks, collision and translucent overhead silhouettes.",
+    href: "/lab/g3b-map",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "g3-map",
     name: "G3 · Image to layered tilemap",
     description: "Compare map images with colour-derived materials, uncertain layers and heuristic heights.",

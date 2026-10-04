@@ -1,0 +1,21 @@
+{
+  "map": {
+    "model": "gemini-3.1-flash-lite-image",
+    "width": 1024,
+    "height": 1024,
+    "durationMs": 6338,
+    "estimatedCostUsd": 0.0336
+  },
+  "mask": {
+    "model": "gemini-3.5-flash-lite",
+    "width": 1024,
+    "height": 1024,
+    "regions": 15,
+    "durationMs": 7403,
+    "estimatedCostUsd": 0.0036435
+  },
+  "layout": {
+    "stageBottom": 988,
+    "noteBottom": 931
+  }
+}

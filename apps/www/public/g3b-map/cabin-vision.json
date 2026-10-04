@@ -1,0 +1,562 @@
+{
+  "approach": "vision",
+  "model": "gemini-3.5-flash-lite",
+  "width": 1376,
+  "height": 768,
+  "estimatedCostUsd": 0.003244,
+  "costBasis": "usage",
+  "regions": [
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          371,
+          151
+        ],
+        [
+          411,
+          157
+        ],
+        [
+          411,
+          203
+        ],
+        [
+          371,
+          203
+        ]
+      ]
+    },
+    {
+      "label": "overhead",
+      "kind": "overhead",
+      "polygon": [
+        [
+          400,
+          71
+        ],
+        [
+          419,
+          71
+        ],
+        [
+          419,
+          122
+        ],
+        [
+          400,
+          122
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          518,
+          319
+        ],
+        [
+          629,
+          319
+        ],
+        [
+          629,
+          456
+        ],
+        [
+          518,
+          456
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          654,
+          276
+        ],
+        [
+          862,
+          276
+        ],
+        [
+          862,
+          563
+        ],
+        [
+          654,
+          563
+        ]
+      ]
+    },
+    {
+      "label": "free",
+      "kind": "free",
+      "polygon": [
+        [
+          331,
+          401
+        ],
+        [
+          387,
+          401
+        ],
+        [
+          387,
+          563
+        ],
+        [
+          331,
+          563
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          222,
+          381
+        ],
+        [
+          589,
+          381
+        ],
+        [
+          589,
+          563
+        ],
+        [
+          222,
+          563
+        ]
+      ]
+    },
+    {
+      "label": "overhead",
+      "kind": "overhead",
+      "polygon": [
+        [
+          214,
+          0
+        ],
+        [
+          603,
+          0
+        ],
+        [
+          603,
+          396
+        ],
+        [
+          214,
+          396
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          23,
+          363
+        ],
+        [
+          122,
+          363
+        ],
+        [
+          122,
+          502
+        ],
+        [
+          23,
+          502
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          0,
+          492
+        ],
+        [
+          50,
+          492
+        ],
+        [
+          50,
+          792
+        ],
+        [
+          0,
+          792
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          67,
+          908
+        ],
+        [
+          217,
+          908
+        ],
+        [
+          217,
+          1000
+        ],
+        [
+          67,
+          1000
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          618,
+          887
+        ],
+        [
+          700,
+          887
+        ],
+        [
+          700,
+          1000
+        ],
+        [
+          618,
+          1000
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          761,
+          794
+        ],
+        [
+          923,
+          794
+        ],
+        [
+          923,
+          1000
+        ],
+        [
+          761,
+          1000
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          912,
+          233
+        ],
+        [
+          1000,
+          233
+        ],
+        [
+          1000,
+          600
+        ],
+        [
+          912,
+          600
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          919,
+          764
+        ],
+        [
+          1000,
+          764
+        ],
+        [
+          1000,
+          1000
+        ],
+        [
+          919,
+          1000
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          854,
+          0
+        ],
+        [
+          964,
+          0
+        ],
+        [
+          964,
+          260
+        ],
+        [
+          854,
+          260
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          740,
+          0
+        ],
+        [
+          854,
+          0
+        ],
+        [
+          854,
+          225
+        ],
+        [
+          740,
+          225
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          604,
+          0
+        ],
+        [
+          735,
+          0
+        ],
+        [
+          735,
+          206
+        ],
+        [
+          604,
+          206
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          449,
+          0
+        ],
+        [
+          487,
+          0
+        ],
+        [
+          487,
+          159
+        ],
+        [
+          449,
+          159
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          260,
+          0
+        ],
+        [
+          300,
+          0
+        ],
+        [
+          300,
+          114
+        ],
+        [
+          260,
+          114
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          51,
+          198
+        ],
+        [
+          199,
+          198
+        ],
+        [
+          199,
+          363
+        ],
+        [
+          51,
+          363
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          51,
+          15
+        ],
+        [
+          199,
+          15
+        ],
+        [
+          199,
+          258
+        ],
+        [
+          51,
+          258
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          0,
+          163
+        ],
+        [
+          72,
+          163
+        ],
+        [
+          72,
+          386
+        ],
+        [
+          0,
+          386
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          928,
+          0
+        ],
+        [
+          1000,
+          0
+        ],
+        [
+          1000,
+          240
+        ],
+        [
+          928,
+          240
+        ]
+      ]
+    },
+    {
+      "label": "free",
+      "kind": "free",
+      "polygon": [
+        [
+          322,
+          768
+        ],
+        [
+          408,
+          768
+        ],
+        [
+          408,
+          919
+        ],
+        [
+          322,
+          919
+        ]
+      ]
+    },
+    {
+      "label": "collision",
+      "kind": "collision",
+      "polygon": [
+        [
+          0,
+          804
+        ],
+        [
+          1000,
+          804
+        ],
+        [
+          1000,
+          910
+        ],
+        [
+          0,
+          910
+        ]
+      ]
+    }
+  ],
+  "durationMs": 11369,
+  "generatedAt": "2026-10-04T02:00:24.639Z"
+}

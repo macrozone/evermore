@@ -1,0 +1,49 @@
+{
+  "cabin-vision": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false
+  },
+  "cabin-image": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false
+  },
+  "harbour-vision": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false
+  },
+  "harbour-image": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false
+  },
+  "water": {
+    "x": 688,
+    "y": 613.7599999999966,
+    "hidden": false
+  },
+  "bridge": {
+    "x": 506.1333333333431,
+    "y": 707.0933333333247,
+    "hidden": false
+  },
+  "wall": {
+    "x": 623.4666666666702,
+    "y": 434.0266666666651,
+    "hidden": false
+  },
+  "roof": {
+    "x": 310.3999999999999,
+    "y": 265.49333333332345,
+    "hidden": true
+  },
+  "mobile": {
+    "scene": 189.765625,
+    "controls": 304.75,
+    "sceneTop": 133.734375,
+    "controlsBottom": 823,
+    "viewport": 844
+  }
+}
