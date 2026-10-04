@@ -1,0 +1,1381 @@
+[
+  {
+    "description": "Mossy boulder with tiny ferns",
+    "seed": 42,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "independent",
+    "inference": {
+      "parameters": {
+        "role": "object",
+        "widthTiles": 2,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 5022,
+      "usage": {
+        "inputTokens": 433,
+        "outputTokens": 85
+      },
+      "estimatedCostUsd": 0.0003424
+    },
+    "parameters": {
+      "role": "object",
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 42,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-1.png",
+        "raw": "/asset-generator/examples/run-1/raw-1.jpg",
+        "durationMs": 3406,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 43,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-2.png",
+        "raw": "/asset-generator/examples/run-1/raw-2.jpg",
+        "durationMs": 4161,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 44,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-3.png",
+        "raw": "/asset-generator/examples/run-1/raw-3.jpg",
+        "durationMs": 3251,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 45,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-4.png",
+        "raw": "/asset-generator/examples/run-1/raw-4.jpg",
+        "durationMs": 2746,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 46,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-5.png",
+        "raw": "/asset-generator/examples/run-1/raw-5.jpg",
+        "durationMs": 3100,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 47,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-6.png",
+        "raw": "/asset-generator/examples/run-1/raw-6.jpg",
+        "durationMs": 2707,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 48,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-7.png",
+        "raw": "/asset-generator/examples/run-1/raw-7.jpg",
+        "durationMs": 4133,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 49,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-8.png",
+        "raw": "/asset-generator/examples/run-1/raw-8.jpg",
+        "durationMs": 3833,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 50,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-9.png",
+        "raw": "/asset-generator/examples/run-1/raw-9.jpg",
+        "durationMs": 4092,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 51,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-1/variant-10.png",
+        "raw": "/asset-generator/examples/run-1/raw-10.jpg",
+        "durationMs": 2706,
+        "estimatedCostUsd": 0.0336495,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 34140,
+    "estimatedCostUsd": 0.33649275,
+    "cached": false,
+    "rate": {
+      "imageUsed": 10,
+      "imageLimit": 100,
+      "textUsed": 1,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:42:50.118Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Crooked fishing hut with a red tiled roof",
+    "seed": 142,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "independent",
+    "inference": {
+      "parameters": {
+        "role": "object",
+        "widthTiles": 3,
+        "heightTiles": 3,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "The fishing hut is a freestanding, isolated transparent structure that rests on the ground with a standard anchor point at the bottom center."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 1012,
+      "usage": {
+        "inputTokens": 436,
+        "outputTokens": 83
+      },
+      "estimatedCostUsd": 0.00033829999999999993
+    },
+    "parameters": {
+      "role": "object",
+      "widthTiles": 3,
+      "heightTiles": 3,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "The fishing hut is a freestanding, isolated transparent structure that rests on the ground with a standard anchor point at the bottom center."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 142,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-1.png",
+        "raw": "/asset-generator/examples/run-2/raw-1.jpg",
+        "durationMs": 3698,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 143,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-2.png",
+        "raw": "/asset-generator/examples/run-2/raw-2.jpg",
+        "durationMs": 3105,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 144,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-3.png",
+        "raw": "/asset-generator/examples/run-2/raw-3.jpg",
+        "durationMs": 2974,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 145,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-4.png",
+        "raw": "/asset-generator/examples/run-2/raw-4.jpg",
+        "durationMs": 2851,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 146,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-5.png",
+        "raw": "/asset-generator/examples/run-2/raw-5.jpg",
+        "durationMs": 3995,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 147,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-6.png",
+        "raw": "/asset-generator/examples/run-2/raw-6.jpg",
+        "durationMs": 2782,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 148,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-7.png",
+        "raw": "/asset-generator/examples/run-2/raw-7.jpg",
+        "durationMs": 2940,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 149,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-8.png",
+        "raw": "/asset-generator/examples/run-2/raw-8.jpg",
+        "durationMs": 3240,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 150,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-9.png",
+        "raw": "/asset-generator/examples/run-2/raw-9.jpg",
+        "durationMs": 2799,
+        "estimatedCostUsd": 0.03365,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 151,
+        "width": 48,
+        "height": 48,
+        "sprite": "/asset-generator/examples/run-2/variant-10.png",
+        "raw": "/asset-generator/examples/run-2/raw-10.jpg",
+        "durationMs": 3520,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 32921,
+    "estimatedCostUsd": 0.33683855000000007,
+    "cached": false,
+    "rate": {
+      "imageUsed": 20,
+      "imageLimit": 100,
+      "textUsed": 2,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:43:23.070Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Cobblestones with grass in the joints",
+    "seed": 242,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "independent",
+    "inference": {
+      "parameters": {
+        "role": "surface",
+        "widthTiles": 2,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.5,
+        "explanation": "Cobblestones with grass form a flat, opaque terrain that tiles seamlessly in both X and Y directions."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 1128,
+      "usage": {
+        "inputTokens": 435,
+        "outputTokens": 78
+      },
+      "estimatedCostUsd": 0.0003255
+    },
+    "parameters": {
+      "role": "surface",
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "explanation": "Cobblestones with grass form a flat, opaque terrain that tiles seamlessly in both X and Y directions."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 242,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-1.png",
+        "raw": "/asset-generator/examples/run-3/raw-1.jpg",
+        "durationMs": 3066,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 243,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-2.png",
+        "raw": "/asset-generator/examples/run-3/raw-2.jpg",
+        "durationMs": 3839,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 244,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-3.png",
+        "raw": "/asset-generator/examples/run-3/raw-3.jpg",
+        "durationMs": 3233,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 245,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-4.png",
+        "raw": "/asset-generator/examples/run-3/raw-4.jpg",
+        "durationMs": 4335,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 246,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-5.png",
+        "raw": "/asset-generator/examples/run-3/raw-5.jpg",
+        "durationMs": 3230,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 247,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-6.png",
+        "raw": "/asset-generator/examples/run-3/raw-6.jpg",
+        "durationMs": 3274,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 248,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-7.png",
+        "raw": "/asset-generator/examples/run-3/raw-7.jpg",
+        "durationMs": 3821,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 249,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-8.png",
+        "raw": "/asset-generator/examples/run-3/raw-8.jpg",
+        "durationMs": 3809,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 250,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-9.png",
+        "raw": "/asset-generator/examples/run-3/raw-9.jpg",
+        "durationMs": 3682,
+        "estimatedCostUsd": 0.0336485,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 251,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-3/variant-10.png",
+        "raw": "/asset-generator/examples/run-3/raw-10.jpg",
+        "durationMs": 3450,
+        "estimatedCostUsd": 0.03364875,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 36873,
+    "estimatedCostUsd": 0.33681074999999994,
+    "cached": false,
+    "rate": {
+      "imageUsed": 30,
+      "imageLimit": 100,
+      "textUsed": 3,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:43:59.985Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Flowering bush with cream blossoms",
+    "seed": 342,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "independent",
+    "inference": {
+      "parameters": {
+        "role": "object",
+        "widthTiles": 2,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "A flowering bush is a freestanding transparent sprite with ground contact, fitting the standard object role."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 1046,
+      "usage": {
+        "inputTokens": 433,
+        "outputTokens": 76
+      },
+      "estimatedCostUsd": 0.00031989999999999997
+    },
+    "parameters": {
+      "role": "object",
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "A flowering bush is a freestanding transparent sprite with ground contact, fitting the standard object role."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 342,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-1.png",
+        "raw": "/asset-generator/examples/run-4/raw-1.jpg",
+        "durationMs": 2507,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 343,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-2.png",
+        "raw": "/asset-generator/examples/run-4/raw-2.jpg",
+        "durationMs": 3117,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 344,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-3.png",
+        "raw": "/asset-generator/examples/run-4/raw-3.jpg",
+        "durationMs": 2677,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 345,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-4.png",
+        "raw": "/asset-generator/examples/run-4/raw-4.jpg",
+        "durationMs": 3138,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 346,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-5.png",
+        "raw": "/asset-generator/examples/run-4/raw-5.jpg",
+        "durationMs": 2512,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 347,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-6.png",
+        "raw": "/asset-generator/examples/run-4/raw-6.jpg",
+        "durationMs": 3047,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 348,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-7.png",
+        "raw": "/asset-generator/examples/run-4/raw-7.jpg",
+        "durationMs": 3513,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 349,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-8.png",
+        "raw": "/asset-generator/examples/run-4/raw-8.jpg",
+        "durationMs": 2604,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 350,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-9.png",
+        "raw": "/asset-generator/examples/run-4/raw-9.jpg",
+        "durationMs": 3037,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 351,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-4/variant-10.png",
+        "raw": "/asset-generator/examples/run-4/raw-10.jpg",
+        "durationMs": 3609,
+        "estimatedCostUsd": 0.0336495,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 30811,
+    "estimatedCostUsd": 0.33681265,
+    "cached": false,
+    "rate": {
+      "imageUsed": 40,
+      "imageLimit": 100,
+      "textUsed": 4,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:44:30.817Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Weathered wooden fence with climbing ivy",
+    "seed": 442,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "independent",
+    "inference": {
+      "parameters": {
+        "role": "strip",
+        "widthTiles": 3,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "A horizontal fence that repeats along the X-axis with transparency, fitting the strip role classification."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 1202,
+      "usage": {
+        "inputTokens": 434,
+        "outputTokens": 77
+      },
+      "estimatedCostUsd": 0.0003227
+    },
+    "parameters": {
+      "role": "strip",
+      "widthTiles": 3,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "A horizontal fence that repeats along the X-axis with transparency, fitting the strip role classification."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 442,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-1.png",
+        "raw": "/asset-generator/examples/run-5/raw-1.jpg",
+        "durationMs": 3637,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 443,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-2.png",
+        "raw": "/asset-generator/examples/run-5/raw-2.jpg",
+        "durationMs": 3120,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 444,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-3.png",
+        "raw": "/asset-generator/examples/run-5/raw-3.jpg",
+        "durationMs": 3224,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 445,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-4.png",
+        "raw": "/asset-generator/examples/run-5/raw-4.jpg",
+        "durationMs": 3717,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 446,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-5.png",
+        "raw": "/asset-generator/examples/run-5/raw-5.jpg",
+        "durationMs": 3741,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 447,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-6.png",
+        "raw": "/asset-generator/examples/run-5/raw-6.jpg",
+        "durationMs": 3700,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 448,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-7.png",
+        "raw": "/asset-generator/examples/run-5/raw-7.jpg",
+        "durationMs": 3104,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 449,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-8.png",
+        "raw": "/asset-generator/examples/run-5/raw-8.jpg",
+        "durationMs": 2999,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 450,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-9.png",
+        "raw": "/asset-generator/examples/run-5/raw-9.jpg",
+        "durationMs": 2834,
+        "estimatedCostUsd": 0.03365025,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 451,
+        "width": 48,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-5/variant-10.png",
+        "raw": "/asset-generator/examples/run-5/raw-10.jpg",
+        "durationMs": 3670,
+        "estimatedCostUsd": 0.0336505,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 34954,
+    "estimatedCostUsd": 0.33682544999999997,
+    "cached": false,
+    "rate": {
+      "imageUsed": 50,
+      "imageLimit": 100,
+      "textUsed": 5,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:45:06.009Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Mossy boulder with tiny ferns",
+    "seed": 542,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "reference",
+    "inference": {
+      "parameters": {
+        "role": "object",
+        "widthTiles": 2,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 5022,
+      "usage": {
+        "inputTokens": 433,
+        "outputTokens": 85
+      },
+      "estimatedCostUsd": 0.0003424
+    },
+    "parameters": {
+      "role": "object",
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 542,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-1.png",
+        "raw": "/asset-generator/examples/run-6/raw-1.jpg",
+        "durationMs": 3850,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 543,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-2.png",
+        "raw": "/asset-generator/examples/run-6/raw-2.jpg",
+        "durationMs": 5377,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 544,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-3.png",
+        "raw": "/asset-generator/examples/run-6/raw-3.jpg",
+        "durationMs": 3540,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 545,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-4.png",
+        "raw": "/asset-generator/examples/run-6/raw-4.jpg",
+        "durationMs": 3525,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 546,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-5.png",
+        "raw": "/asset-generator/examples/run-6/raw-5.jpg",
+        "durationMs": 3941,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 547,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-6.png",
+        "raw": "/asset-generator/examples/run-6/raw-6.jpg",
+        "durationMs": 4191,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 548,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-7.png",
+        "raw": "/asset-generator/examples/run-6/raw-7.jpg",
+        "durationMs": 3189,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 549,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-8.png",
+        "raw": "/asset-generator/examples/run-6/raw-8.jpg",
+        "durationMs": 3661,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 550,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-9.png",
+        "raw": "/asset-generator/examples/run-6/raw-9.jpg",
+        "durationMs": 3232,
+        "estimatedCostUsd": 0.03393625,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 551,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-6/variant-10.png",
+        "raw": "/asset-generator/examples/run-6/raw-10.jpg",
+        "durationMs": 4763,
+        "estimatedCostUsd": 0.033936499999999994,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 39274,
+    "estimatedCostUsd": 0.33907574999999995,
+    "cached": false,
+    "rate": {
+      "imageUsed": 60,
+      "imageLimit": 100,
+      "textUsed": 5,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:45:45.304Z",
+    "preparationVersion": 3
+  },
+  {
+    "description": "Mossy boulder with tiny ferns",
+    "seed": 642,
+    "imageModel": "gemini-3.1-flash-lite-image",
+    "strategy": "procedural",
+    "inference": {
+      "parameters": {
+        "role": "object",
+        "widthTiles": 2,
+        "heightTiles": 2,
+        "anchorX": 0.5,
+        "anchorY": 0.95,
+        "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+      },
+      "model": "gemini-3.5-flash-lite",
+      "durationMs": 5022,
+      "usage": {
+        "inputTokens": 433,
+        "outputTokens": 85
+      },
+      "estimatedCostUsd": 0.0003424
+    },
+    "parameters": {
+      "role": "object",
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "explanation": "The asset is a freestanding mossy boulder, which functions as an isolated transparent sprite with a standard ground contact anchor near the bottom center."
+    },
+    "overridden": false,
+    "variants": [
+      {
+        "index": 0,
+        "seed": 642,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-1.png",
+        "raw": "/asset-generator/examples/run-7/raw-1.jpg",
+        "durationMs": 3658,
+        "estimatedCostUsd": 0.03364925,
+        "source": "model",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 1,
+        "seed": 643,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-2.png",
+        "raw": "/asset-generator/examples/run-7/raw-2.jpg",
+        "durationMs": 1,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 2,
+        "seed": 644,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-3.png",
+        "raw": "/asset-generator/examples/run-7/raw-3.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 3,
+        "seed": 645,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-4.png",
+        "raw": "/asset-generator/examples/run-7/raw-4.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 4,
+        "seed": 646,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-5.png",
+        "raw": "/asset-generator/examples/run-7/raw-5.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 5,
+        "seed": 647,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-6.png",
+        "raw": "/asset-generator/examples/run-7/raw-6.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 6,
+        "seed": 648,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-7.png",
+        "raw": "/asset-generator/examples/run-7/raw-7.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 7,
+        "seed": 649,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-8.png",
+        "raw": "/asset-generator/examples/run-7/raw-8.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 8,
+        "seed": 650,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-9.png",
+        "raw": "/asset-generator/examples/run-7/raw-9.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      },
+      {
+        "index": 9,
+        "seed": 651,
+        "width": 32,
+        "height": 32,
+        "sprite": "/asset-generator/examples/run-7/variant-10.png",
+        "raw": "/asset-generator/examples/run-7/raw-10.jpg",
+        "durationMs": 0,
+        "estimatedCostUsd": 0,
+        "source": "procedural",
+        "seamError": {
+          "horizontal": 0,
+          "vertical": 0
+        }
+      }
+    ],
+    "errors": [],
+    "durationMs": 3665,
+    "estimatedCostUsd": 0.03364925,
+    "cached": false,
+    "rate": {
+      "imageUsed": 61,
+      "imageLimit": 100,
+      "textUsed": 5,
+      "textLimit": 120,
+      "resetsAt": 1791085247752
+    },
+    "recordedAt": "2026-10-04T02:45:49.225Z",
+    "preparationVersion": 3
+  }
+]

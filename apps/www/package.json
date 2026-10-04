@@ -25,7 +25,8 @@
     "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "sharp": "^0.35.5",
-    "three": "^0.186.1"
+    "three": "^0.186.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@evermore/eslint-config": "workspace:*",
