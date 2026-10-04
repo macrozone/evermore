@@ -2,7 +2,7 @@ import sharp from "sharp";
 import type { AssetRole } from "../../../lab/asset-generator/generation";
 
 const options = { limitInputPixels: 4_194_304 };
-/** Remove only keyed background connected to the image border, preserving purple subjects. */
+/** Key border-connected background and pure-magenta cavities, preserving muted purple details. */
 export async function prepareAsset(bytes: Buffer, role: AssetRole): Promise<Buffer> {
   const width = role.widthTiles * 16, height = role.heightTiles * 16;
   if (role.role === "surface") return sharp(bytes, options).removeAlpha().resize(width, height, { fit: "fill", kernel: "nearest" }).ensureAlpha().raw().toBuffer();
@@ -39,7 +39,7 @@ export async function prepareAsset(bytes: Buffer, role: AssetRole): Promise<Buff
     .extend({ top: 1, bottom: 1, left: 1, right: 1, background: "#00000000" }).raw().toBuffer();
 }
 
-/** Match every variant to one family border, with a eight-pixel blend band.
+/** Match every variant to one family border, with an eight-pixel blend band.
  * Surface borders repeat XY; strips only X. Raw provider images remain available. */
 export function repairFamilyEdges(images: Buffer[], width: number, height: number, axes: "xy" | "x"): Buffer[] {
   if (images.length === 0) return [];

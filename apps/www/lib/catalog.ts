@@ -11,6 +11,15 @@ export type CatalogEntry = {
 /** Shared by /lab and the homepage overview. Only ready routes are linked. */
 export const catalog: readonly CatalogEntry[] = [
   {
+    id: "asset-generator",
+    name: "Asset generator · Free descriptions",
+    description: "Derive technical roles from any description, generate ten variants, and compare tiled ground and transparent objects in a test scene.",
+    href: "/lab/asset-generator",
+    category: "experiment",
+    screenshot: "/catalog/asset-generator.png",
+    status: "ready",
+  },
+  {
     id: "objects-3d",
     name: "Pixel objects → 3D → voxels",
     description: "Compare four sprites with a locally imported mesh and voxelize its colored surface; SAM exports are still pending.",
