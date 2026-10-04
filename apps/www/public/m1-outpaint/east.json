@@ -1,0 +1,931 @@
+{
+  "version": 1,
+  "direction": "east",
+  "width": 1376,
+  "height": 768,
+  "overlap": 96,
+  "image": "/m1-outpaint/east-image.png",
+  "context": "/m1-outpaint/east-context.png",
+  "masks": {
+    "approach": "vision",
+    "model": "gemini-3.8-flash",
+    "width": 1376,
+    "height": 768,
+    "estimatedCostUsd": 0.008505,
+    "costBasis": "usage",
+    "regions": [
+      {
+        "label": "crown_pine_1",
+        "kind": "overhead",
+        "polygon": [
+          [
+            768,
+            54
+          ],
+          [
+            884,
+            269
+          ],
+          [
+            835,
+            311
+          ],
+          [
+            768,
+            310
+          ],
+          [
+            773,
+            260
+          ],
+          [
+            767,
+            163
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_1",
+        "kind": "collision",
+        "polygon": [
+          [
+            808,
+            300
+          ],
+          [
+            845,
+            300
+          ],
+          [
+            845,
+            404
+          ],
+          [
+            808,
+            404
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_river",
+        "kind": "overhead",
+        "polygon": [
+          [
+            664,
+            449
+          ],
+          [
+            767,
+            619
+          ],
+          [
+            729,
+            655
+          ],
+          [
+            673,
+            655
+          ],
+          [
+            666,
+            590
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_river",
+        "kind": "collision",
+        "polygon": [
+          [
+            702,
+            642
+          ],
+          [
+            734,
+            642
+          ],
+          [
+            735,
+            730
+          ],
+          [
+            700,
+            730
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_right1",
+        "kind": "overhead",
+        "polygon": [
+          [
+            815,
+            463
+          ],
+          [
+            899,
+            643
+          ],
+          [
+            870,
+            683
+          ],
+          [
+            828,
+            683
+          ],
+          [
+            818,
+            633
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_right1",
+        "kind": "collision",
+        "polygon": [
+          [
+            847,
+            665
+          ],
+          [
+            879,
+            665
+          ],
+          [
+            880,
+            700
+          ],
+          [
+            846,
+            700
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_right2",
+        "kind": "overhead",
+        "polygon": [
+          [
+            880,
+            432
+          ],
+          [
+            990,
+            622
+          ],
+          [
+            960,
+            654
+          ],
+          [
+            897,
+            654
+          ],
+          [
+            882,
+            605
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_right2",
+        "kind": "collision",
+        "polygon": [
+          [
+            910,
+            642
+          ],
+          [
+            943,
+            642
+          ],
+          [
+            943,
+            728
+          ],
+          [
+            909,
+            728
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_topmid",
+        "kind": "overhead",
+        "polygon": [
+          [
+            518,
+            0
+          ],
+          [
+            630,
+            195
+          ],
+          [
+            580,
+            230
+          ],
+          [
+            533,
+            230
+          ],
+          [
+            518,
+            170
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_topmid",
+        "kind": "collision",
+        "polygon": [
+          [
+            557,
+            219
+          ],
+          [
+            589,
+            219
+          ],
+          [
+            590,
+            300
+          ],
+          [
+            556,
+            300
+          ]
+        ]
+      },
+      {
+        "label": "crown_oak_topleft",
+        "kind": "overhead",
+        "polygon": [
+          [
+            138,
+            0
+          ],
+          [
+            286,
+            72
+          ],
+          [
+            286,
+            211
+          ],
+          [
+            218,
+            247
+          ],
+          [
+            149,
+            199
+          ],
+          [
+            137,
+            79
+          ]
+        ]
+      },
+      {
+        "label": "trunk_oak_topleft",
+        "kind": "collision",
+        "polygon": [
+          [
+            194,
+            228
+          ],
+          [
+            232,
+            228
+          ],
+          [
+            232,
+            347
+          ],
+          [
+            194,
+            347
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_left1",
+        "kind": "overhead",
+        "polygon": [
+          [
+            89,
+            203
+          ],
+          [
+            188,
+            416
+          ],
+          [
+            160,
+            460
+          ],
+          [
+            116,
+            460
+          ],
+          [
+            90,
+            395
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_left1",
+        "kind": "collision",
+        "polygon": [
+          [
+            132,
+            450
+          ],
+          [
+            164,
+            450
+          ],
+          [
+            164,
+            534
+          ],
+          [
+            132,
+            534
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_left2",
+        "kind": "overhead",
+        "polygon": [
+          [
+            148,
+            299
+          ],
+          [
+            249,
+            477
+          ],
+          [
+            217,
+            515
+          ],
+          [
+            163,
+            515
+          ],
+          [
+            150,
+            447
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_left2",
+        "kind": "collision",
+        "polygon": [
+          [
+            183,
+            507
+          ],
+          [
+            216,
+            507
+          ],
+          [
+            216,
+            595
+          ],
+          [
+            183,
+            595
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_left3",
+        "kind": "overhead",
+        "polygon": [
+          [
+            219,
+            235
+          ],
+          [
+            306,
+            419
+          ],
+          [
+            283,
+            463
+          ],
+          [
+            240,
+            463
+          ],
+          [
+            221,
+            414
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_left3",
+        "kind": "collision",
+        "polygon": [
+          [
+            232,
+            450
+          ],
+          [
+            267,
+            450
+          ],
+          [
+            267,
+            542
+          ],
+          [
+            232,
+            542
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_midleft",
+        "kind": "overhead",
+        "polygon": [
+          [
+            296,
+            204
+          ],
+          [
+            407,
+            383
+          ],
+          [
+            380,
+            422
+          ],
+          [
+            320,
+            422
+          ],
+          [
+            297,
+            377
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_midleft",
+        "kind": "collision",
+        "polygon": [
+          [
+            338,
+            413
+          ],
+          [
+            369,
+            413
+          ],
+          [
+            370,
+            500
+          ],
+          [
+            337,
+            500
+          ]
+        ]
+      },
+      {
+        "label": "water_river",
+        "kind": "collision",
+        "polygon": [
+          [
+            1000,
+            383
+          ],
+          [
+            899,
+            380
+          ],
+          [
+            743,
+            506
+          ],
+          [
+            569,
+            514
+          ],
+          [
+            432,
+            654
+          ],
+          [
+            380,
+            724
+          ],
+          [
+            322,
+            795
+          ],
+          [
+            200,
+            810
+          ],
+          [
+            0,
+            808
+          ],
+          [
+            0,
+            1000
+          ],
+          [
+            128,
+            1000
+          ],
+          [
+            128,
+            913
+          ],
+          [
+            239,
+            910
+          ],
+          [
+            246,
+            1000
+          ],
+          [
+            330,
+            1000
+          ],
+          [
+            384,
+            818
+          ],
+          [
+            440,
+            788
+          ],
+          [
+            520,
+            644
+          ],
+          [
+            684,
+            629
+          ],
+          [
+            789,
+            500
+          ],
+          [
+            885,
+            417
+          ],
+          [
+            1000,
+            417
+          ]
+        ]
+      },
+      {
+        "label": "bridge",
+        "kind": "free",
+        "polygon": [
+          [
+            379,
+            692
+          ],
+          [
+            434,
+            650
+          ],
+          [
+            496,
+            739
+          ],
+          [
+            445,
+            790
+          ]
+        ]
+      },
+      {
+        "label": "bridge_railing_top",
+        "kind": "overhead",
+        "polygon": [
+          [
+            379,
+            692
+          ],
+          [
+            434,
+            650
+          ],
+          [
+            444,
+            664
+          ],
+          [
+            389,
+            706
+          ]
+        ]
+      },
+      {
+        "label": "bridge_railing_bottom",
+        "kind": "overhead",
+        "polygon": [
+          [
+            486,
+            725
+          ],
+          [
+            496,
+            739
+          ],
+          [
+            445,
+            790
+          ],
+          [
+            435,
+            776
+          ]
+        ]
+      },
+      {
+        "label": "bush_near_bridge1",
+        "kind": "collision",
+        "polygon": [
+          [
+            412,
+            497
+          ],
+          [
+            461,
+            449
+          ],
+          [
+            516,
+            451
+          ],
+          [
+            516,
+            523
+          ],
+          [
+            450,
+            545
+          ],
+          [
+            412,
+            545
+          ]
+        ]
+      },
+      {
+        "label": "bush_near_bridge2",
+        "kind": "collision",
+        "polygon": [
+          [
+            494,
+            422
+          ],
+          [
+            557,
+            422
+          ],
+          [
+            557,
+            515
+          ],
+          [
+            494,
+            515
+          ]
+        ]
+      },
+      {
+        "label": "bush_top_mid",
+        "kind": "collision",
+        "polygon": [
+          [
+            651,
+            371
+          ],
+          [
+            749,
+            371
+          ],
+          [
+            750,
+            477
+          ],
+          [
+            650,
+            477
+          ]
+        ]
+      },
+      {
+        "label": "bush_path_left",
+        "kind": "collision",
+        "polygon": [
+          [
+            199,
+            681
+          ],
+          [
+            264,
+            681
+          ],
+          [
+            264,
+            774
+          ],
+          [
+            199,
+            774
+          ]
+        ]
+      },
+      {
+        "label": "bush_river_mid",
+        "kind": "collision",
+        "polygon": [
+          [
+            605,
+            621
+          ],
+          [
+            669,
+            621
+          ],
+          [
+            669,
+            715
+          ],
+          [
+            605,
+            715
+          ]
+        ]
+      },
+      {
+        "label": "bush_path_bottom",
+        "kind": "collision",
+        "polygon": [
+          [
+            576,
+            888
+          ],
+          [
+            641,
+            888
+          ],
+          [
+            641,
+            980
+          ],
+          [
+            576,
+            980
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_bottom1",
+        "kind": "overhead",
+        "polygon": [
+          [
+            708,
+            779
+          ],
+          [
+            815,
+            964
+          ],
+          [
+            791,
+            1000
+          ],
+          [
+            723,
+            1000
+          ],
+          [
+            711,
+            940
+          ]
+        ]
+      },
+      {
+        "label": "crown_pine_bottom2",
+        "kind": "overhead",
+        "polygon": [
+          [
+            802,
+            778
+          ],
+          [
+            898,
+            963
+          ],
+          [
+            875,
+            1000
+          ],
+          [
+            812,
+            1000
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_bottom1",
+        "kind": "collision",
+        "polygon": [
+          [
+            749,
+            977
+          ],
+          [
+            777,
+            977
+          ],
+          [
+            777,
+            1000
+          ],
+          [
+            749,
+            1000
+          ]
+        ]
+      },
+      {
+        "label": "trunk_pine_bottom2",
+        "kind": "collision",
+        "polygon": [
+          [
+            838,
+            977
+          ],
+          [
+            863,
+            977
+          ],
+          [
+            863,
+            1000
+          ],
+          [
+            838,
+            1000
+          ]
+        ]
+      },
+      {
+        "label": "bush_bottom_edge",
+        "kind": "collision",
+        "polygon": [
+          [
+            259,
+            933
+          ],
+          [
+            324,
+            933
+          ],
+          [
+            324,
+            1000
+          ],
+          [
+            259,
+            1000
+          ]
+        ]
+      }
+    ],
+    "durationMs": 18124,
+    "generatedAt": "2026-10-04T03:43:52.408Z"
+  },
+  "model": "gemini-3-pro-image",
+  "durationMs": 40446,
+  "estimatedCostUsd": 0.147555,
+  "imageCostUsd": 0.13904999999999998,
+  "maskCostUsd": 0.008505,
+  "generatedAt": "2026-10-04T03:43:52.409Z",
+  "outputWidth": 1376,
+  "outputHeight": 768
+}

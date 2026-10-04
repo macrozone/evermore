@@ -37,6 +37,14 @@ export const catalog: readonly CatalogEntry[] = [
     status: "ready",
   },
   {
+    id: "m1-outpaint",
+    name: "M1.3 · Beyond the picture",
+    description: "Walk into outpainted neighbour chunks; compare seams, collision, overhead, latency and costs.",
+    href: "/lab/m1-outpaint",
+    category: "experiment",
+    status: "ready",
+  },
+  {
     id: "g3b-map",
     name: "G3b · Walk on the picture",
     description: "Original map pixels, image-edit vs. vision masks, collision and translucent overhead silhouettes.",

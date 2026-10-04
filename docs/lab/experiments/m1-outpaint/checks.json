@@ -1,0 +1,51 @@
+{
+  "initial": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false,
+    "chunks": 0
+  },
+  "waitingAtBoundary": {
+    "x": 1370.8789819431493,
+    "y": 517.9876434948978,
+    "hidden": false,
+    "chunks": 0
+  },
+  "prefetch": {
+    "x": 1370.8789819431493,
+    "y": 517.9876434948978,
+    "hidden": false,
+    "chunks": 1
+  },
+  "parentPixelDifferences": 0,
+  "beforeCrossing": {
+    "x": 1339.9789613288494,
+    "y": 517.9876434948978,
+    "hidden": false,
+    "chunks": 4
+  },
+  "eastCrossing": {
+    "x": 1422.6456279955116,
+    "y": 517.9876434948978,
+    "hidden": false,
+    "chunks": 4
+  },
+  "newChunkCollision": {
+    "x": 2143.981483360389,
+    "y": 164.77540385117092,
+    "hidden": true,
+    "chunks": 4
+  },
+  "newChunkOverhead": {
+    "x": 1567.9762055745591,
+    "y": 31.97123398365011,
+    "hidden": true,
+    "chunks": 4
+  },
+  "mobile": {
+    "scene": 389.25,
+    "controls": 304.75,
+    "bottom": 831,
+    "viewport": 844
+  }
+}

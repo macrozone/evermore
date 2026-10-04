@@ -35,6 +35,8 @@ describe("mask provider and source registration",()=>{
     expect(body.contents[0].parts[1].inlineData.data).toBe(bytes.toString("base64"));
     expect(body.generationConfig.responseMimeType).toBe("application/json");
     expect(body.generationConfig.maxOutputTokens).toBe(16384);
+    expect(body.generationConfig.responseSchema.properties.regions.items.properties.kind.enum).toEqual(["collision","overhead","free"]);
+    expect(body.generationConfig.responseSchema.properties.regions.items.properties.polygon.items.items).toMatchObject({minimum:0,maximum:1000});
     expect(body.generationConfig.thinkingConfig).toEqual({thinkingLevel:"MINIMAL"});
     expect(JSON.stringify(result)).not.toContain("private-token");
   });

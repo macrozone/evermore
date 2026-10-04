@@ -27,7 +27,7 @@ export async function callMaskVertex(input: MaskInput, source: Source):Promise<O
   headers.set("Content-Type","application/json");headers.set("x-goog-user-project",project);
   let response:Response;
   try {response=await fetch(`https://aiplatform.googleapis.com/v1/projects/${project}/locations/global/publishers/google/models/${input.model}:generateContent`,{
-    method:"POST",headers,cache:"no-store",signal:AbortSignal.timeout(120_000),body:JSON.stringify({contents:[{role:"user",parts:[{text:input.approach==="image"?IMAGE_INSTRUCTION:VISION_INSTRUCTION},{inlineData:{mimeType:"image/png",data:source.bytes.toString("base64")}}]}],generationConfig:input.approach==="image"?{maxOutputTokens:4096,responseModalities:["IMAGE"],imageConfig:{imageSize:"1K",aspectRatio:Math.abs(source.width/source.height-1)<.1?"1:1":"16:9"}}:{maxOutputTokens:16384,responseMimeType:"application/json",thinkingConfig:{thinkingLevel:input.model==="gemini-3.5-flash-lite"?"MINIMAL":"LOW"}}})});}
+    method:"POST",headers,cache:"no-store",signal:AbortSignal.timeout(120_000),body:JSON.stringify({contents:[{role:"user",parts:[{text:input.approach==="image"?IMAGE_INSTRUCTION:VISION_INSTRUCTION},{inlineData:{mimeType:"image/png",data:source.bytes.toString("base64")}}]}],generationConfig:input.approach==="image"?{maxOutputTokens:4096,responseModalities:["IMAGE"],imageConfig:{imageSize:"1K",aspectRatio:Math.abs(source.width/source.height-1)<.1?"1:1":"16:9"}}:{maxOutputTokens:16384,responseMimeType:"application/json",responseSchema:{type:"OBJECT",properties:{regions:{type:"ARRAY",items:{type:"OBJECT",properties:{label:{type:"STRING"},kind:{type:"STRING",enum:["collision","overhead","free"]},polygon:{type:"ARRAY",items:{type:"ARRAY",items:{type:"NUMBER",minimum:0,maximum:1000}}}},required:["label","kind","polygon"]}}},required:["regions"]},thinkingConfig:{thinkingLevel:input.model==="gemini-3.5-flash-lite"?"MINIMAL":"LOW"}}})});}
   catch {throw new MapProviderError("Vertex timed out or could not connect. No fallback used.");}
   if(!response.ok){await response.body?.cancel();throw new MapProviderError(`Vertex returned HTTP ${response.status} for ${input.model}. No fallback used.`);}
   const payload=await response.json() as Payload, candidate=payload.candidates?.[0],parts=candidate?.content?.parts;
@@ -39,7 +39,7 @@ export async function callMaskVertex(input: MaskInput, source: Source):Promise<O
   const base={approach:input.approach,model:input.model,width:source.width,height:source.height,estimatedCostUsd:cost,costBasis:known?"usage" as const:"output-only" as const};
   if(input.approach==="vision") {
     if(candidate?.finishReason!=="STOP") throw new MapProviderError("Vision output was incomplete. Try another model.");
-    try {const text=parts?.filter(p=>!p.thought).map(p=>p.text??"").join("");const parsed=JSON.parse(text??"") as {regions?:unknown};return {...base,regions:parseRegions(parsed.regions)};}catch{throw new MapProviderError("Vision returned invalid polygons.");}
+    try {const text=parts?.filter(p=>!p.thought).map(p=>p.text??"").join("");const parsed=JSON.parse(text??"") as {regions?:unknown};return {...base,regions:parseRegions(parsed.regions)};}catch(error){throw new MapProviderError(`Vision returned invalid polygons (${error instanceof TypeError?error.message:"invalid JSON"}).`);}
   }
   const image=parts?.find(p=>p.inlineData)?.inlineData;
   if(!image || !["image/png","image/jpeg","image/webp"].includes(image.mimeType) || image.data.length>8_000_000) throw new MapProviderError("Vertex returned no supported colour mask.");

@@ -4,8 +4,8 @@ import { createHash } from "node:crypto";
 import sharp from "sharp";
 import { MAP_MODELS, MAP_STYLE, MAX_OUTPUT_TOKENS, reservationUsd, type MapInput, type GeneratedMap, type MapGeneration } from "../../../lab/g3-map/generation";
 
-export class MapLimitError extends Error {}
-export class MapProviderError extends Error {}
+export class MapLimitError extends Error { readonly code = "map_limit"; }
+export class MapProviderError extends Error { readonly code = "map_provider"; }
 const auth = new GoogleAuth({ scopes: ["https://www.googleapis.com/auth/cloud-platform"] });
 type Payload = { candidates?: { content?: { parts?: { inlineData?: { data: string; mimeType: string } }[] } }[]; usageMetadata?: { promptTokenCount?: number; thoughtsTokenCount?: number; candidatesTokensDetails?: { modality: string; tokenCount: number }[] } };
 export async function callVertex(input: MapInput) {
