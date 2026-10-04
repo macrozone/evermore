@@ -1,0 +1,25 @@
+{
+  "model": "gemini-3.1-flash-lite-image",
+  "endpoint": "https://aiplatform.googleapis.com/v1/projects/maw-evermore/locations/global/publishers/google/models/gemini-3.1-flash-lite-image:generateContent",
+  "body": {
+    "contents": [
+      {
+        "role": "user",
+        "parts": [
+          {
+            "text": "Cozy SNES RPG pixel art. Axis-aligned orthographic top-down south-facing view, horizontal and vertical edges, never 45-degree isometric. Crisp readable pixel clusters, no antialiasing, no gradients. Warm terracotta, cream, brown timber, muted sage foliage. Light from upper left. Designed to remain readable at 64x64 pixels. No text, labels, watermarks or other objects.\nSubject: One mature rounded oak tree, sage green canopy, sturdy brown trunk. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground or cast shadow."
+          }
+        ]
+      }
+    ],
+    "generationConfig": {
+      "responseModalities": [
+        "IMAGE"
+      ],
+      "imageConfig": {
+        "aspectRatio": "1:1",
+        "imageSize": "1K"
+      }
+    }
+  }
+}

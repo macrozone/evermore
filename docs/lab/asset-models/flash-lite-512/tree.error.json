@@ -1,0 +1,6 @@
+{
+  "model": "gemini-3.1-flash-lite-image",
+  "startedAt": "2026-10-04T01:22:37.664Z",
+  "durationMs": 3334,
+  "message": "HTTP 400: Request contains an invalid argument."
+}

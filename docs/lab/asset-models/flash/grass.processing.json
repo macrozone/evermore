@@ -1,0 +1,39 @@
+{
+  "pipeline": "nearest-neighbor without crop; sprites magenta-key; fixed 12-color experimental palette; no seam repair",
+  "palette": [
+    "#243126",
+    "#3d5136",
+    "#607448",
+    "#8f9c68",
+    "#c2bf8a",
+    "#523b32",
+    "#856047",
+    "#b3825a",
+    "#c86644",
+    "#e29a63",
+    "#ead9ad",
+    "#fff0c7"
+  ],
+  "rawTransparentPixels": 0,
+  "keyedPixels": 0,
+  "sizes": {
+    "16": {
+      "horizontalEdgeMae": 10.854166666666666,
+      "verticalEdgeMae": 36.5,
+      "interiorNeighborMae": 26.813194444444445,
+      "transparentPixels": 0
+    },
+    "32": {
+      "horizontalEdgeMae": 8.020833333333334,
+      "verticalEdgeMae": 10.270833333333334,
+      "interiorNeighborMae": 19.053763440860216,
+      "transparentPixels": 0
+    },
+    "64": {
+      "horizontalEdgeMae": 20.526041666666668,
+      "verticalEdgeMae": 15.25,
+      "interiorNeighborMae": 15.12272652116402,
+      "transparentPixels": 0
+    }
+  }
+}

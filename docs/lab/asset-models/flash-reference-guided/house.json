@@ -1,0 +1,38 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "requestedSize": "1K",
+  "prompt": "Cozy SNES RPG pixel art. Axis-aligned orthographic top-down south-facing view, horizontal and vertical edges, never 45-degree isometric. Crisp readable pixel clusters, no antialiasing, no gradients. Warm terracotta, cream, brown timber, muted sage foliage. Light from upper left. Designed to remain readable at 64x64 pixels. No text, labels, watermarks or other objects.\nSubject: One small timber cottage, horizontal terracotta roof ridge, cream walls, brown timber, golden windows and a centered door. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground or cast shadow.",
+  "startedAt": "2026-10-04T01:24:41.142Z",
+  "durationMs": 9204,
+  "width": 1024,
+  "height": 1024,
+  "responseMimeType": "image/png",
+  "hasAlpha": false,
+  "usage": {
+    "promptTokenCount": 1308,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 2428,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 188
+      },
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  },
+  "seed": null,
+  "referenceImage": "../../../apps/www/public/objects/source/well.png",
+  "referenceInstruction": "The attached well image is a STYLE REFERENCE ONLY. Match only its pixel cluster scale, lighting, palette and axis-aligned camera. Do not reproduce its well, roof, posts, stone circle or composition. Generate only the new subject specified below.",
+  "referenceSnapshot": "reference-well.png",
+  "referenceSha256": "96499a6a4c7e8e9394972eaf1d0b7b47c35db6b2990b8ca1be74f6e44ca29dbe"
+}

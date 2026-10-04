@@ -1,0 +1,6 @@
+{
+  "model": "imagen-4.0-fast-generate-001",
+  "startedAt": "2026-10-04T01:21:51.784Z",
+  "durationMs": 917,
+  "message": "HTTP 404: Publisher model `projects/maw-evermore/locations/us-central1/publishers/google/models/imagen-4.0-fast-generate-001` was not found or your project does not have access to it. Ensure you are using a valid model name and that the model is available in the specified region. For more information, see: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations."
+}

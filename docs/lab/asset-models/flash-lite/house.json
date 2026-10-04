@@ -1,0 +1,31 @@
+{
+  "model": "gemini-3.1-flash-lite-image",
+  "requestedSize": "1K",
+  "prompt": "Cozy SNES RPG pixel art. Axis-aligned orthographic top-down south-facing view, horizontal and vertical edges, never 45-degree isometric. Crisp readable pixel clusters, no antialiasing, no gradients. Warm terracotta, cream, brown timber, muted sage foliage. Light from upper left. Designed to remain readable at 64x64 pixels. No text, labels, watermarks or other objects.\nSubject: One small timber cottage, horizontal terracotta roof ridge, cream walls, brown timber, golden windows and a centered door. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground or cast shadow.",
+  "startedAt": "2026-10-04T01:19:51.132Z",
+  "durationMs": 3764,
+  "width": 1024,
+  "height": 1024,
+  "responseMimeType": "image/jpeg",
+  "hasAlpha": false,
+  "usage": {
+    "promptTokenCount": 139,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 1259,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 139
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  },
+  "seed": null,
+  "referenceImage": null
+}

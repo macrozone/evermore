@@ -1,0 +1,31 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "requestedSize": "512",
+  "prompt": "Cozy SNES RPG pixel art. Axis-aligned orthographic top-down south-facing view, horizontal and vertical edges, never 45-degree isometric. Crisp readable pixel clusters, no antialiasing, no gradients. Warm terracotta, cream, brown timber, muted sage foliage. Light from upper left. Designed to remain readable at 64x64 pixels. No text, labels, watermarks or other objects.\nSubject: One seamless repeating grass ground texture, muted sage green with tiny warm ochre blades. Fill the entire square edge to edge. Opposite edges must match exactly for tiling in both axes. Uniform texture density, no border, no isolated object, no magenta background, no large shadow or central focal point.",
+  "startedAt": "2026-10-04T01:20:33.992Z",
+  "durationMs": 8145,
+  "width": 512,
+  "height": 512,
+  "responseMimeType": "image/png",
+  "hasAlpha": false,
+  "usage": {
+    "promptTokenCount": 150,
+    "candidatesTokenCount": 747,
+    "totalTokenCount": 897,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 150
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 747
+      }
+    ]
+  },
+  "seed": null,
+  "referenceImage": null
+}

@@ -1,0 +1,37 @@
+{
+  "model": "gemini-3.1-flash-image",
+  "requestedSize": "1K",
+  "prompt": "Cozy SNES RPG pixel art. Axis-aligned orthographic top-down south-facing view, horizontal and vertical edges, never 45-degree isometric. Crisp readable pixel clusters, no antialiasing, no gradients. Warm terracotta, cream, brown timber, muted sage foliage. Light from upper left. Designed to remain readable at 64x64 pixels. No text, labels, watermarks or other objects.\nSubject: One mature rounded oak tree, sage green canopy, sturdy brown trunk. Entire object centered with generous empty margin on perfectly flat pure magenta #ff00ff background. No ground or cast shadow.",
+  "startedAt": "2026-10-04T01:23:03.616Z",
+  "durationMs": 12812,
+  "width": 1024,
+  "height": 1024,
+  "responseMimeType": "image/png",
+  "hasAlpha": false,
+  "usage": {
+    "promptTokenCount": 1250,
+    "candidatesTokenCount": 1120,
+    "totalTokenCount": 2370,
+    "trafficType": "ON_DEMAND",
+    "promptTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      },
+      {
+        "modality": "TEXT",
+        "tokenCount": 130
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "IMAGE",
+        "tokenCount": 1120
+      }
+    ]
+  },
+  "seed": null,
+  "referenceImage": "../../../apps/www/public/objects/source/well.png",
+  "referenceSnapshot": "reference-well.png",
+  "referenceSha256": "96499a6a4c7e8e9394972eaf1d0b7b47c35db6b2990b8ca1be74f6e44ca29dbe"
+}
