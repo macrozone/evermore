@@ -91,7 +91,7 @@ export const catalog: readonly CatalogEntry[] = [
     id: "r1-voxel",
     screenshot: "/catalog/r1-voxel-static.png",
     name: "R1 · Orthographic voxels",
-    description: "Inspect the whole meadow-house world in Three.js with adjustable camera angles.",
+    description: "Generate a specification with a seed, then walk its voxel world with adjustable camera angles.",
     href: "/lab/r1-voxel",
     category: "experiment",
     status: "ready",

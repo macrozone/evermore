@@ -15,14 +15,18 @@ import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettin
 import { advanceHour, clockLabel, daylightAt, DEFAULT_LIGHTING, type LightingSettings } from "./daylight";
 import { createLocalLights } from "./local-lights";
 import { DEFAULT_LOOK, LOOK_FRAGMENT, playerFocusDepth, renderDimensions, type LookSettings } from "./pixel-look";
+import { GenerationPanel } from "./generation-panel";
 const PLAYER_CAMERA = { ...DEFAULT_CAMERA, zoom: 2.2 };
 
 export default function VoxelExperiment() {
   const { handoff, error: importError, ready } = useWorldHandoff();
-  const [selectedWorld, setWorldIndex] = useState<number | null>(null);
-  const worldIndex = selectedWorld === -2 && !handoff ? -1 : selectedWorld ?? (handoff ? -2 : -1);
+  const [selectedWorld, setSelectedWorld] = useState<{ index: number; seed: string | number; revision: number } | null>(null);
+  const worldIndex = selectedWorld?.index === -2 && !handoff ? -1 : selectedWorld?.index ?? (handoff ? -2 : -1);
   const imported = worldIndex === -2 ? handoff : null;
-  const worldSeed = imported?.seed ?? MEADOW_HOUSE_SEED;
+  const worldSeed = worldIndex === -1 ? MEADOW_HOUSE_SEED : selectedWorld?.seed ?? imported?.seed ?? MEADOW_HOUSE_SEED;
+  const generationRevision = selectedWorld?.revision ?? 0;
+  const [generationMs, setGenerationMs] = useState(0);
+  const worldName = imported ? imported.specification.name : worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name;
   const [shadow, setShadow] = useState(false);
   const [heatmap, setHeatmap] = useState(false);
   const surface = useRef<HTMLDivElement>(null);
@@ -93,6 +97,7 @@ export default function VoxelExperiment() {
     async function start(host: HTMLDivElement) {
       const { createMeadowHouseWorld } = await import("@evermore/world");
       if (cancelled) return;
+      setError("");
       renderer = new WebGLRenderer({ antialias: false, alpha: true });
       renderer.setPixelRatio(1);
       renderer.shadowMap.enabled = true;
@@ -128,7 +133,9 @@ export default function VoxelExperiment() {
         localLights = createLocalLights();
         scene.add(localLights.group);
       }
-      const source = imported ? generateWorld(imported.specification, imported.seed) : worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
+      const generatedAt = performance.now();
+      const source = imported ? generateWorld(imported.specification, worldSeed) : worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, worldSeed);
+      setGenerationMs(performance.now() - generatedAt);
       const state = createMovement({ ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 });
       const spriteCanvas = document.createElement("canvas");
       spriteCanvas.width = 16;
@@ -333,7 +340,7 @@ export default function VoxelExperiment() {
       if (!cancelled) setError("The renderer could not start. Enable WebGL and reload this page.");
     });
     return () => { cancelled = true; dispose(); };
-  }, [worldIndex, imported, ready, shadow, heatmap, keys]);
+  }, [worldIndex, imported, worldSeed, generationRevision, ready, shadow, heatmap, keys]);
 
   useEffect(() => {
     currentMovement.current = movement;
@@ -344,13 +351,18 @@ export default function VoxelExperiment() {
     updateView.current?.(settings, look, lighting);
   }, [settings, look, lighting, movement, follow]);
 
-  const json = JSON.stringify({ experiment: "r1-voxel", world: imported ? imported.specification.name : worldIndex === -1 ? "meadow-house" : WORLD_EXAMPLES[worldIndex]!.name, shadow, heatmap, seed: worldSeed, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
+  const json = JSON.stringify({ experiment: "r1-voxel", world: worldName, shadow, heatmap, seed: worldSeed, camera: settings, look, lighting, movement, cameraFollow: follow }, null, 2);
   return (
     <div className="relative grid grid-cols-[minmax(0,1fr)_minmax(150px,28%)] gap-2 rounded bg-ink">
       <div ref={surface} tabIndex={0} role="application" aria-label="Voxel world movement" aria-describedby="voxel-controls"
         onPointerDown={() => surface.current?.focus({ preventScroll: true })}
         className="h-[75vh] min-h-[360px] w-full overflow-hidden rounded border border-dusk focus-visible:outline-2 focus-visible:outline-gold" />
       <aside aria-label="Voxel experiment settings" className="grid min-w-0 break-words max-h-[75vh] min-h-[360px] content-start gap-4 overflow-y-auto rounded border border-dusk p-2 text-sm">
+        {ready && <GenerationPanel key={JSON.stringify(handoff)} initialIndex={worldIndex} initialSeed={worldSeed} handoff={handoff} onGenerate={(index, seed) => {
+          keys.current.clear();
+          setSelectedWorld((previous) => ({ index, seed, revision: (previous?.revision ?? 0) + 1 }));
+        }} />}
+        <p aria-label="Active generation">{worldName} · Seed {worldSeed} · {generationMs.toFixed(1)} ms generation</p>
         <p id="voxel-controls">Click the world, then use WASD / arrow keys. Tab returns to settings. Follow the path to the bridge, or enter the house and take the stairs along the north wall of the kitchen.</p>
       <p className="text-sm text-mist">Seed {worldSeed} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
         <p aria-label="Player position">Player: {playerPosition.x.toFixed(2)}, {playerPosition.y.toFixed(2)} · Floor {playerPosition.z}</p>
@@ -376,11 +388,6 @@ export default function VoxelExperiment() {
         </fieldset>
         <fieldset className="min-w-0 flex flex-wrap items-center gap-4 border border-dusk p-3">
           <legend>World & danger</legend>
-          <label className="min-w-0">Source world <select className="max-w-full" aria-label="Source world" value={worldIndex} onChange={(event) => setWorldIndex(Number(event.target.value))}>
-            {handoff && <option value={-2}>{handoff.specification.name} (imported)</option>}
-            <option value={-1}>Meadow house</option>
-            {WORLD_EXAMPLES.map((example, index) => <option key={example.name} value={index}>{example.name}</option>)}
-          </select></label>
           {([false, true] as const).map((value) => <button key={String(value)} type="button" className="rounded border border-gold px-3 py-1" aria-pressed={shadow === value} onClick={() => setShadow(value)}>{value ? "Shadow" : "Normal"}</button>)}
           <label><input type="checkbox" checked={heatmap} onChange={(event) => setHeatmap(event.target.checked)} /> Danger heatmap</label>
           <p className="text-sm">Blue: low danger · Red: high danger. Influence peaks at the first bed (or spawn), fading with horizontal distance.</p>
