@@ -3,14 +3,15 @@
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MEADOW_HOUSE_SEED, WORLD_EXAMPLES, generateWorld, deriveShadowWorld, findInfluenceOrigin, influenceAt } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
-import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture, Sprite, SpriteMaterial } from "three";
+import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture } from "three";
 
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { MovementSettings } from "../../../components/lab/movement-settings";
 import { movementSprite } from "../../../components/lab/movement-sprite";
 import { useWorldHandoff } from "../../../components/lab/use-world-handoff";
 import { useMovement } from "../../../components/lab/use-movement";
-import { cameraMovement, DEFAULT_FOLLOW, followBlend, voxelMovementFloor } from "./player-model";
+import { cameraMovement, DEFAULT_FOLLOW, followBlend, nearestVoxelPosition, voxelMovementFloor } from "./player-model";
+import { createVoxelPlayer } from "./player-renderer";
 import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
 import { advanceHour, clockLabel, daylightAt, DEFAULT_LIGHTING, type LightingSettings } from "./daylight";
 import { createLocalLights } from "./local-lights";
@@ -56,7 +57,7 @@ export default function VoxelExperiment() {
     let cancelled = false;
     let frame = 0;
     let playerTexture: CanvasTexture | undefined;
-    let playerMaterial: SpriteMaterial | undefined;
+    let player: ReturnType<typeof createVoxelPlayer> | undefined;
     const geometries: ReturnType<typeof meshChunk>[] = [];
     const material = new MeshLambertMaterial({ vertexColors: true });
     const target = new WebGLRenderTarget(1, 1, { minFilter: NearestFilter, magFilter: NearestFilter });
@@ -71,7 +72,7 @@ export default function VoxelExperiment() {
       cancelAnimationFrame(frame);
       resetPlayer.current = null;
       playerTexture?.dispose();
-      playerMaterial?.dispose();
+      player?.dispose();
       target.dispose();
       screenGeometry.dispose();
       screenMaterial.dispose();
@@ -124,7 +125,9 @@ export default function VoxelExperiment() {
         scene.add(localLights.group);
       }
       const source = imported ? generateWorld(imported.specification, imported.seed) : worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
-      const state = createMovement({ ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 });
+      const world = shadow ? deriveShadowWorld(source) : source;
+      const spawn = nearestVoxelPosition(world, { ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 });
+      const state = createMovement(spawn);
       const spriteCanvas = document.createElement("canvas");
       spriteCanvas.width = 16;
       spriteCanvas.height = 32;
@@ -133,13 +136,8 @@ export default function VoxelExperiment() {
       playerTexture = new CanvasTexture(spriteCanvas);
       playerTexture.minFilter = NearestFilter;
       playerTexture.magFilter = NearestFilter;
-      // Visible navigation marker until the separate cutaway/occlusion slice.
-      playerMaterial = new SpriteMaterial({ map: playerTexture, depthTest: false, depthWrite: false, toneMapped: false });
-      const player = new Sprite(playerMaterial);
-      player.center.set(0.5, 0.125);
-      player.scale.set(1.6, 3.2, 1);
-      player.renderOrder = 10;
-      scene.add(player);
+      player = createVoxelPlayer(playerTexture);
+      scene.add(player.group);
       const followed = new Vector3(state.x, -state.y, state.z);
       let lastSprite = "";
       const updateSprite = () => {
@@ -156,7 +154,6 @@ export default function VoxelExperiment() {
       };
       const origin = findInfluenceOrigin(source);
       const radius = Math.hypot(source.width, source.depth) / 2;
-      const world = shadow ? deriveShadowWorld(source) : source;
       const collision = (position: typeof source.spawn) => voxelMovementFloor(world, position);
       const dangerColor = heatmap ? (x: number, y: number, z: number, base: number) => {
         const influence = influenceAt({ x, y, z }, origin, radius);
@@ -215,11 +212,7 @@ export default function VoxelExperiment() {
         camera.updateMatrixWorld(true);
         const size = renderDimensions(width, height, lookSettings);
         updateSprite();
-        // Snap only the rendered screen position; simulation retains sub-pixels.
-        const projected = new Vector3(state.x, -state.y, state.z).project(camera);
-        projected.x = Math.round((projected.x + 1) * size.width / 2) * 2 / size.width - 1;
-        projected.y = Math.round((projected.y + 1) * size.height / 2) * 2 / size.height - 1;
-        player.position.copy(projected.unproject(camera));
+        player!.update(state, cameraSettings.rotation, cameraSettings.inclination);
         host.dataset.playerX = state.x.toFixed(3);
         host.dataset.playerY = state.y.toFixed(3);
         host.dataset.playerZ = String(state.z);
@@ -241,7 +234,7 @@ export default function VoxelExperiment() {
         screenMaterial.uniforms.renderSize!.value = [size.width, size.height];
         sunlight.castShadow = lookSettings.shadows && day.sun > 0;
         sunlight.shadow.radius = lookSettings.softness;
-        const nextShadowSignature = JSON.stringify({ lightingSettings, lookSettings, flickerFrame: lightingSettings.flicker ? Math.floor(animationSeconds.current * 30) : 0 });
+        const nextShadowSignature = JSON.stringify({ lightingSettings, lookSettings, player: [state.x, state.y, state.z], flickerFrame: lightingSettings.flicker ? Math.floor(animationSeconds.current * 30) : 0 });
         activeRenderer.shadowMap.needsUpdate = nextShadowSignature !== shadowSignature;
         shadowSignature = nextShadowSignature;
         screenMaterial.uniforms.saturation!.value = lookSettings.saturation;
@@ -269,7 +262,7 @@ export default function VoxelExperiment() {
       updateView.current = render;
       const reset = () => {
         keys.current.clear();
-        Object.assign(state, createMovement({ ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 }));
+        Object.assign(state, createMovement(spawn));
         followed.set(state.x, -state.y, state.z);
         setPlayerPosition({ x: state.x, y: state.y, z: state.z });
         render(currentSettings.current, currentLook.current, currentLighting.current);
@@ -285,7 +278,10 @@ export default function VoxelExperiment() {
         const elapsed = document.hidden ? 0 : Math.min((now - previous) / 1000, 0.25);
         previous = now;
         if (elapsed > 0) {
-          clock(elapsed, () => stepMovement(state, cameraMovement(movementFromKeys(keys.current), currentSettings.current.rotation), currentMovement.current, collision));
+          clock(elapsed, () => {
+            if (collision(state) === null) Object.assign(state, createMovement(nearestVoxelPosition(world, state)));
+            stepMovement(state, cameraMovement(movementFromKeys(keys.current), currentSettings.current.rotation), currentMovement.current, collision);
+          });
           destination.set(state.x, -state.y, state.z);
           const cameraMoving = followed.distanceToSquared(destination) > 0.000001;
           followed.lerp(destination, followBlend(currentFollow.current, elapsed));

@@ -32,7 +32,7 @@ function moveAxis(state: MovementState, axis: "x" | "y", distance: number, colli
   return true;
 }
 
-/** Correct only cardinal input; never cut across a blocked diagonal corner. */
+/** Sweep sideways toward a nearby opening, including for diagonal input. */
 function correctCorner(state: MovementState, axis: "x" | "y", distance: number, tolerance: number, collision: MovementCollision) {
   const side = axis === "x" ? "y" : "x";
   for (let offset = 0.025; offset <= tolerance + 1e-9; offset += 0.025) {
@@ -48,9 +48,15 @@ function correctCorner(state: MovementState, axis: "x" | "y", distance: number, 
         probe[side] += along * sign;
         if (collision(probe) === null) { clear = false; break; }
       }
-      if (clear && moveAxis(state, side, Math.min(offset, Math.abs(distance)) * sign, collision)) return;
+      if (clear && moveAxis(state, side, offset * sign, collision)) {
+        // Complete the forward step in the same sweep. Otherwise an opposing
+        // diagonal component undoes the correction and oscillates at the edge.
+        moveAxis(state, axis, distance, collision);
+        return true;
+      }
     }
   }
+  return false;
 }
 
 export function stepMovement(state: MovementState, input: MovementInput, config: MovementConfig, collision: MovementCollision): void {
@@ -72,10 +78,13 @@ export function stepMovement(state: MovementState, input: MovementInput, config:
   // Bound collision sweeps even when experimental speed is very high.
   const parts = Math.max(1, Math.ceil(Math.max(Math.abs(dx), Math.abs(dy)) / 0.05));
   for (let part = 0; part < parts; part++) {
-    if (!moveAxis(state, "x", dx / parts, collision) && x !== 0 && y === 0) {
-      correctCorner(state, "x", dx / parts, config.cornerTolerance, collision);
-    }
-    if (!moveAxis(state, "y", dy / parts, collision) && y !== 0 && x === 0) {
+    const movedX = moveAxis(state, "x", dx / parts, collision);
+    const movedY = moveAxis(state, "y", dy / parts, collision);
+    // Ordinary wall sliding takes priority. Correct a diagonal only when both
+    // axes are blocked, so correction cannot fight the requested tangent.
+    const correctedX = !movedX && x !== 0 && (y === 0 || !movedY)
+      && correctCorner(state, "x", dx / parts, config.cornerTolerance, collision);
+    if (!correctedX && !movedY && y !== 0 && (x === 0 || !movedX)) {
       correctCorner(state, "y", dy / parts, config.cornerTolerance, collision);
     }
   }

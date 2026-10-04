@@ -51,6 +51,16 @@ describe("movement", () => {
     const wall: MovementCollision = (p) => p.x > 1 && Math.abs(p.y) < 0.15 || p.y > 0.05 && p.y < 0.1 || p.y < -0.05 && p.y > -0.1 ? null : 0;
     expect(run({ x: 1, y: 0 }, wall).x).toBeLessThanOrEqual(1);
   });
+  it("corrects diagonal input along a narrow stair corner without cutting a wall", () => {
+    // Rightward passage just below a horizontal wall; both requested axes
+    // initially block, but a small downward correction opens the passage.
+    const stair: MovementCollision = (p) => p.y < 0 || (p.x > 1 && p.y < 0.2) ? null : 0;
+    const diagonal = run({ x: 1, y: -1 }, stair, instant, 120, { x: 0.95, y: 0.05, z: 0 });
+    expect(diagonal.x).toBeGreaterThan(2);
+    expect(diagonal.y).toBeGreaterThanOrEqual(0);
+    const blocked = run({ x: 1, y: -1 }, stair, { ...instant, cornerTolerance: 0.05 }, 120, { x: 0.95, y: 0.05, z: 0 });
+    expect(blocked.x).toBeLessThanOrEqual(1);
+  });
   it("produces identical simulation at different rendering rates", () => {
     function simulated(hz: number) {
       const state = createMovement({ x: 0, y: 0, z: 0 });

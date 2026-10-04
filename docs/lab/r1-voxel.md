@@ -193,3 +193,53 @@ Abschlussprüfungen: `pnpm install`, Typecheck, Lint, vollständige Tests
 (98 www, 55 world, 13 core plus bestehende ESLint-/Script-Tests) und
 Produktions-Build grün. Lokale Node-Version 23.6.0 statt Projektziel 22;
 die vorhandene Engine-Warnung hat die Checks nicht verhindert.
+
+## R1.14 – Spieler in der Welt: Tiefe, Kollision und Schatten
+
+Bead: `evermore-1fo.3.14`. Die Figur ist ein kameraorientiertes Mesh mit
+Alpha-Test, Depth-Test und Depth-Write an der echten Fussposition. Auch die
+Top-down-Kamera erhält ein sichtbares Billboard. Deckende Wände, Dächer und
+Baumkronen verdecken die Figur tatsächlich; Cutaways bleiben bei R1.4.
+Ein unsichtbarer Körper mit Fussradius 0,22 und Höhe 2 wirft Schatten für
+Sonne, Mond und PointLights unabhängig vom Kamerawinkel. Bewegung invalidiert
+die sonst gecachten Schattenkarten, damit der Schatten der Figur folgt.
+
+Der Voxel-Adapter blockiert Laub im Körperraum. Aufstiege benötigen eine
+Treppenstufe oder einen Brückenübergang und bleiben auf eine Höhenzelle
+begrenzt; die Küchentreppe und beide Hügelstufen funktionieren in beide
+Richtungen. Ungültige Spawns und überlappende Zustände werden auf die nächste
+freie Fussposition verschoben. Gemeinsame Corner Correction prüft den ganzen
+seitlichen Weg und beendet den Vorwärtsschritt auch bei diagonaler Eingabe,
+damit die Gegenrichtung den Spieler nicht am Eck hin und her schiebt.
+
+Headless-Aufnahmen (Chromium, 1440 × 1000, Zoom 4×):
+[vor dem Haus am Tag](screenshots/r1-depth/house-front-day.png),
+[bei Nacht](screenshots/r1-depth/house-front-night.png),
+[im Haus am Tag](screenshots/r1-depth/house-inside-day.png),
+[bei Nacht](screenshots/r1-depth/house-inside-night.png),
+[hinter dem Baum am Tag](screenshots/r1-depth/tree-behind-day.png),
+[bei Nacht](screenshots/r1-depth/tree-behind-night.png),
+[im Turm am Tag](screenshots/r1-depth/tower-inside-day.png) und
+[bei Nacht](screenshots/r1-depth/tower-inside-night.png).
+Die verschwundene Figur in den Innenaufnahmen ist der erwartete Tiefentest;
+der Turmeingang lässt die Füsse korrekt durch die offene Tür sehen.
+
+Browserprüfung: `node scripts/check-r1-depth.mjs http://127.0.0.1:<port>`.
+Der Test identifiziert den Spieler-Draw an seiner Textur und vergleicht die
+Framebuffer-Pixel mit unterdrücktem Draw: Vor dem Haus ändert die Figur das
+Bild, im Haus, hinter dem Baum und hinter einer massiven Turmwand nicht.
+Ein separater Vergleich unterdrückt nur den Schattenkörper: Sonne, Mond und
+lokales Licht verlieren jeweils dessen messbaren Schattenbeitrag.
+Der Test läuft mit echten Tasten über Garten, Brücke und Hügel ins Turminnere.
+Unit-Tests prüfen zusätzlich 50 reproduzierbare zufällige Laufwege, gültige
+Fuss-AABBs, maximale Schritthöhe, Spawn-Recovery und diagonale Ecken.
+
+ADE-Proof-Registrierung ist lokal nicht verfügbar (`ade: command not found`);
+die Aufnahmen bleiben deshalb versionierte Repository-Artefakte. Die lokale
+Node-Version 23.6.0 weicht vom Projektziel 22 ab; Software-WebGL-Messungen sind
+kein Nachweis für die Bildrate auf Spieler-Hardware.
+
+Abschlussprüfungen: `pnpm install`, Typecheck, Lint, vollständige Tests
+(290 www, 81 world, 14 core sowie ESLint-/Script-Tests; ein bestehender
+Integrationstest übersprungen) und Produktions-Build grün. Die finalen acht
+Aufnahmen und alle Pixel-/Schattenvergleiche stammen vom Produktions-Build.
