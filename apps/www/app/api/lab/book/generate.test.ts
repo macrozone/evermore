@@ -37,6 +37,7 @@ describe("book generation", () => {
     expect(JSON.parse(body.contents[0].parts[0].text)).toEqual({ whoAndWhere: input.answers[0], sleepingPlace: input.answers[1] });
     expect(body.generationConfig.responseJsonSchema.properties.spawn).toBeDefined();
     expect(body.generationConfig.responseJsonSchema.required).toContain("sleepingPlace");
+    if (result.strategy !== "g1") throw new Error("Expected a G1 specification");
     expect(result.specification.sleepingPlace?.name).toBe("Cottage bedroom");
   });
   it("requests a missing sleeping place instead of silently ignoring the second answer", async () => {
@@ -49,6 +50,7 @@ describe("book generation", () => {
   it("marks the fallback sleeping place as an example", async () => {
     vi.stubEnv("BOOK_VERTEX_DISABLED", "true");
     const result = await generateBook(input);
+    if (result.strategy !== "g1") throw new Error("Expected a G1 specification");
     expect(result.specification.sleepingPlace).toEqual({ name: "Example sleeping place", buildingIndex: 0, floor: 1 });
   });
   it("switches Gemini models and their thinking budget", async () => {
