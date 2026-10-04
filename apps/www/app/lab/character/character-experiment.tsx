@@ -3,13 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { ACCESSORY_PARTS, BODY_PARTS, CHARACTER_EXAMPLES, CHARACTER_MODELS, COLOR_KEYS, HAIR_PARTS, OUTFIT_PARTS, parseCharacterSpecification, type CharacterGeneration, type CharacterModel, type CharacterSpecification } from "./specification";
 import { DIRECTIONS, paintSprite, renderCharacter, type Direction, type PixelDensity } from "./sprite";
+import { DEFAULT_VOXEL_SETTINGS, renderVoxelCharacter, type VoxelSettings } from "./voxel";
 import styles from "./character.module.css";
 
-function SpritePreview({ specification, direction, density, scale, tempo, playing, frame }: {
+type RenderMode = "paper-doll" | "voxel";
+interface RenderOptions { renderMode: RenderMode; voxel: VoxelSettings }
+
+function SpritePreview({ specification, direction, density, scale, tempo, playing, frame, renderMode, voxel }: {
   specification: CharacterSpecification; direction: Direction; density: PixelDensity; scale: number; tempo: number; playing: boolean; frame: number;
-}) {
+} & RenderOptions) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const height = Math.round(density * 4 / 3);
+  const stats = useRef<HTMLOutputElement>(null);
   useEffect(() => {
     const element = canvas.current;
     const parent = element?.parentElement;
@@ -26,6 +31,11 @@ function SpritePreview({ specification, direction, density, scale, tempo, playin
   useEffect(() => {
     const context = canvas.current?.getContext("2d");
     if (!context) return;
+    const renderStart = performance.now();
+    const sprites = Array.from({ length: 4 }, (_, phase) => renderMode === "voxel" ? renderVoxelCharacter(specification, direction, phase, density, voxel) : renderCharacter(specification, direction, phase, density));
+    const renderMs = (performance.now() - renderStart) / 4;
+    const triangles = renderMode === "voxel" ? (sprites[0] as ReturnType<typeof renderVoxelCharacter>).triangles : 0;
+    let sampleStart = performance.now(), sampleFrames = 0;
     let animation = 0;
     let start: number | undefined;
     let previous = -1;
@@ -34,18 +44,24 @@ function SpritePreview({ specification, direction, density, scale, tempo, playin
       const phase = playing ? Math.floor((now - start) * tempo / 1000) % 4 : frame;
       if (phase !== previous) {
         context.clearRect(0, 0, density, height);
-        paintSprite(context, renderCharacter(specification, direction, phase, density));
+        paintSprite(context, sprites[phase]!);
         previous = phase;
+      }
+      sampleFrames++;
+      if (stats.current && (now - sampleStart >= 1000 || !playing)) {
+        const fps = sampleFrames * 1000 / Math.max(1, now - sampleStart);
+        stats.current.textContent = `${playing ? `${fps.toFixed(0)} FPS · ${(1000 / fps).toFixed(1)} ms/frame` : "Paused"} · ${renderMs.toFixed(1)} ms/baked sprite${renderMode === "voxel" ? ` · ${triangles} triangles · 0 GPU draw calls · 1 CPU pass` : ""}`;
+        sampleStart = now; sampleFrames = 0;
       }
       if (playing) animation = requestAnimationFrame(tick);
     };
     animation = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animation);
-  }, [specification, direction, density, height, tempo, playing, frame]);
-  return <canvas ref={canvas} width={density} height={height} style={{ width: density * scale, height: height * scale }} aria-label={`${direction} character ${playing ? "walking" : `frame ${frame + 1}`}`} />;
+  }, [specification, direction, density, height, tempo, playing, frame, renderMode, voxel]);
+  return <><canvas ref={canvas} width={density} height={height} style={{ width: density * scale, height: height * scale }} aria-label={`${direction} character ${playing ? "walking" : `frame ${frame + 1}`}`} />{direction === "south" && <output className={styles.stats} ref={stats} aria-label="Render performance">Baking sprites…</output>}</>;
 }
 
-function ContactSheet({ specification, density }: { specification: CharacterSpecification; density: PixelDensity }) {
+function ContactSheet({ specification, density, renderMode, voxel }: { specification: CharacterSpecification; density: PixelDensity } & RenderOptions) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const height = Math.round(density * 4 / 3);
   useEffect(() => {
@@ -53,9 +69,9 @@ function ContactSheet({ specification, density }: { specification: CharacterSpec
     if (!context) return;
     context.clearRect(0, 0, density * 4, height * 4);
     DIRECTIONS.forEach((direction, row) => {
-      for (let frame = 0; frame < 4; frame++) paintSprite(context, renderCharacter(specification, direction, frame, density), frame * density, row * height);
+      for (let frame = 0; frame < 4; frame++) paintSprite(context, renderMode === "voxel" ? renderVoxelCharacter(specification, direction, frame, density, voxel) : renderCharacter(specification, direction, frame, density), frame * density, row * height);
     });
-  }, [specification, density, height]);
+  }, [specification, density, height, renderMode, voxel]);
   return <canvas ref={canvas} width={density * 4} height={height * 4} style={{ width: density * 8, height: height * 8 }} aria-label="Sprite sheet: south, west, north, east rows; four walking frames per row" />;
 }
 
@@ -65,6 +81,8 @@ const fallbackLabels = {
 };
 
 export default function CharacterExperiment() {
+  const [renderMode, setRenderMode] = useState<RenderMode>("paper-doll");
+  const [voxel, setVoxel] = useState<VoxelSettings>(DEFAULT_VOXEL_SETTINGS);
   const [description, setDescription] = useState(CHARACTER_EXAMPLES[0]!.description);
   const [model, setModel] = useState<CharacterModel>(CHARACTER_MODELS[0]);
   const [specification, setSpecification] = useState<CharacterSpecification>(structuredClone(CHARACTER_EXAMPLES[0]!.specification));
@@ -81,7 +99,7 @@ export default function CharacterExperiment() {
   const [copyStatus, setCopyStatus] = useState("");
   const pending = useRef<AbortController | null>(null);
   useEffect(() => () => pending.current?.abort(), []);
-  const json = JSON.stringify({ experiment: "character-paper-doll", description, model, specification, settings: { scale, density, tempo, playing, frame }, result: { source: generation?.source ?? "example", model: generation?.model ?? null, fallbackReason: generation?.fallbackReason ?? null, edited } }, null, 2);
+  const json = JSON.stringify({ experiment: `character-${renderMode}`, description, model, specification, settings: { renderMode, scale, density, tempo, playing, frame, voxel }, result: { source: generation?.source ?? "example", model: generation?.model ?? null, fallbackReason: generation?.fallbackReason ?? null, edited } }, null, 2);
 
   async function generate() {
     setBusy(true); setError(""); setCopyStatus("");
@@ -103,21 +121,25 @@ export default function CharacterExperiment() {
   function edit(next: CharacterSpecification) { setSpecification(next); setEdited(true); setCopyStatus(""); }
 
   return <>
-    <div className={styles.stage}>
+    <div className={styles.stage} aria-label="Character workspace">
       <div className={styles.preview}>
         <div className={styles.identity}><h2>{specification.name}</h2><p>{provenance}{edited ? " · edited locally" : ""}</p></div>
         <div className={styles.directions}>
           {DIRECTIONS.map(direction => <figure key={direction}>
-            <div className={styles.sprite}><SpritePreview {...{ specification, direction, density, scale, tempo, playing, frame }} /></div>
+            <div className={styles.sprite}><SpritePreview {...{ specification, direction, density, scale, tempo, playing, frame, renderMode, voxel }} /></div>
             <figcaption>{direction}</figcaption>
           </figure>)}
         </div>
         <figure className={styles.sheet}>
-          <ContactSheet {...{ specification, density }} />
+          <ContactSheet {...{ specification, density, renderMode, voxel }} />
           <figcaption>Four directions × four frames<br />South · west · north · east, top to bottom</figcaption>
         </figure>
       </div>
       <section className={styles.controls} aria-label="Character controls">
+        <label>Rendering<select aria-label="Rendering" value={renderMode} onChange={event => { setRenderMode(event.target.value as RenderMode); setCopyStatus(""); }}>
+          <option value="paper-doll">Paper doll · A</option><option value="voxel">Voxel · C</option>
+        </select></label>
+        <p>{renderMode === "voxel" ? "A solid 3D figure, baked into pixel sprites. Light stays fixed while the traveller turns." : "Hand-drawn pixel layers from the same parts and colours."}</p>
         <form onSubmit={event => { event.preventDefault(); void generate(); }}>
           <label>Who are you?<textarea value={description} maxLength={2000} required rows={3} disabled={busy} onChange={event => setDescription(event.target.value)} /></label>
           <label>Text model<select value={model} disabled={busy} onChange={event => setModel(event.target.value as CharacterModel)}>
@@ -138,6 +160,15 @@ export default function CharacterExperiment() {
           <label className={styles.check}><input type="checkbox" checked={playing} onChange={event => setPlaying(event.target.checked)} /> Play walk cycle</label>
           {!playing && <label>Frame · {frame + 1}<input aria-label="Frame" type="range" min={0} max={3} value={frame} onChange={event => setFrame(Number(event.target.value))} /></label>}
         </fieldset>
+        {renderMode === "voxel" && <fieldset><legend>Voxel camera & light</legend>
+          {([
+            ["elevation", "Camera elevation", 20, 70, 1],
+            ["lightAzimuth", "Light direction", -180, 180, 5],
+            ["ambient", "Ambient light", .1, 1, .05],
+            ["sunlight", "Sunlight", 0, 1.5, .05],
+          ] as const).map(([key, label, min, max, step]) => <label key={key}>{label} · {voxel[key]}{key === "elevation" || key === "lightAzimuth" ? "°" : ""}<input aria-label={label} type="range" min={min} max={max} step={step} value={voxel[key]} onChange={event => { setVoxel(previous => ({ ...previous, [key]: Number(event.target.value) })); setCopyStatus(""); }} /></label>)}
+          <button type="button" onClick={() => setVoxel(DEFAULT_VOXEL_SETTINGS)}>Reset camera & light</button>
+        </fieldset>}
         <fieldset><legend>Parts & colours</legend>
           <div className={styles.parts}>
             {([["body", BODY_PARTS], ["hair", HAIR_PARTS], ["outfit", OUTFIT_PARTS], ["accessory", ACCESSORY_PARTS]] as const).map(([key, parts]) => <label key={key}>{key}<select disabled={busy} value={specification[key]} onChange={event => edit(parseCharacterSpecification({ ...specification, [key]: event.target.value }))}>{parts.map(part => <option key={part} value={part}>{part}</option>)}</select></label>)}
@@ -153,6 +184,7 @@ export default function CharacterExperiment() {
     </div>
     <div className={styles.notes}>
       <p><strong>What to inspect:</strong> compare the silhouette and accessory in every direction. Pause and scrub the frames to check feet, arm swing and hair. Size scales the display; pixel density changes the drawing grid.</p>
+      {renderMode === "voxel" && <p><strong>Voxel comparison:</strong> joint rotation and depth keep the body consistent in every view; lighting reveals its blocky volumes. Compare with A using the same preset and density. Like A, this finite human parts library cannot create arbitrary creatures; image-generated artwork (B) is a separate experiment.</p>}
       <p>This finite parts library keeps colours and anatomy consistent across frames. Unavailable models use clearly labelled examples. Details beyond the available parts will need a larger library; this experiment does not generate new artwork.</p>
     </div>
     <details className={styles.json}><summary>Character & settings JSON</summary><textarea aria-label="Character and settings JSON" readOnly rows={16} value={json} /></details>

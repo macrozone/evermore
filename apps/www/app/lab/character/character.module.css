@@ -1,10 +1,10 @@
-.stage { position: relative; border: 1px solid #3c494b; border-radius: 12px; background: radial-gradient(ellipse at 30% 30%, #294c3b, #142821 75%); min-height: 780px; overflow: hidden; }
-.preview { padding: 24px; margin-right: 350px; }
+.stage { position: relative; border: 1px solid #3c494b; border-radius: 12px; background: radial-gradient(ellipse at 30% 30%, #294c3b, #142821 75%); height: min(780px, calc(100svh - 24px)); min-height: 480px; overflow: hidden; }
+.preview { padding: 24px; margin-right: 350px; height: 100%; overflow-y: auto; }
 .identity h2 { font-size: 24px; color: #eee5ce; }
 .identity p { font-size: 13px; color: #c0ccb9; min-height: 40px; max-width: 560px; }
 .directions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 18px 0 24px; }
 .directions figure { text-align: center; min-width: 0; margin: 0; }
-.sprite { display: flex; justify-content: center; align-items: end; height: 185px; border-bottom: 1px solid #8f9e8250; }
+.sprite { position: relative; display: flex; justify-content: center; align-items: end; height: 185px; border-bottom: 1px solid #8f9e8250; }
 .directions figcaption { text-transform: capitalize; color: #c0ccb9; font-size: 13px; padding-top: 10px; }
 .stage canvas { image-rendering: pixelated; max-width: 100%; object-fit: contain; }
 .sheet { display: flex; gap: 24px; align-items: center; margin: 0; padding: 18px; background: #14282180; border: 1px solid #8f9e8230; border-radius: 8px; }
@@ -30,6 +30,7 @@
 .notes { display: grid; gap: 10px; font-size: 14px; color: #a8b0c0; margin: 18px 0; }
 .json { font-size: 14px; }
 .json textarea { margin-top: 12px; font-family: monospace; }
+.stats { position: absolute; left: 0; top: 0; width: max-content; max-width: 280px; font-size: 10px; color: #c0ccb9; text-align: left; pointer-events: none; }
 @media (max-width: 1000px) {
   .preview { margin-right: 320px; padding: 16px; }
   .controls { width: 296px; }
@@ -39,12 +40,13 @@
   .sheet figcaption { display: none; }
 }
 @media (max-width: 650px) {
-  .stage { height: 930px; min-height: 0; }
-  .preview { margin-right: 0; padding: 14px; }
+  .stage { height: calc(100svh - 24px); min-height: 480px; }
+  .preview { margin-right: 0; padding: 14px; height: 48%; overflow: hidden; }
   .identity h2 { font-size: 20px; }
-  .identity p { min-height: 32px; }
-  .directions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin: 10px 0; }
-  .sprite { height: 150px; }
+  .identity p { font-size: 11px; min-height: 0; margin-top: 4px; }
+  .directions { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin: 8px 0; }
+  .sprite { height: clamp(90px, 19svh, 160px); }
+  .stats { top: -4px; max-width: 300px; }
   .sheet { display: none; }
-  .controls { inset: auto 10px 10px; width: auto; height: 460px; }
+  .controls { inset: 48% 10px 10px; width: auto; height: auto; }
 }
