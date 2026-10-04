@@ -42,8 +42,24 @@
     "hidden": true,
     "chunks": 4
   },
+  "settingsReset": {
+    "x": 688,
+    "y": 552.96,
+    "hidden": false,
+    "chunks": 0
+  },
+  "settings": {
+    "seam": "blend",
+    "zoom": 1,
+    "overview": false,
+    "collision": false,
+    "overhead": false,
+    "mode": "saved",
+    "model": "gemini-3-pro-image",
+    "maskModel": "gemini-3.8-flash"
+  },
   "mobile": {
-    "scene": 389.25,
+    "scene": 371.25,
     "controls": 304.75,
     "bottom": 831,
     "viewport": 844

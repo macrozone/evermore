@@ -91,6 +91,24 @@ try {
   const liveCalls=[];page.on('request',r=>{if(r.method()==='POST')liveCalls.push(r.url());});
   await page.reload();await page.waitForFunction(()=>document.querySelector('[role="application"]')?.dataset.ready==='true');
   await page.getByRole('button',{name:'Load east',exact:true}).click();await page.getByText('Restored from browser',{exact:true}).waitFor();assert.deepEqual(liveCalls,[]);
+  // Replacing chunk settings resets a player in the discarded neighbour to the source.
+  await page.getByRole('checkbox',{name:'World overview'}).check();await settle();
+  const restoredBox=await surface.boundingBox(),restoredScale=Math.min(restoredBox.width/(3*width),restoredBox.height/(3*height));
+  await page.getByRole('checkbox',{name:'Place player'}).check();
+  await surface.click({position:{x:restoredBox.width/2+(width+40-width/2)*restoredScale,y:restoredBox.height/2+(518-height/2)*restoredScale}});await settle();
+  assert.ok((await position()).x>width,'Settings regression starts in the neighbour');
+  await page.getByRole('combobox',{name:'Chunk source'}).selectOption('live');await settle();
+  evidence.settingsReset=await position();assert.equal(evidence.settingsReset.chunks,0);assert.ok(evidence.settingsReset.x>0&&evidence.settingsReset.x<width&&evidence.settingsReset.y>0&&evidence.settingsReset.y<height,'Discarded chunks cannot strand the player');
+  await page.getByRole('combobox',{name:'Chunk source'}).selectOption('saved');await settle();assert.deepEqual(liveCalls,[]);
+  assert.match(await page.getByRole('status',{name:'Movement diagnostics'}).textContent(),/\d+ FPS · [\d.]+ ms/);
+  await page.context().grantPermissions(['clipboard-read','clipboard-write'],{origin:origin.origin});
+  await page.getByRole('button',{name:'Copy settings JSON'}).click();
+  evidence.settings=JSON.parse(await page.evaluate(()=>navigator.clipboard.readText()));assert.equal(evidence.settings.model,'gemini-3-pro-image');assert.equal(evidence.settings.maskModel,'gemini-3.8-flash');assert.equal(evidence.settings.overview,false);
+  for(const zoom of ['0.5','6']){
+    await page.getByRole('slider',{name:'Zoom'}).fill(zoom);await settle();
+    await page.screenshot({path:path.join(destination,`zoom-${zoom}.png`),fullPage:true});
+  }
+  await page.getByRole('slider',{name:'Zoom'}).fill('1');
   await page.setViewportSize({width:390,height:844});await page.locator('section').scrollIntoViewIfNeeded();await settle();
   evidence.mobile=await page.evaluate(()=>{const stage=document.querySelector('section'),scene=stage.querySelector('[role="application"]').getBoundingClientRect(),controls=stage.querySelector('aside').getBoundingClientRect();return {scene:scene.height,controls:controls.height,bottom:controls.bottom,viewport:innerHeight};});
   assert.ok(evidence.mobile.scene>100&&evidence.mobile.controls>100&&evidence.mobile.bottom<=evidence.mobile.viewport+2);

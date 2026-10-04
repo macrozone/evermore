@@ -4,6 +4,8 @@
 
 Focus the world to move with WASD or arrows; touch arrows also work. Within 180 source pixels of an edge, the neighbour starts loading. The feet stop at a missing or still-loading chunk and cross once its image and masks are ready. Saved samples are the default and incur no new model cost. Select **Live local generation** to spend the local model budget on edge proximity. Image and mask selectors offer Flash-Lite, Flash and Pro; both default to Flash-Lite. The four inspected saved samples use Pro images and Flash Vision masks deliberately, because the cheaper image attempts often moved the context strip.
 
+The movement output reports FPS and frame time. **Copy settings JSON** copies the current controls. Changing source or models discards neighbours and returns the player to the safe source spawn so a removed chunk cannot strand them.
+
 ## Pipeline and seam comparison
 
 1. Copy the corresponding **96 px border strip** into a grey padded canvas, with space for a full new picture. East has the old strip at the left, west at the right, north at the bottom and south at the top. Send this single registered canvas to Gemini image editing. The prompt gives the strip's exact percentage and asks for continuous paths/rivers, camera, lighting and pixel scale. [Gemini image editing](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/gemini-edit-images) supports the text-plus-image edit; it does not impose a hard frozen-pixel mask.
@@ -49,7 +51,7 @@ node scripts/check-m1-outpaint.mjs http://localhost:9600
 node scripts/record-m1-outpaint.mjs http://localhost:9600
 ```
 
-The headless check delays the saved east response to inspect loading and verifies that missing chunks stop the feet, then walks from the original path into the east chunk. It checks collision and 40% overhead silhouette inside the new tile, pure-mode parent pixels, all four loaded neighbours, both enlarged seam methods, IndexedDB restore without model POSTs, and simultaneous mobile world/controls. Coordinates and assertions are in [checks.json](checks.json).
+The headless check delays the saved east response to inspect loading and verifies that missing chunks stop the feet, then walks from the original path into the east chunk. It checks collision and 40% overhead silhouette inside the new tile, pure-mode parent pixels, all four loaded neighbours, both enlarged seam methods, IndexedDB restore without model POSTs, safe reset after settings change, copied settings, zoom extremes, FPS output, and simultaneous mobile world/controls. Coordinates and assertions are in [checks.json](checks.json).
 
 Only regenerate samples when deliberately spending the local budget:
 

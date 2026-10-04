@@ -87,7 +87,7 @@ function World({ tiles, seam, zoom, overview, collision, overhead, inspect, rese
         if (!spawn)
             return;
         const motion = createMovement({ x: spawn.x / 16, y: spawn.y / 16, z: 0 }), advance = createMovementClock();
-        let frame = 0, previous = performance.now(), sample = 0;
+        let frame = 0, previous = performance.now(), sample = 0, frames = 0;
         teleport.current = (x, y) => { if (worldWalkable(current.current.tiles, width, height, x, y)) {
             motion.x = x / 16;
             motion.y = y / 16;
@@ -158,9 +158,11 @@ function World({ tiles, seam, zoom, overview, collision, overhead, inspect, rese
             surface.current.dataset.ready = "true";
             surface.current.dataset.chunks = String(tiles.length - 1);
             sample += dt;
+            frames++;
             if (sample > .2) {
-                setDiagnostics(`Feet (${x.toFixed(1)}, ${y.toFixed(1)}) · ${hidden ? "behind overhead · silhouette 40%" : "visible"} · ${tiles.length - 1}/4 neighbours`);
+                setDiagnostics(`${(frames / sample).toFixed(0)} FPS · ${(sample * 1000 / frames).toFixed(1)} ms · Feet (${x.toFixed(1)}, ${y.toFixed(1)}) · ${hidden ? "behind overhead · silhouette 40%" : "visible"} · ${tiles.length - 1}/4 neighbours`);
                 sample = 0;
+                frames = 0;
             }
             frame = requestAnimationFrame(draw);
         }
@@ -258,7 +260,14 @@ export default function Experiment() {
                 locks.current.delete(direction);
         }
     }
-    function changeSettings(next: () => void) { revision.current++; locks.current.clear(); setTiles(p => p.filter(t => t.direction === undefined)); setStates({}); setError(""); setInspect(undefined); next(); }
+    function changeSettings(next: () => void) { revision.current++; locks.current.clear(); setTiles(p => p.filter(t => t.direction === undefined)); setStates({}); setError(""); setInspect(undefined); setOverview(false); setReset(v => v + 1); next(); }
+    async function copySettings() {
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({ seam, zoom, overview, collision, overhead, mode, model: mode === "saved" ? MAP_MODELS[2].id : model, maskModel: mode === "saved" ? VISION_MODELS[1].id : maskModel }, null, 2));
+        } catch {
+            setError("Could not copy settings. Allow clipboard access and try again.");
+        }
+    }
     function download() { const records = tiles.flatMap(t => t.record !== undefined ? [t.record] : []), blob = new Blob([JSON.stringify({ version: 1, source: "cabin-it2", chunks: records }, null, 2)], { type: "application/json" }), url = URL.createObjectURL(blob), a = document.createElement("a"); a.href = url; a.download = "evermore-cabin-chunks.json"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
     const loading = DIRECTIONS.filter(d => states[d]?.startsWith("Loading") === true || states[d]?.startsWith("Generating") === true).map(d => `${d}: ${states[d] ?? "Loading…"}`).join(" · ");
     return <section className={styles.stage} aria-label="Expanding world and controls">
@@ -280,6 +289,7 @@ export default function Experiment() {
       <p className={styles.note}>{storage} This slice extends one full picture in each cardinal direction. Corners and further rings remain closed. Vision masks are model drafts and can miss objects.</p>
       {DIRECTIONS.map(d => { const record = tiles.find(t => t.direction === d)?.record; return <div className={styles.chunk} key={d}><strong>{d.toUpperCase()}</strong><p role="status">{states[d] ?? "Loads when you approach"}</p>{record && <p>~${record.estimatedCostUsd.toFixed(5)} · {(record.durationMs / 1000).toFixed(1)}s<br />Image ${record.imageCostUsd.toFixed(5)} + masks ${record.maskCostUsd.toFixed(5)}<br />{record.model} / {record.masks.model}</p>}<nav><button disabled={states[d]?.startsWith("Loading") === true || states[d]?.startsWith("Generating") === true || Boolean(record) || tiles.length === 0} onClick={() => void ensure(d, true)}>Load {d}</button><button disabled={!record} onClick={() => { setInspect(d); setOverview(false); setZoom(4); }}>Inspect {d} seam</button></nav></div>; })}
       <button disabled={tiles.length < 2} onClick={download}>Export chunks</button>
+      <button onClick={() => void copySettings()}>Copy settings JSON</button>
       {error !== "" && <p role="alert" className={styles.error}>{error}</p>}
     </aside>
   </section>;
