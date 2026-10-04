@@ -30,6 +30,18 @@ try {
   assert.ok(ready, "production server did not start");
   const fixtures = await Promise.all(["g1-flash-lite", "g2-flash-lite"].map(async name =>
     JSON.parse(await readFile(new URL(`../docs/lab/experiments/book-${name}.json`, import.meta.url), "utf8"))));
+  for (const strategy of ["g1", "g2"]) {
+    const response = await fetch(`${origin}/api/lab/book`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ strategy, answers: fixtures[0].answers }),
+    });
+    assert.equal(response.status, 200, `${strategy} offline API succeeds`);
+    const result = await response.json();
+    assert.equal(result.strategy, strategy);
+    assert.equal(result.source, "example");
+    assert.equal(result.fallbackReason, "disabled");
+    assert.ok(strategy === "g1" ? result.specification : result.repairedRaster);
+  }
   browser = await chromium.launch({ headless: true });
   for (const width of [1440, 390]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });

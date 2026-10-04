@@ -21,6 +21,8 @@ it.skipIf(process.env.BOOK_LIVE_ACCEPTANCE !== "true")("interprets at least nine
   let interpreted = 0;
   for (const [i, answers] of passages.entries()) {
     const result = await generateBook(parseBookInput({ answers }));
+    expect(result.strategy).toBe("g1");
+    if (result.strategy !== "g1") throw new Error("Expected a semantic G1 world.");
     console.info(JSON.stringify({ case: i + 1, source: result.source, name: result.specification.name, durationMs: result.durationMs, repairs: result.repairs, fallbackReason: result.fallbackReason, fallbackDetail: result.fallbackDetail }));
     parseWorldSpecification(result.specification);
     if (result.source === "vertex") interpreted++;
