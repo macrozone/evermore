@@ -34,3 +34,4 @@ export type { VillageObject, ObjectPlacement, VillageOptions } from "./generator
 export { generateObjectVillage, DEFAULT_VILLAGE } from "./generator/object-village";
 
 export { repairWorldSpecification } from "./generator/repair";
+export { FOREST_COTTAGE_ART, createForestCottageWorld, cottageOccludes } from './test-worlds/forest-cottage';

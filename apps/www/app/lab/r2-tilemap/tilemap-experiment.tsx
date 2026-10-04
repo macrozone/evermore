@@ -15,6 +15,7 @@ import { columnTiles, overlapsPlayer, project, RISE, movementFloor, TILE, type L
 import { objectLibrary, OBJECT_TILE_SIZE } from "../../../lib/objects";
 
 import { tilePattern } from "./tile-pattern";
+import ForestCottage from './forest-cottage';
 
 const WIDTH = 800;
 const HEIGHT = 480;
@@ -31,11 +32,22 @@ function drawTile(graphics: Graphics, tile: Tile, alpha: number) {
 }
 
 export default function TilemapExperiment() {
+  const handoffState = useWorldHandoff();
+  const { handoff } = handoffState;
+  const [selectedScene, setSceneMode] = useState<string | null>(null);
+  const sceneMode = selectedScene ?? (handoff ? "specification" : "moodboard");
+  if (sceneMode === "moodboard") return <ForestCottage onSceneChange={setSceneMode} />;
+  return <GeneratedTilemap sceneMode={sceneMode} setSceneMode={setSceneMode} handoffState={handoffState} />;
+}
+
+function GeneratedTilemap({ sceneMode, setSceneMode, handoffState }: {
+  sceneMode: string;
+  setSceneMode: (scene: string) => void;
+  handoffState: ReturnType<typeof useWorldHandoff>;
+}) {
   const surface = useRef<HTMLDivElement>(null);
   const keys = useMovement(surface);
-  const { handoff, error: importError, ready } = useWorldHandoff();
-  const [selectedScene, setSceneMode] = useState<string | null>(null);
-  const sceneMode = selectedScene ?? (handoff ? "specification" : "village");
+  const { handoff, error: importError, ready } = handoffState;
   const imported = sceneMode === "specification" ? handoff : null;
   const [seed, setSeed] = useState(20261003);
   const [villageOptions, setVillageOptions] = useState({ ...DEFAULT_VILLAGE });
@@ -200,7 +212,7 @@ export default function TilemapExperiment() {
         <DebugOverlay {...snapshot} />
         <fieldset className="absolute right-2 top-2 max-h-[70%] w-48 overflow-auto rounded border border-dusk bg-night/95 p-3 text-xs text-mist">
           <legend className="sr-only">Village controls</legend>
-          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1">{handoff && <option value="specification">{handoff.specification.name} (imported)</option>}<option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
+          <label className="block">Scene<select aria-label="Scene" value={sceneMode} onChange={event => setSceneMode(event.target.value)} className="block w-full bg-night p-1">{handoff && <option value="specification">{handoff.specification.name} (imported)</option>}<option value="moodboard">Moodboard: Forest cottage</option><option value="village">G3 library village</option><option value="meadow">Meadow house</option></select></label>
           {sceneMode === "village" && <>
             <label className="mt-2 block">Seed<input aria-label="Village seed" type="number" min={0} max={4294967295} value={seed} onChange={event => { const value = Number(event.target.value); if (Number.isInteger(value) && value >= 0 && value <= 4294967295) setSeed(value); }} className="block w-full bg-night p-1" /></label>
             <label className="mt-2 block">Map size<select aria-label="Map size" value={villageOptions.size} onChange={event => setVillageOptions({ ...villageOptions, size: Number(event.target.value) })} className="block w-full bg-night p-1">{[48, 64, 96, 128].map(size => <option key={size} value={size}>{size} × {size}</option>)}</select></label>
