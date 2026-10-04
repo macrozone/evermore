@@ -152,7 +152,7 @@ describe("generation budget, cache and errors", () => {
       expect(object).toBeDefined();
       expect(object!.estimatedCostUsd).toBeCloseTo(0.0677);
     }
-  });
+  }, 15_000); // The reversed order serializes real reference-image I/O under full-suite load.
   it.each(["auth", "HTTP", "network", "no-image", "invalid-image"])("shows %s errors without changing models or leaking provider data", async failure => {
     if (failure === "auth") getRequestHeaders.mockRejectedValue(new Error("private ADC path"));
     if (failure === "HTTP") fetchMock.mockImplementation(async () => new Response("secret-token", { status: 404 }));
