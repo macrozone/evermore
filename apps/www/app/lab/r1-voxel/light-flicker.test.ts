@@ -22,6 +22,23 @@ describe("flame noise", () => {
 });
 
 describe("local light integration", () => {
+  it("varies both fire intensities across idle ticks with unchanged default settings", () => {
+    const sources = createLocalLights();
+    const lights = sources.group.children.filter((child): child is PointLight => child instanceof PointLight);
+    const samples = Array.from({ length: 120 }, (_, tick) => {
+      sources.update(DEFAULT_LIGHTING, DEFAULT_LOOK, tick / 30);
+      return lights.map((light) => light.intensity);
+    });
+    for (const index of [0, 4]) {
+      const values = samples.map((sample) => sample[index]!);
+      expect(Math.max(...values) - Math.min(...values)).toBeGreaterThan(0.1);
+    }
+    for (const index of [1, 2, 3]) {
+      expect(new Set(samples.map((sample) => sample[index])).size).toBe(1);
+    }
+    sources.dispose();
+  });
+
   it("animates fire intensity and radius while lanterns and windows remain steady", () => {
     const sources = createLocalLights();
     const lights = sources.group.children.filter((child): child is PointLight => child instanceof PointLight);
