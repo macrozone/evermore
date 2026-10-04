@@ -60,6 +60,10 @@ Ziel: maw sieht Ergebnisse schnell und kann früh die Richtung ändern.
 - **Art-Director-Review:** Visuelle Ergebnisse (Welt, UI, Moodboards) werden gegen die [Art Bible](docs/art/README.md) geprüft. In Claude-Sessions per Subagent `art-director` (`.claude/agents/art-director.md`); Reviews sind Vorschläge, maw entscheidet. Polecats rufen ihn nur auf, wenn ihr Bead es verlangt.
 - **Suchen und Gestalten** geschieht in interaktiven Studio-Sessions (Mensch + Agent mit Live-Preview); deren Entscheidungen landen im Bead bzw. in einer ADR, klar umrissene Folgearbeit geht als Beads an die Polecats.
 
+## Ziele (Epics mit Label `ziel`)
+
+maw setzt konkrete Ziele als Epic mit Label `ziel` (erstes: `evermore-ugn1c`, «Waldhütte begehbar»). Die Experimente darunter messen sich am Ziel, nicht nur an ihren eigenen Kriterien. Nach gemergten Scheiben prüft ein **Ziel-Review** (Kind-Bead, Label `ziel-review`, kein Code) den Stand headless gegen die Zielpunkte, schreibt die Bewertung als Kommentar ins Epic und legt 1–3 nächste Scheiben als Kind-Beads an. Diese Scheiben brauchen keine Triage (`approved`). Ist das Ziel ansatzweise erreicht, vermerkt das Review «Ziel … ansatzweise erreicht – bitte maw prüfen» und legt keine neuen Scheiben an.
+
 ## Arbeitsablauf für Agents (Gas City + Refinery)
 
 Umgesetzt wird über **Gas City mit dem Gastown-Pack** ([ADR 0008](docs/adr/0008-gas-city-refinery-merge-queue.md)). Polecats bearbeiten je ein Bead in einem eigenen Worktree und Feature-Branch; die **Refinery** ist die einzige Instanz, die nach `main` merged (eins nach dem anderen, nach Rebase und lokalen Checks). Für diese Arbeit gilt das Profil **Team-maintainer**: Polecats committen und pushen ihren Branch, die Refinery merged und schliesst das Bead. Die Schritte der Gas-City-Formula (`mol-polecat-work`, `mol-refinery-patrol`) gehen für die Mechanik vor; diese Richtlinien ergänzen sie. Eine aktuelle Anweisung eines Menschen («nicht committen/pushen») geht immer vor. Interaktive Sessions mit Menschen (Planung, Chat) bleiben beim konservativen Profil: committen/pushen nur auf Anweisung.
