@@ -78,7 +78,7 @@ export default function BookExperiment() {
       <div className={styles.intro}>
         <p className={styles.eyebrow}>A world begins with a few words</p>
         <h1>The Book of Evermore</h1>
-        <p>Write yourself a place to belong.</p>
+        <p>Describe yourself, your home, and where you sleep. Generate a world, then open it in R1 to wake beside your bed and explore with WASD or arrow keys. The first version uses simple building shapes; check whether the sleeping place matches your words.</p>
       </div>
       <section className={styles.book} aria-label="Book of Evermore">
         <div className={styles.cover} aria-hidden="true" />
@@ -131,9 +131,10 @@ export default function BookExperiment() {
           <label>Generation model<select value={model} onChange={(event) => { invalidate(); setModel(event.target.value as BookModel); }}>
             {BOOK_MODELS.map(value => <option key={value} value={value}>{value}</option>)}
           </select></label>
-          <button type="button" disabled={pending || answers.some(answer => answer.trim().length === 0)} onClick={() => void generate()}>{pending ? "Writing your world…" : "Generate world specification"}</button>
+          <button type="button" disabled={pending || answers.some(answer => answer.trim().length === 0)} onClick={() => void generate()}>{pending ? "Writing your world…" : "Generate your world"}</button>
         </div>
         <p role="status">{pending ? "Turning your two passages into a world…" : generation ? `${generation.source === "vertex" ? "Generated with Vertex AI" : "Example fallback"} · ${generation.model} · ${generation.durationMs} ms · seed ${generation.seed}` : "Write both passages, then generate your beginning."}</p>
+        {generation?.specification.sleepingPlace && <p>Wake at {generation.specification.sleepingPlace.name}{generation.specification.sleepingPlace.buildingIndex === null ? " · outdoors" : ` · floor ${generation.specification.sleepingPlace.floor + 1}`}. Open R1 to explore.</p>}
         {generation?.source === "example" && <p className={styles.fallback}>An example world is shown: {generation.fallbackDetail ?? (generation.fallbackReason === "disabled" ? "live generation is disabled" : generation.fallbackReason === "credentials" ? "Vertex credentials are unavailable" : generation.fallbackReason === "invalid-output" ? "the model returned an invalid world" : "the selected model could not be reached")}. It is selected by theme and does not fully interpret your passages.</p>}
         {(generation?.repairs?.length ?? 0) > 0 && <p className={styles.fallback}>Repaired: {generation?.repairs?.join("; ")}.</p>}
         {generation && worldHash.length > 0 && <nav className={styles.generationControls} aria-label="View generated world">

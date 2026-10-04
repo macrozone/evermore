@@ -44,6 +44,7 @@ export default function VoxelExperiment() {
   const [settings, setSettings] = useState(PLAYER_CAMERA);
   const [error, setError] = useState("");
   const [copyStatus, setCopyStatus] = useState("");
+  const [worldStart, setWorldStart] = useState<{ x: number; y: number; z: number; durationMs: number } | null>(null);
   const [stats, setStats] = useState({ chunks: 0, triangles: 0 });
 
   useEffect(() => {
@@ -128,7 +129,9 @@ export default function VoxelExperiment() {
         localLights = createLocalLights();
         scene.add(localLights.group);
       }
+      const generationStarted = performance.now();
       const source = imported ? generateWorld(imported.specification, imported.seed) : worldIndex === -1 ? createMeadowHouseWorld() : generateWorld(WORLD_EXAMPLES[worldIndex]!, MEADOW_HOUSE_SEED);
+      setWorldStart({ ...source.spawn, durationMs: performance.now() - generationStarted });
       const state = createMovement({ ...source.spawn, x: source.spawn.x + 0.5, y: source.spawn.y + 0.5 });
       const spriteCanvas = document.createElement("canvas");
       spriteCanvas.width = 16;
@@ -353,6 +356,7 @@ export default function VoxelExperiment() {
       <aside aria-label="Voxel experiment settings" className="grid min-w-0 break-words max-h-[75vh] min-h-[360px] content-start gap-4 overflow-y-auto rounded border border-dusk p-2 text-sm">
         <p id="voxel-controls">Click the world, then use WASD / arrow keys. Tab returns to settings. Follow the path to the bridge, or enter the house and take the stairs along the north wall of the kitchen.</p>
       <p className="text-sm text-mist">Seed {worldSeed} · {stats.chunks} chunk meshes · {stats.triangles.toLocaleString()} triangles · {performanceStats.fps.toFixed(1)} fps · {performanceStats.frameMs.toFixed(1)} ms render · {performanceStats.calls} draw calls</p>
+        {worldStart && <p aria-label="World start">Wake at {imported?.specification.sleepingPlace?.name ?? "world spawn"} · Start {worldStart.x}, {worldStart.y}, {worldStart.z} · World generation {worldStart.durationMs.toFixed(1)} ms</p>}
         <p aria-label="Player position">Player: {playerPosition.x.toFixed(2)}, {playerPosition.y.toFixed(2)} · Floor {playerPosition.z}</p>
         <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
           <legend>Movement & follow</legend>

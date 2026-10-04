@@ -22,6 +22,10 @@ export const WorldSpecificationFields = z.strictObject({
   paths: z.boolean(),
   landmarks: z.array(z.strictObject({ name, ...point })).max(16),
   spawn: z.strictObject(point),
+  // Optional for existing G1-v1 worlds; book producers supply it explicitly.
+  sleepingPlace: z.strictObject({
+    name, buildingIndex: integer(0, 23).nullable(), floor: integer(0, 3),
+  }).optional(),
 });
 export type WorldSpecification = z.infer<typeof WorldSpecificationFields>;
 type Building = WorldSpecification["settlement"]["buildings"][number];
@@ -37,6 +41,16 @@ export const WorldSpecificationSchema = WorldSpecificationFields.superRefine((sp
   const base = Math.max(spec.terrain.elevation, spec.water.level + 1);
   if (base + spec.terrain.relief + 6 >= height) issue(["size", "height"], "Terrain exceeds world height");
   if (spec.spawn.x >= width - 1 || spec.spawn.y >= depth - 1) issue(["spawn"], "Spawn outside world");
+  const sleep = spec.sleepingPlace;
+  if (sleep) {
+    if (sleep.buildingIndex === null) {
+      if (sleep.floor !== 0) issue(["sleepingPlace", "floor"], "Outdoor sleeping place must be on floor zero");
+    } else {
+      const building = spec.settlement.buildings[sleep.buildingIndex];
+      if (!building) issue(["sleepingPlace", "buildingIndex"], "Sleeping place references a missing building");
+      else if (sleep.floor >= building.floors) issue(["sleepingPlace", "floor"], "Sleeping place exceeds building floors");
+    }
+  }
   spec.landmarks.forEach((landmark, i) => {
     if (landmark.x >= width - 1 || landmark.y >= depth - 1) issue(["landmarks", i], "Landmark outside world");
     if (landmark.x === spec.spawn.x && landmark.y === spec.spawn.y) issue(["landmarks", i], "Landmark overlaps spawn");

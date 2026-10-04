@@ -1,0 +1,15 @@
+{
+  "source": "example",
+  "model": "gemini-3.5-flash-lite",
+  "providerMs": 4,
+  "flowMs": 923,
+  "sleepingPlace": {
+    "name": "Example sleeping place",
+    "buildingIndex": 0,
+    "floor": 1
+  },
+  "start": "Wake at Example sleeping place · Start 30, 21, 7 · World generation 8.7 ms",
+  "initial": "Player: 30.50, 21.50 · Floor 7",
+  "seed": 2061181204,
+  "errors": []
+}

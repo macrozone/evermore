@@ -1,0 +1,19 @@
+{
+  "source": "vertex",
+  "model": "gemini-3.5-flash-lite",
+  "providerMs": 6052,
+  "flowMs": 6959,
+  "usage": {
+    "inputTokens": 1866,
+    "outputTokens": 429
+  },
+  "sleepingPlace": {
+    "name": "bedroom above the kitchen",
+    "buildingIndex": 0,
+    "floor": 1
+  },
+  "start": "Wake at bedroom above the kitchen · Start 26, 23, 7 · World generation 8.9 ms",
+  "initial": "Player: 26.50, 23.50 · Floor 7",
+  "seed": 2061181204,
+  "errors": []
+}

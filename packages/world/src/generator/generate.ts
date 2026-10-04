@@ -47,6 +47,21 @@ export function generateWorld(input: WorldSpecification, seed: number | string):
     while (px !== x) { px += Math.sign(x - px); stamp(); }
     while (py !== y) { py += Math.sign(y - py); stamp(); }
   };
+  const sleep = spec.sleepingPlace;
+  let outdoorBed: { x: number; y: number } | undefined;
+  if (sleep?.buildingIndex === null) {
+    // Reserve a clear, dry pad near the path anchor, without erasing buildings.
+    let distance = Infinity;
+    for (let y = 3; y < depth - 3; y++) for (let x = 3; x < width - 3; x++) {
+      const d = (x - spec.spawn.x) ** 2 + (y - spec.spawn.y) ** 2;
+      if (d >= distance || spec.settlement.buildings.some(b => x + 2 >= b.x - 1 && x - 2 <= b.x + b.width && y + 2 >= b.y - 1 && y - 2 <= b.y + b.depth)
+        || spec.landmarks.some(l => Math.abs(x - l.x) <= 3 && Math.abs(y - l.y) <= 3)) continue;
+      outdoorBed = { x, y }; distance = d;
+    }
+    if (!outdoorBed) throw new RangeError("No clear outdoor sleeping place in this world");
+    route(outdoorBed.x, outdoorBed.y);
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) pave(outdoorBed.x + dx, outdoorBed.y + dy);
+  }
   // All routes are laid before buildings; foundations reserve a clear apron.
   if (spec.paths) {
     for (const b of spec.settlement.buildings) route(b.x + b.width - 3, b.y + b.depth + 1);
@@ -101,5 +116,12 @@ export function generateWorld(input: WorldSpecification, seed: number | string):
     world.fill(box(x - 1, y - 1, z + 3, x + 2, y + 2, z + 5), M.leaves);
   }
   world.spawn = { ...spec.spawn, z: base };
+  if (sleep) {
+    const building = sleep.buildingIndex === null ? undefined : spec.settlement.buildings[sleep.buildingIndex];
+    const bed = building ? { x: building.x + building.width - 3, y: building.y + 3, z: base + sleep.floor * 4 } : { ...outdoorBed!, z: base };
+    // A two-cell bed beside a clear start cell, away from alternating stairs.
+    world.fill(box(bed.x, bed.y, bed.z, bed.x + 1, bed.y + 2, bed.z + 1), M.bed);
+    world.spawn = { x: bed.x - 1, y: bed.y, z: bed.z };
+  }
   return world;
 }
