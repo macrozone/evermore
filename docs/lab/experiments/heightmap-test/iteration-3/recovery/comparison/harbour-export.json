@@ -1,0 +1,7649 @@
+{
+  "experiment": "image-to-voxel-comparison-v1",
+  "source": "/image-to-voxel/harbour.jpg",
+  "heightmap": "/image-to-voxel/harbour-height.png",
+  "settings": {
+    "tileSize": 64,
+    "heightScale": 6,
+    "method": "vision",
+    "projection": "projected",
+    "useAnchors": true
+  },
+  "annotations": [
+    {
+      "id": "roof",
+      "label": "Central roof",
+      "kind": "roof",
+      "polygon": [
+        [
+          0.299,
+          0.211
+        ],
+        [
+          0.454,
+          0.033
+        ],
+        [
+          0.565,
+          0.204
+        ],
+        [
+          0.565,
+          0.324
+        ],
+        [
+          0.454,
+          0.2
+        ],
+        [
+          0.35,
+          0.324
+        ],
+        [
+          0.299,
+          0.304
+        ]
+      ],
+      "groundAnchor": [
+        0.45,
+        0.448
+      ],
+      "baseAnchor": [
+        0.45,
+        0.448
+      ],
+      "level": 4,
+      "probe": [
+        0.45,
+        0.1
+      ]
+    },
+    {
+      "id": "wall",
+      "label": "Central facade",
+      "kind": "wall",
+      "polygon": [
+        [
+          0.304,
+          0.322
+        ],
+        [
+          0.35,
+          0.324
+        ],
+        [
+          0.454,
+          0.2
+        ],
+        [
+          0.562,
+          0.324
+        ],
+        [
+          0.562,
+          0.448
+        ],
+        [
+          0.304,
+          0.448
+        ]
+      ],
+      "groundAnchor": [
+        0.45,
+        0.448
+      ],
+      "baseAnchor": [
+        0.45,
+        0.448
+      ],
+      "level": 3,
+      "probe": [
+        0.41,
+        0.38
+      ]
+    },
+    {
+      "id": "bridge",
+      "label": "West dock patch",
+      "kind": "bridge",
+      "polygon": [
+        [
+          0.177,
+          0.62
+        ],
+        [
+          0.427,
+          0.62
+        ],
+        [
+          0.427,
+          0.725
+        ],
+        [
+          0.177,
+          0.725
+        ]
+      ],
+      "groundAnchor": [
+        0.3,
+        0.735
+      ],
+      "baseAnchor": [
+        0.3,
+        0.735
+      ],
+      "level": 2,
+      "probe": [
+        0.28,
+        0.66
+      ]
+    },
+    {
+      "id": "water",
+      "label": "Water patch",
+      "kind": "water",
+      "polygon": [
+        [
+          0.02,
+          0.81
+        ],
+        [
+          0.18,
+          0.81
+        ],
+        [
+          0.18,
+          0.98
+        ],
+        [
+          0.02,
+          0.98
+        ]
+      ],
+      "groundAnchor": [
+        0.1,
+        0.9
+      ],
+      "baseAnchor": [
+        0.1,
+        0.9
+      ],
+      "level": 0,
+      "probe": [
+        0.1,
+        0.9
+      ]
+    }
+  ],
+  "camera": {
+    "inclination": 45,
+    "rotation": 0,
+    "zoom": 1
+  },
+  "hour": 12,
+  "sourceColors": true,
+  "vision": {
+    "model": "gemini-3.5-flash-lite",
+    "provider": "Vertex AI",
+    "generatedAt": "2026-10-03T22:29:53.772Z",
+    "durationMs": 5839,
+    "usage": {
+      "promptTokenCount": 1635,
+      "candidatesTokenCount": 2165,
+      "totalTokenCount": 3800,
+      "trafficType": "ON_DEMAND",
+      "promptTokensDetails": [
+        {
+          "modality": "IMAGE",
+          "tokenCount": 1100
+        },
+        {
+          "modality": "TEXT",
+          "tokenCount": 535
+        }
+      ],
+      "candidatesTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 2165
+        }
+      ]
+    },
+    "costUsd": null,
+    "prompt": "Estimate discrete WORLD HEIGHT above water, not camera depth or brightness, for every tile in this exact RPG image. Grid starts at top-left (0,0), tile size 64 pixels, source 1376x768: 22 columns x 12 rows, including a partial last column. Coordinates x=0..21, y=0..11, one entry per tile. Classify tile centre: roof, wall (including gables), bridge (including docks), water, other or unknown. Height levels: 0 water, 1 ground, 2 low deck/bridge/objects, 3 walls, 4 roofs/crowns, 5 highest chimney/ridge. Walls may vary vertically; light and shadows are not height. Water MUST be level 0 and bridge/dock MUST be above water. Return rows: exactly 12 row arrays in top-to-bottom order, each with exactly 22 tile objects {level,region} in left-to-right order. All 264 tiles; no coordinate fields. Do not use a tile's screen location as a ground footprint. sourceId=harbour, width=1376, height=768, tileSize=64. These are unverified height proposals, not playable geometry.",
+    "sourceSha256": "f2f5ecea13368095a5349333b27040ee11b493cda57b173a8dc33fcd88933690"
+  },
+  "metrics": {
+    "meanProjectionErrorPx": 11.424723326565097,
+    "maxProjectionErrorPx": 21.68542494923804,
+    "collisions": 36,
+    "unknown": 0,
+    "maskIoU": {
+      "roof": 0,
+      "wall": 0.22727272727272727,
+      "bridge": 0.4444444444444444,
+      "water": 0.5714285714285714
+    },
+    "heightErrors": [
+      {
+        "id": "roof",
+        "expected": 4,
+        "actual": 1,
+        "error": 3
+      },
+      {
+        "id": "wall",
+        "expected": 3,
+        "actual": 3,
+        "error": 0
+      },
+      {
+        "id": "bridge",
+        "expected": 2,
+        "actual": 2,
+        "error": 0
+      },
+      {
+        "id": "water",
+        "expected": 0,
+        "actual": 0,
+        "error": 0
+      }
+    ]
+  },
+  "corrections": [
+    {
+      "source": "cabin",
+      "durationMs": 2433,
+      "edits": 3,
+      "start": {
+        "tileSize": 64,
+        "heightScale": 6,
+        "method": "vision",
+        "projection": "projected",
+        "useAnchors": true
+      },
+      "end": {
+        "tileSize": 64,
+        "heightScale": 6,
+        "method": "vision",
+        "projection": "projected",
+        "useAnchors": true
+      },
+      "annotations": [
+        {
+          "id": "roof",
+          "label": "Cabin roof",
+          "kind": "roof",
+          "polygon": [
+            [
+              0.216,
+              0.165
+            ],
+            [
+              0.258,
+              0.165
+            ],
+            [
+              0.35,
+              0.01
+            ],
+            [
+              0.387,
+              0.01
+            ],
+            [
+              0.469,
+              0.165
+            ],
+            [
+              0.586,
+              0.165
+            ],
+            [
+              0.586,
+              0.397
+            ],
+            [
+              0.469,
+              0.399
+            ],
+            [
+              0.371,
+              0.23600000000000002
+            ],
+            [
+              0.267,
+              0.399
+            ],
+            [
+              0.216,
+              0.393
+            ]
+          ],
+          "groundAnchor": [
+            0.4,
+            0.6
+          ],
+          "baseAnchor": [
+            0.4,
+            0.559
+          ],
+          "level": 5,
+          "probe": [
+            0.42,
+            0.1
+          ]
+        },
+        {
+          "id": "wall",
+          "label": "Cabin facade",
+          "kind": "wall",
+          "polygon": [
+            [
+              0.224,
+              0.389
+            ],
+            [
+              0.267,
+              0.389
+            ],
+            [
+              0.371,
+              0.226
+            ],
+            [
+              0.469,
+              0.389
+            ],
+            [
+              0.575,
+              0.389
+            ],
+            [
+              0.575,
+              0.55
+            ],
+            [
+              0.224,
+              0.55
+            ]
+          ],
+          "groundAnchor": [
+            0.4,
+            0.559
+          ],
+          "baseAnchor": [
+            0.4,
+            0.559
+          ],
+          "level": 3,
+          "probe": [
+            0.4,
+            0.45
+          ]
+        },
+        {
+          "id": "bridge",
+          "label": "River bridge",
+          "kind": "bridge",
+          "polygon": [
+            [
+              0.325,
+              0.773
+            ],
+            [
+              0.408,
+              0.773
+            ],
+            [
+              0.408,
+              0.917
+            ],
+            [
+              0.325,
+              0.917
+            ]
+          ],
+          "groundAnchor": [
+            0.365,
+            0.917
+          ],
+          "baseAnchor": [
+            0.365,
+            0.917
+          ],
+          "level": 2,
+          "probe": [
+            0.37,
+            0.86
+          ]
+        },
+        {
+          "id": "water",
+          "label": "River patch",
+          "kind": "water",
+          "polygon": [
+            [
+              0.02,
+              0.816
+            ],
+            [
+              0.3,
+              0.816
+            ],
+            [
+              0.3,
+              0.902
+            ],
+            [
+              0.02,
+              0.902
+            ]
+          ],
+          "groundAnchor": [
+            0.14,
+            0.86
+          ],
+          "baseAnchor": [
+            0.14,
+            0.86
+          ],
+          "level": 0,
+          "probe": [
+            0.14,
+            0.86
+          ]
+        }
+      ]
+    },
+    {
+      "source": "harbour",
+      "durationMs": 2417,
+      "edits": 3,
+      "start": {
+        "tileSize": 64,
+        "heightScale": 6,
+        "method": "vision",
+        "projection": "projected",
+        "useAnchors": true
+      },
+      "end": {
+        "tileSize": 64,
+        "heightScale": 6,
+        "method": "vision",
+        "projection": "projected",
+        "useAnchors": true
+      },
+      "annotations": [
+        {
+          "id": "roof",
+          "label": "Central roof",
+          "kind": "roof",
+          "polygon": [
+            [
+              0.299,
+              0.221
+            ],
+            [
+              0.454,
+              0.043000000000000003
+            ],
+            [
+              0.565,
+              0.214
+            ],
+            [
+              0.565,
+              0.334
+            ],
+            [
+              0.454,
+              0.21000000000000002
+            ],
+            [
+              0.35,
+              0.334
+            ],
+            [
+              0.299,
+              0.314
+            ]
+          ],
+          "groundAnchor": [
+            0.45,
+            0.5
+          ],
+          "baseAnchor": [
+            0.45,
+            0.448
+          ],
+          "level": 5,
+          "probe": [
+            0.45,
+            0.1
+          ]
+        },
+        {
+          "id": "wall",
+          "label": "Central facade",
+          "kind": "wall",
+          "polygon": [
+            [
+              0.304,
+              0.322
+            ],
+            [
+              0.35,
+              0.324
+            ],
+            [
+              0.454,
+              0.2
+            ],
+            [
+              0.562,
+              0.324
+            ],
+            [
+              0.562,
+              0.448
+            ],
+            [
+              0.304,
+              0.448
+            ]
+          ],
+          "groundAnchor": [
+            0.45,
+            0.448
+          ],
+          "baseAnchor": [
+            0.45,
+            0.448
+          ],
+          "level": 3,
+          "probe": [
+            0.41,
+            0.38
+          ]
+        },
+        {
+          "id": "bridge",
+          "label": "West dock patch",
+          "kind": "bridge",
+          "polygon": [
+            [
+              0.177,
+              0.62
+            ],
+            [
+              0.427,
+              0.62
+            ],
+            [
+              0.427,
+              0.725
+            ],
+            [
+              0.177,
+              0.725
+            ]
+          ],
+          "groundAnchor": [
+            0.3,
+            0.735
+          ],
+          "baseAnchor": [
+            0.3,
+            0.735
+          ],
+          "level": 2,
+          "probe": [
+            0.28,
+            0.66
+          ]
+        },
+        {
+          "id": "water",
+          "label": "Water patch",
+          "kind": "water",
+          "polygon": [
+            [
+              0.02,
+              0.81
+            ],
+            [
+              0.18,
+              0.81
+            ],
+            [
+              0.18,
+              0.98
+            ],
+            [
+              0.02,
+              0.98
+            ]
+          ],
+          "groundAnchor": [
+            0.1,
+            0.9
+          ],
+          "baseAnchor": [
+            0.1,
+            0.9
+          ],
+          "level": 0,
+          "probe": [
+            0.1,
+            0.9
+          ]
+        }
+      ]
+    }
+  ],
+  "geometry": "observed surface shell; gaps and hidden layers unknown; unvalidated walkability",
+  "columns": 22,
+  "rows": 25,
+  "tiles": [
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 3547958
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 3876151
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3684468
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3684467
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 4800623
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3684468
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3619188
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3615287
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3619188
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4139063
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5780536
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3618928
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3618932
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3618930
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3618931
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 4992053
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3153196
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4795962
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 7488316
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3618932
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3619188
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3619188
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3619188
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 2693419
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 2759211
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2563899
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2891828
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3553108
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 2762824
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 1644598
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4269618
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3218731
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3547438
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3684467
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4207173
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5521479
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3681341
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3619188
+    },
+    {
+      "height": 7,
+      "level": 5,
+      "material": 11,
+      "color": 3619188
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3619188
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2894409
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3023163
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2038838
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 5256516
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 5256517
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3614517
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3614778
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 3350575
+    },
+    {
+      "height": 2,
+      "level": 3,
+      "material": 3,
+      "color": 4205621
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 4205107
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 5775918
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3478312
+    },
+    {
+      "height": 2,
+      "level": 3,
+      "material": 3,
+      "color": 6176319
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3618930
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3552341
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3618400
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2628143
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2628920
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2761280
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2629691
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3483970
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4468804
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 5388094
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 6175045
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 6768205
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3153201
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2825524
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3089986
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3286849
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 6177086
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 6040367
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 5907502
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 4333101
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3085353
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 3347754
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 1971755
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2367292
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2432831
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2234936
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3024193
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3352642
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 3024193
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3744820
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 5388360
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 6241599
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3352643
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2563126
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 5058102
+    },
+    {
+      "height": 6,
+      "level": 4,
+      "material": 11,
+      "color": 4792877
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3612204
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4928323
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2759214
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2563642
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2301501
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2892865
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 4732227
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 5717574
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 5126726
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 4141124
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2168104
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2365742
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2432569
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 5,
+      "color": 2497590
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 11,
+      "color": 6110274
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 11,
+      "color": 6699581
+    },
+    {
+      "height": 2,
+      "level": 1,
+      "material": 3,
+      "color": 3877697
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3416370
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4796217
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3940396
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3944005
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 3286076
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2629175
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2629693
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 8342084
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4007993
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 5452853
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 6832959
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 6503994
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4533297
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2562865
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2498365
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2564418
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 2892864
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4206915
+    },
+    {
+      "height": 5,
+      "level": 3,
+      "material": 3,
+      "color": 4470342
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 789046
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 789044
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 854839
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 7946296
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5385527
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3415602
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2956078
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3218481
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3284274
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3809845
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4926517
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4532276
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3349810
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3021617
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3809845
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 6764344
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 7354677
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2825777
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 789046
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 789045
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 789046
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 920889
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 2101540
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 2166818
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 2692388
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1643826
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5056047
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3414826
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2889771
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2626855
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2429737
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3021356
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4794162
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 9258034
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 6303791
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3611435
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2889512
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3086377
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4070958
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4070701
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1117754
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 854838
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1512240
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3218479
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5581875
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 6829619
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2497074
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1051957
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 854571
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 789040
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 789046
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 854839
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 855097
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 920634
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2038078
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 5779771
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 7682611
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4859954
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1381180
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1248823
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 2035241
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 1444906
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 1,
+      "level": 0,
+      "material": 5,
+      "color": 855096
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1907006
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 4729915
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 6698036
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 3743281
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 854840
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 920629
+    },
+    {
+      "height": 3,
+      "level": 2,
+      "material": 6,
+      "color": 1838122
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    },
+    {
+      "height": 0,
+      "material": 0,
+      "color": 0,
+      "level": 0
+    }
+  ],
+  "samples": [
+    {
+      "source": [
+        0.023255813953488372,
+        0.041666666666666664
+      ],
+      "ground": [
+        0,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.041666666666666664
+      ],
+      "ground": [
+        1,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.041666666666666664
+      ],
+      "ground": [
+        2,
+        5
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.041666666666666664
+      ],
+      "ground": [
+        3,
+        5
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.041666666666666664
+      ],
+      "ground": [
+        4,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.041666666666666664
+      ],
+      "ground": [
+        5,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.041666666666666664
+      ],
+      "ground": [
+        6,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.041666666666666664
+      ],
+      "ground": [
+        7,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.041666666666666664
+      ],
+      "ground": [
+        8,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.041666666666666664
+      ],
+      "ground": [
+        9,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.041666666666666664
+      ],
+      "ground": [
+        10,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.041666666666666664
+      ],
+      "ground": [
+        11,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.041666666666666664
+      ],
+      "ground": [
+        12,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.041666666666666664
+      ],
+      "ground": [
+        13,
+        7
+      ],
+      "height": 7,
+      "level": 5,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.041666666666666664
+      ],
+      "ground": [
+        14,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.041666666666666664
+      ],
+      "ground": [
+        15,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.041666666666666664
+      ],
+      "ground": [
+        16,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.041666666666666664
+      ],
+      "ground": [
+        17,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.041666666666666664
+      ],
+      "ground": [
+        18,
+        2
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 9.372583002030481
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.041666666666666664
+      ],
+      "ground": [
+        19,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.041666666666666664
+      ],
+      "ground": [
+        20,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.041666666666666664
+      ],
+      "ground": [
+        21,
+        6
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 9.372583002030467
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.125
+      ],
+      "ground": [
+        0,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.125
+      ],
+      "ground": [
+        1,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.125
+      ],
+      "ground": [
+        2,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.125
+      ],
+      "ground": [
+        3,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.125
+      ],
+      "ground": [
+        4,
+        5
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.125
+      ],
+      "ground": [
+        5,
+        5
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.125
+      ],
+      "ground": [
+        6,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.125
+      ],
+      "ground": [
+        7,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.125
+      ],
+      "ground": [
+        8,
+        8
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.125
+      ],
+      "ground": [
+        9,
+        8
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.125
+      ],
+      "ground": [
+        10,
+        8
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.125
+      ],
+      "ground": [
+        11,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.125
+      ],
+      "ground": [
+        12,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.125
+      ],
+      "ground": [
+        13,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.125
+      ],
+      "ground": [
+        14,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.125
+      ],
+      "ground": [
+        15,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.125
+      ],
+      "ground": [
+        16,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.125
+      ],
+      "ground": [
+        17,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.125
+      ],
+      "ground": [
+        18,
+        4
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 17.137084989847622
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.125
+      ],
+      "ground": [
+        19,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.125
+      ],
+      "ground": [
+        20,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.125
+      ],
+      "ground": [
+        21,
+        7
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 17.137084989847608
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.20833333333333334
+      ],
+      "ground": [
+        0,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.20833333333333334
+      ],
+      "ground": [
+        1,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.20833333333333334
+      ],
+      "ground": [
+        2,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.20833333333333334
+      ],
+      "ground": [
+        3,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.20833333333333334
+      ],
+      "ground": [
+        4,
+        6
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.20833333333333334
+      ],
+      "ground": [
+        5,
+        6
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.20833333333333334
+      ],
+      "ground": [
+        6,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.20833333333333334
+      ],
+      "ground": [
+        7,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.20833333333333334
+      ],
+      "ground": [
+        8,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.20833333333333334
+      ],
+      "ground": [
+        9,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.20833333333333334
+      ],
+      "ground": [
+        10,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.20833333333333334
+      ],
+      "ground": [
+        11,
+        9
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 1.6080810142133828
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.20833333333333334
+      ],
+      "ground": [
+        12,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.20833333333333334
+      ],
+      "ground": [
+        13,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.20833333333333334
+      ],
+      "ground": [
+        14,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.20833333333333334
+      ],
+      "ground": [
+        15,
+        5
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.20833333333333334
+      ],
+      "ground": [
+        16,
+        5
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.20833333333333334
+      ],
+      "ground": [
+        17,
+        5
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.20833333333333334
+      ],
+      "ground": [
+        18,
+        5
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.20833333333333334
+      ],
+      "ground": [
+        19,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.20833333333333334
+      ],
+      "ground": [
+        20,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.20833333333333334
+      ],
+      "ground": [
+        21,
+        8
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 1.608081014213326
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.2916666666666667
+      ],
+      "ground": [
+        0,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.2916666666666667
+      ],
+      "ground": [
+        1,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.2916666666666667
+      ],
+      "ground": [
+        2,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.2916666666666667
+      ],
+      "ground": [
+        3,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.2916666666666667
+      ],
+      "ground": [
+        4,
+        7
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.2916666666666667
+      ],
+      "ground": [
+        5,
+        7
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.2916666666666667
+      ],
+      "ground": [
+        6,
+        10
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.2916666666666667
+      ],
+      "ground": [
+        7,
+        10
+      ],
+      "height": 6,
+      "level": 4,
+      "region": "roof",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.2916666666666667
+      ],
+      "ground": [
+        8,
+        8
+      ],
+      "height": 4,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.35324701827429
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.2916666666666667
+      ],
+      "ground": [
+        9,
+        8
+      ],
+      "height": 4,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.35324701827429
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.2916666666666667
+      ],
+      "ground": [
+        10,
+        8
+      ],
+      "height": 4,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.35324701827429
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.2916666666666667
+      ],
+      "ground": [
+        11,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.2916666666666667
+      ],
+      "ground": [
+        12,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.2916666666666667
+      ],
+      "ground": [
+        13,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.2916666666666667
+      ],
+      "ground": [
+        14,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.2916666666666667
+      ],
+      "ground": [
+        15,
+        6
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 20.35324701827426
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.2916666666666667
+      ],
+      "ground": [
+        16,
+        6
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 20.35324701827426
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.2916666666666667
+      ],
+      "ground": [
+        17,
+        6
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 20.35324701827426
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.2916666666666667
+      ],
+      "ground": [
+        18,
+        6
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 20.35324701827426
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.2916666666666667
+      ],
+      "ground": [
+        19,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.2916666666666667
+      ],
+      "ground": [
+        20,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.2916666666666667
+      ],
+      "ground": [
+        21,
+        9
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 20.353247018274317
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.375
+      ],
+      "ground": [
+        0,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.375
+      ],
+      "ground": [
+        1,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.375
+      ],
+      "ground": [
+        2,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.375
+      ],
+      "ground": [
+        3,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.375
+      ],
+      "ground": [
+        4,
+        9
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.375
+      ],
+      "ground": [
+        5,
+        9
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.375
+      ],
+      "ground": [
+        6,
+        8
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.375
+      ],
+      "ground": [
+        7,
+        8
+      ],
+      "height": 2,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.375
+      ],
+      "ground": [
+        8,
+        8
+      ],
+      "height": 2,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.375
+      ],
+      "ground": [
+        9,
+        8
+      ],
+      "height": 2,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.375
+      ],
+      "ground": [
+        10,
+        8
+      ],
+      "height": 2,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.375
+      ],
+      "ground": [
+        11,
+        8
+      ],
+      "height": 2,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.375
+      ],
+      "ground": [
+        12,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.375
+      ],
+      "ground": [
+        13,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.375
+      ],
+      "ground": [
+        14,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.375
+      ],
+      "ground": [
+        15,
+        8
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.375
+      ],
+      "ground": [
+        16,
+        8
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.375
+      ],
+      "ground": [
+        17,
+        8
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.375
+      ],
+      "ground": [
+        18,
+        8
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 6.156420973603815
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.375
+      ],
+      "ground": [
+        19,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.375
+      ],
+      "ground": [
+        20,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.375
+      ],
+      "ground": [
+        21,
+        11
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 6.156420973603758
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.4583333333333333
+      ],
+      "ground": [
+        0,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.4583333333333333
+      ],
+      "ground": [
+        1,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.4583333333333333
+      ],
+      "ground": [
+        2,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.4583333333333333
+      ],
+      "ground": [
+        3,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.4583333333333333
+      ],
+      "ground": [
+        4,
+        10
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.4583333333333333
+      ],
+      "ground": [
+        5,
+        10
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.4583333333333333
+      ],
+      "ground": [
+        6,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.4583333333333333
+      ],
+      "ground": [
+        7,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.4583333333333333
+      ],
+      "ground": [
+        8,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.4583333333333333
+      ],
+      "ground": [
+        9,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.4583333333333333
+      ],
+      "ground": [
+        10,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.4583333333333333
+      ],
+      "ground": [
+        11,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.4583333333333333
+      ],
+      "ground": [
+        12,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.4583333333333333
+      ],
+      "ground": [
+        13,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.4583333333333333
+      ],
+      "ground": [
+        14,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.4583333333333333
+      ],
+      "ground": [
+        15,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.4583333333333333
+      ],
+      "ground": [
+        16,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.4583333333333333
+      ],
+      "ground": [
+        17,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.4583333333333333
+      ],
+      "ground": [
+        18,
+        9
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.4583333333333333
+      ],
+      "ground": [
+        19,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.4583333333333333
+      ],
+      "ground": [
+        20,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.4583333333333333
+      ],
+      "ground": [
+        21,
+        12
+      ],
+      "height": 5,
+      "level": 3,
+      "region": "wall",
+      "errorPx": 12.588745030457176
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.5416666666666666
+      ],
+      "ground": [
+        0,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.5416666666666666
+      ],
+      "ground": [
+        1,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.5416666666666666
+      ],
+      "ground": [
+        2,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.5416666666666666
+      ],
+      "ground": [
+        3,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.5416666666666666
+      ],
+      "ground": [
+        4,
+        12
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.5416666666666666
+      ],
+      "ground": [
+        5,
+        12
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.5416666666666666
+      ],
+      "ground": [
+        6,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.5416666666666666
+      ],
+      "ground": [
+        7,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.5416666666666666
+      ],
+      "ground": [
+        8,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.5416666666666666
+      ],
+      "ground": [
+        9,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.5416666666666666
+      ],
+      "ground": [
+        10,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.5416666666666666
+      ],
+      "ground": [
+        11,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.5416666666666666
+      ],
+      "ground": [
+        12,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.5416666666666666
+      ],
+      "ground": [
+        13,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.5416666666666666
+      ],
+      "ground": [
+        14,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.5416666666666666
+      ],
+      "ground": [
+        15,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.5416666666666666
+      ],
+      "ground": [
+        16,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.5416666666666666
+      ],
+      "ground": [
+        17,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.5416666666666666
+      ],
+      "ground": [
+        18,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.5416666666666666
+      ],
+      "ground": [
+        19,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.5416666666666666
+      ],
+      "ground": [
+        20,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.5416666666666666
+      ],
+      "ground": [
+        21,
+        11
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 13.9209229614209
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.625
+      ],
+      "ground": [
+        0,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.625
+      ],
+      "ground": [
+        1,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.625
+      ],
+      "ground": [
+        2,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.625
+      ],
+      "ground": [
+        3,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.625
+      ],
+      "ground": [
+        4,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.625
+      ],
+      "ground": [
+        5,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.625
+      ],
+      "ground": [
+        6,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.625
+      ],
+      "ground": [
+        7,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.625
+      ],
+      "ground": [
+        8,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.625
+      ],
+      "ground": [
+        9,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.625
+      ],
+      "ground": [
+        10,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.625
+      ],
+      "ground": [
+        11,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.625
+      ],
+      "ground": [
+        12,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.625
+      ],
+      "ground": [
+        13,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.625
+      ],
+      "ground": [
+        14,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.625
+      ],
+      "ground": [
+        15,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.625
+      ],
+      "ground": [
+        16,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.625
+      ],
+      "ground": [
+        17,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.625
+      ],
+      "ground": [
+        18,
+        13
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.625
+      ],
+      "ground": [
+        19,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.625
+      ],
+      "ground": [
+        20,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.625
+      ],
+      "ground": [
+        21,
+        12
+      ],
+      "height": 2,
+      "level": 1,
+      "region": "other",
+      "errorPx": 4.824243042640035
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.7083333333333334
+      ],
+      "ground": [
+        0,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.7083333333333334
+      ],
+      "ground": [
+        1,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.7083333333333334
+      ],
+      "ground": [
+        2,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.7083333333333334
+      ],
+      "ground": [
+        3,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.7083333333333334
+      ],
+      "ground": [
+        4,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.7083333333333334
+      ],
+      "ground": [
+        5,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.7083333333333334
+      ],
+      "ground": [
+        6,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.7083333333333334
+      ],
+      "ground": [
+        7,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.7083333333333334
+      ],
+      "ground": [
+        8,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.7083333333333334
+      ],
+      "ground": [
+        9,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.7083333333333334
+      ],
+      "ground": [
+        10,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.7083333333333334
+      ],
+      "ground": [
+        11,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.7083333333333334
+      ],
+      "ground": [
+        12,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.7083333333333334
+      ],
+      "ground": [
+        13,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.7083333333333334
+      ],
+      "ground": [
+        14,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.7083333333333334
+      ],
+      "ground": [
+        15,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.7083333333333334
+      ],
+      "ground": [
+        16,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.7083333333333334
+      ],
+      "ground": [
+        17,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.7083333333333334
+      ],
+      "ground": [
+        18,
+        15
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.7083333333333334
+      ],
+      "ground": [
+        19,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.7083333333333334
+      ],
+      "ground": [
+        20,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.7083333333333334
+      ],
+      "ground": [
+        21,
+        13
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 21.68542494923804
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.7916666666666666
+      ],
+      "ground": [
+        0,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.7916666666666666
+      ],
+      "ground": [
+        1,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.7916666666666666
+      ],
+      "ground": [
+        2,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.7916666666666666
+      ],
+      "ground": [
+        3,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.7916666666666666
+      ],
+      "ground": [
+        4,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.7916666666666666
+      ],
+      "ground": [
+        5,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.7916666666666666
+      ],
+      "ground": [
+        6,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.7916666666666666
+      ],
+      "ground": [
+        7,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.7916666666666666
+      ],
+      "ground": [
+        8,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.7916666666666666
+      ],
+      "ground": [
+        9,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.7916666666666666
+      ],
+      "ground": [
+        10,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.7916666666666666
+      ],
+      "ground": [
+        11,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.7916666666666666
+      ],
+      "ground": [
+        12,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.7916666666666666
+      ],
+      "ground": [
+        13,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.7916666666666666
+      ],
+      "ground": [
+        14,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.7916666666666666
+      ],
+      "ground": [
+        15,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.7916666666666666
+      ],
+      "ground": [
+        16,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.7916666666666666
+      ],
+      "ground": [
+        17,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.7916666666666666
+      ],
+      "ground": [
+        18,
+        16
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 2.9402589451769927
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.7916666666666666
+      ],
+      "ground": [
+        19,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.7916666666666666
+      ],
+      "ground": [
+        20,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.7916666666666666
+      ],
+      "ground": [
+        21,
+        14
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 2.9402589451771064
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.875
+      ],
+      "ground": [
+        0,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.875
+      ],
+      "ground": [
+        1,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.875
+      ],
+      "ground": [
+        2,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.875
+      ],
+      "ground": [
+        3,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.875
+      ],
+      "ground": [
+        4,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.875
+      ],
+      "ground": [
+        5,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.875
+      ],
+      "ground": [
+        6,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.875
+      ],
+      "ground": [
+        7,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.875
+      ],
+      "ground": [
+        8,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.875
+      ],
+      "ground": [
+        9,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.875
+      ],
+      "ground": [
+        10,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.875
+      ],
+      "ground": [
+        11,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.875
+      ],
+      "ground": [
+        12,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.875
+      ],
+      "ground": [
+        13,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.875
+      ],
+      "ground": [
+        14,
+        17
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.875
+      ],
+      "ground": [
+        15,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.875
+      ],
+      "ground": [
+        16,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.875
+      ],
+      "ground": [
+        17,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.875
+      ],
+      "ground": [
+        18,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.875
+      ],
+      "ground": [
+        19,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.875
+      ],
+      "ground": [
+        20,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.875
+      ],
+      "ground": [
+        21,
+        15
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 15.804907058883828
+    },
+    {
+      "source": [
+        0.023255813953488372,
+        0.9583333333333334
+      ],
+      "ground": [
+        0,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.06976744186046512,
+        0.9583333333333334
+      ],
+      "ground": [
+        1,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.11627906976744186,
+        0.9583333333333334
+      ],
+      "ground": [
+        2,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.16279069767441862,
+        0.9583333333333334
+      ],
+      "ground": [
+        3,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.20930232558139536,
+        0.9583333333333334
+      ],
+      "ground": [
+        4,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.2558139534883721,
+        0.9583333333333334
+      ],
+      "ground": [
+        5,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.3023255813953488,
+        0.9583333333333334
+      ],
+      "ground": [
+        6,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.3488372093023256,
+        0.9583333333333334
+      ],
+      "ground": [
+        7,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.3953488372093023,
+        0.9583333333333334
+      ],
+      "ground": [
+        8,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.4418604651162791,
+        0.9583333333333334
+      ],
+      "ground": [
+        9,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.4883720930232558,
+        0.9583333333333334
+      ],
+      "ground": [
+        10,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.5348837209302325,
+        0.9583333333333334
+      ],
+      "ground": [
+        11,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.5813953488372093,
+        0.9583333333333334
+      ],
+      "ground": [
+        12,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.627906976744186,
+        0.9583333333333334
+      ],
+      "ground": [
+        13,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.6744186046511628,
+        0.9583333333333334
+      ],
+      "ground": [
+        14,
+        19
+      ],
+      "height": 3,
+      "level": 2,
+      "region": "bridge",
+      "errorPx": 10.704760932994304
+    },
+    {
+      "source": [
+        0.7209302325581395,
+        0.9583333333333334
+      ],
+      "ground": [
+        15,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.7674418604651163,
+        0.9583333333333334
+      ],
+      "ground": [
+        16,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.813953488372093,
+        0.9583333333333334
+      ],
+      "ground": [
+        17,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.8604651162790697,
+        0.9583333333333334
+      ],
+      "ground": [
+        18,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.9069767441860465,
+        0.9583333333333334
+      ],
+      "ground": [
+        19,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.9534883720930233,
+        0.9583333333333334
+      ],
+      "ground": [
+        20,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    },
+    {
+      "source": [
+        0.9883720930232558,
+        0.9583333333333334
+      ],
+      "ground": [
+        21,
+        17
+      ],
+      "height": 1,
+      "level": 0,
+      "region": "water",
+      "errorPx": 10.70476093299419
+    }
+  ]
+}

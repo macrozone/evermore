@@ -1,0 +1,29 @@
+{
+  "checks": "Saved cabin facade geometry, pixel/JSON changes, height/grid extremes, lighting, world/maps/settings exports, harbour legacy fallback, mode switching and mobile scroll",
+  "layout": {
+    "stage": {
+      "left": 16,
+      "right": 374,
+      "top": 0,
+      "bottom": 804
+    },
+    "controls": {
+      "left": 208,
+      "right": 373,
+      "top": 1,
+      "bottom": 803
+    },
+    "canvas": {
+      "left": 17,
+      "right": 208,
+      "top": 631.75,
+      "bottom": 803
+    },
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390
+  },
+  "errors": [],
+  "modelRequests": [],
+  "additionalModelCostUsd": 0
+}

@@ -5,7 +5,7 @@ import { parseEnv } from 'node:util';
 import { chromium } from 'playwright';
 const root = new URL('../', import.meta.url);
 const { BASE_PORT } = parseEnv(await readFile(new URL('.env.local', root), 'utf8'));
-const out = new URL('docs/lab/experiments/image-to-voxel/comparison/', root);
+const out = new URL(process.env.IMAGE_TO_VOXEL_PROOF_DIR ?? 'docs/lab/experiments/image-to-voxel/comparison/', root);
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
@@ -31,7 +31,7 @@ const record = async (source, method, geometry, anchors) => {
 };
 const screenshot = async name => { await page.locator('fieldset').evaluate(el => { el.scrollTop = 0; }); return page.screenshot({ path: new URL(name, out).pathname, fullPage: true }); };
 try {
-  await page.goto(`http://127.0.0.1:${BASE_PORT}/lab/image-to-voxel?experiment=comparison`, { waitUntil: 'networkidle' });
+  await page.goto(`http://localhost:${BASE_PORT}/lab/image-to-voxel?experiment=comparison`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.querySelector('textarea')?.value.includes('meanProjectionErrorPx'));
   for (const source of ['cabin', 'harbour']) {
     console.log('Scene',source);

@@ -1,0 +1,185 @@
+{
+  "source": "harbour",
+  "durationMs": 2417,
+  "edits": 3,
+  "start": {
+    "tileSize": 64,
+    "heightScale": 6,
+    "method": "vision",
+    "projection": "projected",
+    "useAnchors": true
+  },
+  "end": {
+    "tileSize": 64,
+    "heightScale": 6,
+    "method": "vision",
+    "projection": "projected",
+    "useAnchors": true
+  },
+  "annotations": [
+    {
+      "id": "roof",
+      "label": "Central roof",
+      "kind": "roof",
+      "polygon": [
+        [
+          0.299,
+          0.221
+        ],
+        [
+          0.454,
+          0.043000000000000003
+        ],
+        [
+          0.565,
+          0.214
+        ],
+        [
+          0.565,
+          0.334
+        ],
+        [
+          0.454,
+          0.21000000000000002
+        ],
+        [
+          0.35,
+          0.334
+        ],
+        [
+          0.299,
+          0.314
+        ]
+      ],
+      "groundAnchor": [
+        0.45,
+        0.5
+      ],
+      "baseAnchor": [
+        0.45,
+        0.448
+      ],
+      "level": 5,
+      "probe": [
+        0.45,
+        0.1
+      ]
+    },
+    {
+      "id": "wall",
+      "label": "Central facade",
+      "kind": "wall",
+      "polygon": [
+        [
+          0.304,
+          0.322
+        ],
+        [
+          0.35,
+          0.324
+        ],
+        [
+          0.454,
+          0.2
+        ],
+        [
+          0.562,
+          0.324
+        ],
+        [
+          0.562,
+          0.448
+        ],
+        [
+          0.304,
+          0.448
+        ]
+      ],
+      "groundAnchor": [
+        0.45,
+        0.448
+      ],
+      "baseAnchor": [
+        0.45,
+        0.448
+      ],
+      "level": 3,
+      "probe": [
+        0.41,
+        0.38
+      ]
+    },
+    {
+      "id": "bridge",
+      "label": "West dock patch",
+      "kind": "bridge",
+      "polygon": [
+        [
+          0.177,
+          0.62
+        ],
+        [
+          0.427,
+          0.62
+        ],
+        [
+          0.427,
+          0.725
+        ],
+        [
+          0.177,
+          0.725
+        ]
+      ],
+      "groundAnchor": [
+        0.3,
+        0.735
+      ],
+      "baseAnchor": [
+        0.3,
+        0.735
+      ],
+      "level": 2,
+      "probe": [
+        0.28,
+        0.66
+      ]
+    },
+    {
+      "id": "water",
+      "label": "Water patch",
+      "kind": "water",
+      "polygon": [
+        [
+          0.02,
+          0.81
+        ],
+        [
+          0.18,
+          0.81
+        ],
+        [
+          0.18,
+          0.98
+        ],
+        [
+          0.02,
+          0.98
+        ]
+      ],
+      "groundAnchor": [
+        0.1,
+        0.9
+      ],
+      "baseAnchor": [
+        0.1,
+        0.9
+      ],
+      "level": 0,
+      "probe": [
+        0.1,
+        0.9
+      ]
+    }
+  ]
+}

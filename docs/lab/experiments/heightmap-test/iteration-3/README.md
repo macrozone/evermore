@@ -42,3 +42,24 @@ Depth Anything is a useful comparison for edges and near/far ordering, but its m
 - Live generation is restricted to same-origin local development, allowlisted sample sources and models, six attempts per hour, three cached map pairs and deduplicated in-flight requests. No silent model fallback. Cached hits disclose that their displayed cost belongs to the original call.
 
 The shared voxel viewer (`evermore-1fo.27`) is not present on this base branch; this experiment continues using its existing R1 preview. Optional separate ground-anchor maps remain a later comparison; the current anchors come from the facade boundary and adjacent ground labels.
+
+## Recovery on the current base
+
+The lab now preserves both experiments: **Top heights & facades** is the default; **Hand masks & Vision comparison** remains directly reproducible at `?experiment=comparison`. Both share the R1 preview and keep their controls beside the rendered result. The harbour can use its saved grayscale map or the colour heuristic; it has no saved iteration-3 facade pair.
+
+![Recovered cabin, top labels, facade mask and voxel shell](recovery/cabin-initial.png)
+
+![Diagnostic turn exposes the anchored walls](recovery/cabin-turned.png)
+
+The saved-map headless check verifies nonempty geometry, rendered pixel and settings changes, height scales 0/12, grids 8/64, lighting, scene and experiment switching, world/map/settings downloads, and mobile scroll at 390 × 844. The comparison check passes all 18 source/method/geometry combinations, patch edits and correction timing, exports, pixel changes, extremes and mobile layout. Screenshots were inspected; controls and canvas occupy separate columns without horizontal overflow. The [facade proof](recovery/facade-proof.json) records the viewport bounds and zero model requests; [comparison measurements](recovery/comparison/measurements.json) retain the comparison results. Automated correction timings are interaction smoke evidence, not human editing times.
+
+Additional model cost for recovery: **$0**. Existing masks and model outputs are reused. The original total estimate of $0.10183575 is unchanged. The 50 unresolved facade columns remain explicitly omitted; this recovery does not establish collision or walkability.
+
+Reproduce with the worktree's development server running:
+
+```sh
+node scripts/check-image-to-voxel-facades.mjs
+IMAGE_TO_VOXEL_PROOF_DIR=docs/lab/experiments/heightmap-test/iteration-3/recovery/comparison/ node scripts/check-image-to-voxel.mjs
+```
+
+The checks use `localhost`, matching Next.js's development-origin guard. Proof files are written separately so the original comparison evidence remains intact.
