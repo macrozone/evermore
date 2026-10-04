@@ -1,5 +1,5 @@
 import { createMovement, DEFAULT_MOVEMENT, stepMovement } from "@evermore/core";
-import { createMeadowHouseWorld, M, World, box } from "@evermore/world";
+import { createMeadowHouseWorld, generateWorld, WORLD_EXAMPLES, M, World, box } from "@evermore/world";
 import { describe, expect, it } from "vitest";
 import { cameraMovement, followBlend, voxelMovementFloor } from "./player-model";
 
@@ -8,6 +8,35 @@ function walk(world: World, state: ReturnType<typeof createMovement>, x: number,
 }
 
 describe("voxel player collision", () => {
+  it.each([0, 1, 2, 3])("moves away from a generated bed on floor %i", floor => {
+    const spec = structuredClone(WORLD_EXAMPLES[0]!);
+    spec.settlement.buildings = [{ name: "Small home", x: 24, y: 18, width: 8, depth: 8, floors: 4 }];
+    spec.sleepingPlace = { name: "Bedroom", buildingIndex: 0, floor };
+    const world = generateWorld(spec, 42);
+    const state = createMovement({ ...world.spawn, x: world.spawn.x + 0.5, y: world.spawn.y + 0.5 });
+    expect(voxelMovementFloor(world, state)).toBe(world.spawn.z);
+    walk(world, state, 0, 1, 20);
+    expect(state.y).toBeGreaterThan(world.spawn.y + 1);
+    expect(state.z).toBe(world.spawn.z);
+    // Follow every edge with the actual body collision, including stair transitions.
+    const queue = [world.spawn], seen = new Set([JSON.stringify(world.spawn)]);
+    let outside = false;
+    for (let i = 0; i < queue.length && !outside; i++) {
+      const p = queue[i]!;
+      outside = p.z === 3 && p.y >= 26;
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        let z = p.z, clear = true;
+        for (let t = 1; t <= 10; t++) {
+          const floor = voxelMovementFloor(world, { x: p.x + 0.5 + dx! * t / 10, y: p.y + 0.5 + dy! * t / 10, z });
+          if (floor === null) { clear = false; break; }
+          z = floor;
+        }
+        const next = { x: p.x + dx!, y: p.y + dy!, z }, key = JSON.stringify(next);
+        if (clear && !seen.has(key)) { seen.add(key); queue.push(next); }
+      }
+    }
+    expect(outside, "bedside start must have an exit using full player collision").toBe(true);
+  });
   it("checks the full AABB against walls, water and world boundaries", () => {
     const world = new World({ width: 8, depth: 8, height: 10 });
     world.fill(box(0, 0, 0, 8, 8, 3), M.grass);

@@ -10,7 +10,8 @@ import { POST } from "./route";
 
 const input = parseBookInput({ answers: ["A botanist beside a forest", "A cottage bedroom"] });
 const fetchMock = vi.fn();
-const gemini = (spec: unknown = WORLD_EXAMPLES[0], finishReason = "STOP") => new Response(JSON.stringify({
+const sleep = { name: "Cottage bedroom", buildingIndex: 0, floor: 0 };
+const gemini = (spec: unknown = { ...WORLD_EXAMPLES[0], sleepingPlace: sleep }, finishReason = "STOP") => new Response(JSON.stringify({
   candidates: [{ finishReason, content: { parts: [{ text: JSON.stringify(spec) }] } }],
   usageMetadata: { promptTokenCount: 120, candidatesTokenCount: 450 },
 }), { headers: { "Content-Type": "application/json" } });
@@ -35,6 +36,20 @@ describe("book generation", () => {
     const body = JSON.parse(options.body);
     expect(JSON.parse(body.contents[0].parts[0].text)).toEqual({ whoAndWhere: input.answers[0], sleepingPlace: input.answers[1] });
     expect(body.generationConfig.responseJsonSchema.properties.spawn).toBeDefined();
+    expect(body.generationConfig.responseJsonSchema.required).toContain("sleepingPlace");
+    expect(result.specification.sleepingPlace?.name).toBe("Cottage bedroom");
+  });
+  it("requests a missing sleeping place instead of silently ignoring the second answer", async () => {
+    fetchMock.mockResolvedValueOnce(gemini(WORLD_EXAMPLES[0]));
+    const result = await generateBook(input);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(JSON.parse(fetchMock.mock.calls[1]![1].body).contents[0].parts[0].text).toContain("$.sleepingPlace");
+    expect(result.source).toBe("vertex");
+  });
+  it("marks the fallback sleeping place as an example", async () => {
+    vi.stubEnv("BOOK_VERTEX_DISABLED", "true");
+    const result = await generateBook(input);
+    expect(result.specification.sleepingPlace).toEqual({ name: "Example sleeping place", buildingIndex: 0, floor: 1 });
   });
   it("switches Gemini models and their thinking budget", async () => {
     await generateBook({ ...input, model: "gemini-3.8-flash" });
@@ -45,7 +60,7 @@ describe("book generation", () => {
     fetchMock.mockImplementation(async () => new Response(JSON.stringify({
       id: "msg_test", type: "message", role: "assistant", model: "claude-sonnet-5-5",
       stop_reason: "tool_use", stop_sequence: null,
-      content: [{ type: "tool_use", id: "call_1", name: "json", input: WORLD_EXAMPLES[1] }],
+      content: [{ type: "tool_use", id: "call_1", name: "json", input: { ...WORLD_EXAMPLES[1], sleepingPlace: sleep } }],
       usage: { input_tokens: 50, output_tokens: 100 },
     }), { headers: { "Content-Type": "application/json" } }));
     const result = await generateBook({ ...input, model: "claude-sonnet-5-5" });
@@ -76,7 +91,7 @@ describe("book generation", () => {
     expect(JSON.stringify(result)).not.toContain("private");
   });
   it("repairs soft fields before retrying the model", async () => {
-    fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], palette: ["forestgreen", "brown"], spawn: { x: 100, y: -10 } }));
+    fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], sleepingPlace: sleep, palette: ["forestgreen", "brown"], spawn: { x: 100, y: -10 } }));
     const result = await generateBook(input);
     expect(result.source).toBe("vertex");
     expect(result.repairs?.length).toBeGreaterThan(0);
@@ -85,7 +100,7 @@ describe("book generation", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
   it("retries once with a concrete path and rule for an unreparable response", async () => {
-    fetchMock.mockResolvedValueOnce(gemini({ ...WORLD_EXAMPLES[0], biome: "invented" }));
+    fetchMock.mockResolvedValueOnce(gemini({ ...WORLD_EXAMPLES[0], sleepingPlace: sleep, biome: "invented" }));
     const result = await generateBook(input);
     expect(result.source).toBe("vertex");
     expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -95,7 +110,7 @@ describe("book generation", () => {
     expect(result.usage).toEqual({ inputTokens: 240, outputTokens: 900 });
   });
   it("falls back only after two invalid responses, exposing the failing path and rule", async () => {
-    fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], biome: "invented" }));
+    fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], sleepingPlace: sleep, biome: "invented" }));
     const result = await generateBook(input);
     expect(result).toMatchObject({ source: "example", fallbackReason: "invalid-output", specification: WORLD_EXAMPLES[0] });
     expect(result.fallbackDetail).toContain("$.biome:");
@@ -118,7 +133,7 @@ describe("book generation", () => {
     ];
     let interpreted = 0;
     for (const [i, change] of changes.entries()) {
-      fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], name: `Answer world ${i}`, ...change }));
+      fetchMock.mockImplementation(async () => gemini({ ...WORLD_EXAMPLES[0], sleepingPlace: sleep, name: `Answer world ${i}`, ...change }));
       const result = await generateBook({ ...input, answers: [`A botanist in home ${i}`, "A cottage bedroom"] });
       if (result.source === "vertex" && result.strategy === "g1") { interpreted++; expect(result.specification.name).toBe(`Answer world ${i}`); }
     }
