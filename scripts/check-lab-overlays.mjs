@@ -28,6 +28,8 @@ try {
       assert.deepEqual(scene, { x: 0, y: 0, ...viewport });
       const panel = page.getByRole("region", { name: "Experiment controls" });
       const bounds = await panel.boundingBox();
+      const toggle = panel.getByRole("button", { name: /Controls/ });
+      const toggleBounds = await toggle.boundingBox();
       if (size === "desktop") assert(bounds.width <= viewport.width * .3 + 1);
       else assert(bounds.height <= viewport.height * .3 + 1);
       const title = await page.locator("main header").boundingBox();
@@ -43,7 +45,6 @@ try {
       }
       await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}.png` });
       const original = await canvas.elementHandle();
-      const toggle = panel.getByRole("button", { name: /Controls/ });
       await toggle.click();
       assert.equal(await toggle.getAttribute("aria-expanded"), "false");
       assert(await original.evaluate(el => el.isConnected), `${route}: collapse unmounted canvas`);
@@ -57,6 +58,11 @@ try {
       await content.evaluate(el => { el.scrollTop = el.scrollHeight; });
       assert.deepEqual(await page.locator("[data-lab-scene]").boundingBox(), scene);
       assert.equal(await page.evaluate(() => window.scrollY), 0);
+      assert.deepEqual(await toggle.boundingBox(), toggleBounds, `${route}: panel header moved during scrolling`);
+      assert(await toggle.evaluate(el => {
+        const r = el.getBoundingClientRect();
+        return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+      }), `${route}: panel header is covered`);
       assert.equal(await content.evaluate(el => el.scrollWidth > el.clientWidth + 1), false, `${route}: horizontal control overflow`);
       await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}-scrolled.png` });
       const slider = route === "r1-voxel" ? page.getByRole("slider", { name: "Camera zoom", exact: true }) : panel.getByRole("slider").first();
