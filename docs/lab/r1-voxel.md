@@ -230,3 +230,43 @@ follow, every camera preset at both zoom limits, JSON/clipboard, panel scroll,
 390px mobile layout and time-lapse. Unit tests compare player focus against
 the actual orthographic depth-buffer mapping across presets, movement,
 elevation and zoom.
+
+## R1.8 – Spezifikation und Seed generieren
+
+Bead: `evermore-1fo.3.8`. Im Panel **Generate world** eine G1-Beispielwelt
+oder die aus dem Buch übergebene Spezifikation wählen. Quelle und Seed bleiben
+ein Entwurf, bis **Generate** beide gemeinsam übernimmt. **Roll seed** würfelt
+nur den Entwurf; erneutes Generieren setzt die Figur an den Spawn zurück, auch
+bei unveränderten Eingaben. Meadow house bleibt eine feste Vergleichs-Fixture
+mit deaktiviertem Seed-Feld. Der bestehende Hash-/localStorage-Handoff wird
+weiterverwendet; explizite Links haben Vorrang, ungültige Links zeigen Fehler.
+
+![Quell-Spezifikation neben ihrer Voxel-Welt](screenshots/r1-generation/source.png)
+
+[Ergebnis mit aktivem Seed und Spieler](screenshots/r1-generation/result.png),
+[Mobilansicht](screenshots/r1-generation/mobile.png).
+Aufnahme: Produktions-Build, Chromium headless, 1440 × 1000 bzw. 390 × 844,
+04.10.2026. Forest village, Seed `r1-review`, Wide view/Zoom 1×,
+2D-Look 45°/0°. Gemessen: 6,0 ms reine G1-Generierung, ohne Meshing und GPU-Aufbau.
+Die Seite bleibt in der Lab-Registry; ihre Beschreibung nennt nun die Generierung.
+
+Worauf achten: Fluss, Wald und Gebäude aus dem Source JSON mit dem Ergebnis
+vergleichen; erst ein anderer Seed plus Generate verändert die Welt. Ins Canvas
+klicken und laufen, dann mit demselben Seed neu generieren: Welt und Spawn sind
+reproduzierbar. Canvas und scrollbares Panel bleiben auch mobil nebeneinander.
+Der 16-Bit-Eindruck profitiert vom gemeinsamen Pixelraster und warmen Licht;
+G1-Bäume und Gebäude bleiben grobe Voxel-Platzhalter. Die Kamera folgt weiterhin
+dem Spieler, deshalb ist Wide view keine garantiert vollständige Weltübersicht.
+
+Offene gestalterische Fragen für maw: Sind die G1-Gebäude/Waldabstände in dieser
+Ansicht gut lesbar? Soll die Importquelle künftig direkt hier editierbar sein
+oder bleiben Buch/G1 die Bearbeitungsorte? Keine neue Architekturentscheidung.
+
+Prüfung: `node scripts/check-r1-generation.mjs http://127.0.0.1:<port>` prüft
+Entwurf/Übernahme, identische Framebuffer bei gleichem Seed, andere Terrainbilder
+bei anderem Seed, Bewegung/Spawn-Reset, Hash-Vorrang, Storage-Import, Fixture,
+ungültige Links, mobile Überläufe und Laufzeitfehler. Setup, Typecheck, Lint,
+Produktions-Build und vollständige Tests grün (294 www, 81 world, 13 core,
+6 ESLint plus Script-Tests; ein Live-Test ausgelassen). Der erste Testlauf traf
+den bereits erfassten parallelen Seed-Request-Flake `evermore-k0f0y`; der zweite
+vollständige Lauf bestand. Lokale Node-Version 23.6.0 statt Projektziel 22.
