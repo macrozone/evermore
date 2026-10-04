@@ -64,6 +64,8 @@
 .toggle {
   position: relative;
   z-index: 1;
+  /* Keep scrolling textareas from painting over the header in composited views. */
+  transform: translateZ(0);
   display: flex;
   justify-content: space-between;
   align-items: center;

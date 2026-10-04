@@ -9,6 +9,17 @@ if (!origin || !/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
 }
 const browser = await chromium.launch({ headless: true });
 const overlaps = (a, b) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+// Inspect the full viewport capture: an isolated element capture can hide compositor paint bugs.
+const headerPixels = (page, screenshot, bounds) => page.evaluate(async ({ data, bounds }) => {
+  const image = new Image();
+  image.src = `data:image/png;base64,${data}`;
+  await image.decode();
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.floor(bounds.width) - 32;
+  canvas.height = Math.floor(bounds.height) - 16;
+  canvas.getContext("2d").drawImage(image, -Math.floor(bounds.x + 16), -Math.floor(bounds.y + 8));
+  return canvas.toDataURL();
+}, { data: screenshot.toString("base64"), bounds });
 await mkdir("docs/lab/screenshots", { recursive: true });
 try {
   for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
@@ -43,7 +54,8 @@ try {
         assert(!overlaps(title, await diagnostics.boundingBox()), `${route}: title overlaps diagnostics`);
         assert(!overlaps(bounds, await diagnostics.boundingBox()), `${route}: panel overlaps diagnostics`);
       }
-      await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}.png` });
+      const initialShot = await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}.png` });
+      const initialHeader = await headerPixels(page, initialShot, toggleBounds);
       const original = await canvas.elementHandle();
       await toggle.click();
       assert.equal(await toggle.getAttribute("aria-expanded"), "false");
@@ -64,7 +76,8 @@ try {
         return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
       }), `${route}: panel header is covered`);
       assert.equal(await content.evaluate(el => el.scrollWidth > el.clientWidth + 1), false, `${route}: horizontal control overflow`);
-      await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}-scrolled.png` });
+      const scrolledShot = await page.screenshot({ path: `docs/lab/screenshots/overlay-${route}-${size}-scrolled.png` });
+      assert.equal(await headerPixels(page, scrolledShot, toggleBounds), initialHeader, `${route}: scrolling changed the visible panel header`);
       const slider = route === "r1-voxel" ? page.getByRole("slider", { name: "Camera zoom", exact: true }) : panel.getByRole("slider").first();
       await slider.scrollIntoViewIfNeeded();
       await slider.focus();
