@@ -32,6 +32,8 @@ Decisions are in [`docs/adr/`](docs/adr/README.md), tasks in Beads (`bd ready`).
 ```sh
 pnpm preview:main start
 pnpm preview:main update
+pnpm preview:main stop
+pnpm preview:main restart
 ```
 
 `start` fetches `origin/main`, creates a detached worktree at
@@ -43,9 +45,11 @@ Repeated starts reuse the same server. The main checkout stays on its branch.
 `update` fetches and checks out the latest `origin/main` in that worktree.
 It installs dependencies only when the lockfile changed or `node_modules` is
 missing, regenerates the environment, and applies database migrations. The
-running dev server keeps its PID and picks up app changes through hot reload.
-The preview uses Webpack with a one-second filesystem poll for reliable updates
-after Git checkouts; ordinary `pnpm dev` keeps the default Turbopack watcher.
+running dev server keeps its PID for content changes and picks them up through
+hot reload. Adding, removing, or renaming tracked App `page` or `route` files
+restarts the running www and dev-index processes so Next discovers the new
+route structure. The preview uses Webpack with a one-second filesystem poll
+for content updates; ordinary `pnpm dev` keeps the default Turbopack watcher.
 An update can also prepare a stopped preview; use `start` to launch it.
 Changes to dev tooling or server startup configuration may require a restart.
 
@@ -56,7 +60,7 @@ starts only the existing Compose services. Docker must be running.
 
 Set `PREVIEW_MAIN_DIR` to override the path (relative paths are resolved from
 the invoking checkout), or `PREVIEW_MAIN_PORT` to override the fixed port on
-first use. Both commands must use the same settings; ordinary `BASE_PORT` from
+first use. Start, update, and restart must use the same settings; ordinary `BASE_PORT` from
 another worktree is ignored. For example:
 
 ```sh
@@ -68,10 +72,31 @@ The script refuses changes to tracked files, worktrees from other repositories, 
 worktrees with a checked-out branch. Keep the preview worktree dedicated to
 this command. Git also refuses updates that would overwrite untracked files;
 untracked generated Catladder skills do not block updates. Logs and setup/PID state live in its Git metadata directory;
-the log path and PID are printed at startup. To stop the background process
-group, run `kill -INT -- -<PID>` with that PID. Compose data is kept; run
+the log path and PID are printed at startup. `stop` snapshots and terminates
+the entire saved process tree, including children in separate process groups.
+Saved process start times protect against reused PIDs. It works without fetching
+Git, installing dependencies, or running Docker, even with local preview edits.
+`restart` stops that stack, updates main, and launches it again. Compose data is kept; run
 `pnpm --filter @evermore/local-development services:down` from the preview
 worktree to stop the containers too. A subsequent `start` relaunches the server.
+
+### Route-discovery regression
+
+In the original incident, main added `/lab/wish` and `/lab/g3-map`, but the
+running preview on port 3900 returned 404 after an update even though the page
+files were present. Webpack's content polling did not refresh the App route
+registry in that running Next process.
+
+To reproduce the reported behavior with the old script: start the preview at a
+revision without a route, publish a main revision containing that route's
+`apps/www/app/<route>/page.tsx`, then run `update`. Check that the file is in
+the preview worktree and request `http://localhost:3900/<route>`: the affected
+server retains its PID and returns 404 until restarted. With the fix, that
+update prints "Restarting for changed App routes", launches a new stack, and
+the route responds. Editing an existing page preserves the PID. The
+`preview-main.test.mjs` fixture models a route registry captured at launch and
+checks these HTTP outcomes with www and dev-index children in separate process
+groups.
 
 ## Headless lab screenshots
 
