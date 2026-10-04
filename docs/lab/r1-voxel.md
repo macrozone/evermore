@@ -193,3 +193,40 @@ Abschlussprüfungen: `pnpm install`, Typecheck, Lint, vollständige Tests
 (98 www, 55 world, 13 core plus bestehende ESLint-/Script-Tests) und
 Produktions-Build grün. Lokale Node-Version 23.6.0 statt Projektziel 22;
 die vorhandene Engine-Warnung hat die Checks nicht verhindert.
+
+## R1 – Depth of field
+
+Bead: `evermore-1fo.3.11`. Enable **Depth of field** to try a miniature
+scene: the sharp depth band follows the player's actual camera depth,
+including while the camera catches up or the player changes floor.
+**Blur strength** ranges from 0–6 low-resolution pixels; **Focus range**
+is the half-width of the sharp band, in world cells. Defaults are off,
+3 pixels and ±6 cells. All three values are included in Settings JSON.
+
+The screen shader reads an orthographic depth texture and samples the world
+in whole render-pixel steps before nearest-neighbour upscaling. It keeps
+focused pixels untouched. The player billboard writes its own depth while
+preserving its current navigation-overlay behavior, so the player remains
+sharp even when the roof behind it is out of focus. Transparent sprite
+pixels do not overwrite terrain depth. A gradual, quantized blur radius
+outside the sharp band avoids smoothing the final screen-pixel grid.
+The sky remains sharp; edge coverage is unpremultiplied before compositing
+to avoid dark fringes. No additional scene render pass is required.
+
+![Depth of field, wide view](screenshots/r1-depth-of-field/moderate.png)
+
+Compare [off](screenshots/r1-depth-of-field/off.png) with
+[maximum blur and narrow focus](screenshots/r1-depth-of-field/on.png).
+The exaggerated setting makes the depth bands clear but sacrifices terrain
+readability; start with the defaults and reduce blur for navigation.
+Top-down separates heights rather than north/south positions; this is
+camera depth rather than a fixed screen-space tilt-shift mask.
+
+Run `node scripts/check-r1-depth-of-field.mjs http://127.0.0.1:<BASE_PORT>`
+against a local www server. The headless check compares framebuffer pixels
+for off/zero strength, visible blur, unchanged player torso and a consistent
+nearest-upscaled grid. It also exercises moving focus with slow camera
+follow, every camera preset at both zoom limits, JSON/clipboard, panel scroll,
+390px mobile layout and time-lapse. Unit tests compare player focus against
+the actual orthographic depth-buffer mapping across presets, movement,
+elevation and zoom.

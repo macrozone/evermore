@@ -3,7 +3,7 @@
 import { DEFAULT_MOVEMENT, createMovement, createMovementClock, stepMovement } from "@evermore/core";
 import { MEADOW_HOUSE_SEED, WORLD_EXAMPLES, generateWorld, deriveShadowWorld, findInfluenceOrigin, influenceAt } from "@evermore/world";
 import { useEffect, useRef, useState } from "react";
-import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture, Sprite, SpriteMaterial } from "three";
+import { AmbientLight, Box3, Color, DirectionalLight, Group, Mesh, MeshLambertMaterial, OrthographicCamera, Scene, WebGLRenderer, WebGLRenderTarget, NearestFilter, DepthTexture, AlwaysDepth, ShaderMaterial, PlaneGeometry, PCFShadowMap, Vector3, CanvasTexture, Sprite, SpriteMaterial } from "three";
 
 import { movementFromKeys } from "../../../components/lab/keyboard";
 import { MovementSettings } from "../../../components/lab/movement-settings";
@@ -14,7 +14,7 @@ import { cameraMovement, DEFAULT_FOLLOW, followBlend, voxelMovementFloor } from 
 import { CAMERA_PRESETS, DEFAULT_CAMERA, fitCamera, meshChunk, type CameraSettings } from "./voxel-model";
 import { advanceHour, clockLabel, daylightAt, DEFAULT_LIGHTING, type LightingSettings } from "./daylight";
 import { createLocalLights } from "./local-lights";
-import { DEFAULT_LOOK, LOOK_FRAGMENT, renderDimensions, type LookSettings } from "./pixel-look";
+import { DEFAULT_LOOK, LOOK_FRAGMENT, playerFocusDepth, renderDimensions, type LookSettings } from "./pixel-look";
 const PLAYER_CAMERA = { ...DEFAULT_CAMERA, zoom: 2.2 };
 
 export default function VoxelExperiment() {
@@ -60,9 +60,14 @@ export default function VoxelExperiment() {
     const geometries: ReturnType<typeof meshChunk>[] = [];
     const material = new MeshLambertMaterial({ vertexColors: true });
     const target = new WebGLRenderTarget(1, 1, { minFilter: NearestFilter, magFilter: NearestFilter });
+    target.depthTexture = new DepthTexture(1, 1);
+    target.depthTexture.minFilter = NearestFilter;
+    target.depthTexture.magFilter = NearestFilter;
     const screenGeometry = new PlaneGeometry(2, 2);
     const screenMaterial = new ShaderMaterial({
-      uniforms: { worldTexture: { value: target.texture }, saturation: { value: 1 }, palette: { value: false }, skyColor: { value: new Color() }, night: { value: 0 }, hour: { value: 16 }, renderSize: { value: [1, 1] } },
+      uniforms: { worldTexture: { value: target.texture }, worldDepth: { value: target.depthTexture },
+        depthOfField: { value: false }, blurStrength: { value: 3 }, focusRange: { value: 6 },
+        focusDepth: { value: 1 }, cameraNear: { value: 0.1 }, cameraFar: { value: 1 }, saturation: { value: 1 }, palette: { value: false }, skyColor: { value: new Color() }, night: { value: 0 }, hour: { value: 16 }, renderSize: { value: [1, 1] } },
       vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
       fragmentShader: LOOK_FRAGMENT,
       depthTest: false, depthWrite: false,
@@ -133,8 +138,9 @@ export default function VoxelExperiment() {
       playerTexture = new CanvasTexture(spriteCanvas);
       playerTexture.minFilter = NearestFilter;
       playerTexture.magFilter = NearestFilter;
-      // Visible navigation marker until the separate cutaway/occlusion slice.
-      playerMaterial = new SpriteMaterial({ map: playerTexture, depthTest: false, depthWrite: false, toneMapped: false });
+      // AlwaysDepth preserves the navigation overlay while writing player depth.
+      // Discard transparent texels so their empty rectangle cannot erase world depth.
+      playerMaterial = new SpriteMaterial({ map: playerTexture, depthTest: true, depthFunc: AlwaysDepth, depthWrite: true, alphaTest: 0.5, toneMapped: false });
       const player = new Sprite(playerMaterial);
       player.center.set(0.5, 0.125);
       player.scale.set(1.6, 3.2, 1);
@@ -220,6 +226,14 @@ export default function VoxelExperiment() {
         projected.x = Math.round((projected.x + 1) * size.width / 2) * 2 / size.width - 1;
         projected.y = Math.round((projected.y + 1) * size.height / 2) * 2 / size.height - 1;
         player.position.copy(projected.unproject(camera));
+        const focusDepth = playerFocusDepth(player.position, camera);
+        screenMaterial.uniforms.focusDepth!.value = focusDepth;
+        screenMaterial.uniforms.cameraNear!.value = camera.near;
+        screenMaterial.uniforms.cameraFar!.value = camera.far;
+        screenMaterial.uniforms.depthOfField!.value = lookSettings.depthOfField;
+        screenMaterial.uniforms.blurStrength!.value = lookSettings.blurStrength;
+        screenMaterial.uniforms.focusRange!.value = lookSettings.focusRange;
+        host.dataset.focusDepth = focusDepth.toFixed(4);
         host.dataset.playerX = state.x.toFixed(3);
         host.dataset.playerY = state.y.toFixed(3);
         host.dataset.playerZ = String(state.z);
@@ -345,6 +359,13 @@ export default function VoxelExperiment() {
           <MovementSettings value={movement} onChange={setMovement} />
           <label>Camera follow ({follow} /s)<input aria-label="Camera follow" className="w-full max-w-full" type="range" min={1} max={30} step={1} value={follow} onChange={(event) => setFollow(Number(event.target.value))} /></label>
           <button type="button" className="rounded border border-gold px-3 py-1" onClick={() => resetPlayer.current?.()}>Reset player</button>
+        </fieldset>
+        <fieldset className="min-w-0 grid gap-3 border border-dusk p-3">
+          <legend>Depth of field</legend>
+          <label><input type="checkbox" checked={look.depthOfField} onChange={(event) => setLook({ ...look, depthOfField: event.target.checked })} /> Depth of field</label>
+          <label>Blur strength ({look.blurStrength} render pixels)<input aria-label="Blur strength" className="w-full max-w-full" type="range" min={0} max={6} step={1} value={look.blurStrength} onChange={(event) => setLook({ ...look, blurStrength: Number(event.target.value) })} /></label>
+          <label>Focus range (±{look.focusRange} world cells)<input aria-label="Focus range" className="w-full max-w-full" type="range" min={0.5} max={30} step={0.5} value={look.focusRange} onChange={(event) => setLook({ ...look, focusRange: Number(event.target.value) })} /></label>
+          <p>The sharp depth band follows the player. Nearer and farther terrain softens in whole render-pixel steps; try a wide view for a miniature effect. Top-down views separate heights rather than north and south.</p>
         </fieldset>
         <fieldset className="min-w-0 flex flex-wrap gap-4 border border-dusk p-3">
           <legend>Firelight flicker</legend>
