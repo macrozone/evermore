@@ -124,19 +124,34 @@ describe("generation budget, cache and errors", () => {
     await service.generate(input);
     expect(generate).toHaveBeenCalledTimes(38);
   });
-  it("uses the selected Vertex model, shared library prompt and seed with server-only auth", async () => {
+  it.each(["parallel", "second variant first"])("uses the selected Vertex model, shared library prompt and seeds with server-only auth (%s)", async order => {
+    if (order === "second variant first") {
+      let release!: () => void;
+      // Hold the first variant's credentials until the second reaches fetch.
+      getRequestHeaders.mockImplementationOnce(() => new Promise<Headers>(resolve => {
+        release = () => resolve(new Headers({ Authorization: "Bearer secret-token" }));
+      }));
+      fetchMock.mockImplementationOnce(async () => { release(); return payload(); });
+    }
     const result = await createObjectGenerator().generate({ ...input, model: "gemini-3.1-flash-image", seed: 42 });
     expect(result.objects).toHaveLength(2);
     expect(JSON.stringify(result)).not.toContain("secret-token");
-    const [url, options] = fetchMock.mock.calls[0]!;
-    expect(url).toContain("locations/global/publishers/google/models/gemini-3.1-flash-image:generateContent");
-    expect(options.headers.get("authorization")).toBe("Bearer secret-token");
-    const body = JSON.parse(options.body);
-    expect(body.contents[0].parts[1].text).toContain(OBJECT_STYLE);
-    expect(body.generationConfig.seed).toBe(42);
-    expect(body.contents[0].parts[0].inlineData.mimeType).toBe("image/png");
-    expect(Buffer.from(body.contents[0].parts[0].inlineData.data, "base64")).toEqual(await readFile("public/objects/source/well.png"));
-    expect(result.objects[0]!.estimatedCostUsd).toBeCloseTo(0.0677);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const seeds = fetchMock.mock.calls.map(([, options]) => JSON.parse(options.body).generationConfig.seed);
+    if (order === "second variant first") expect(seeds).toEqual([43, 42]);
+    expect([...seeds].sort((a, b) => a - b)).toEqual([42, 43]);
+    const reference = await readFile("public/objects/source/well.png");
+    for (const [url, options] of fetchMock.mock.calls) {
+      expect(url).toContain("locations/global/publishers/google/models/gemini-3.1-flash-image:generateContent");
+      expect(options.headers.get("authorization")).toBe("Bearer secret-token");
+      const body = JSON.parse(options.body);
+      expect(body.contents[0].parts[1].text).toContain(OBJECT_STYLE);
+      expect(body.contents[0].parts[0].inlineData.mimeType).toBe("image/png");
+      expect(Buffer.from(body.contents[0].parts[0].inlineData.data, "base64")).toEqual(reference);
+      const object = result.objects.find(object => object.seed === body.generationConfig.seed);
+      expect(object).toBeDefined();
+      expect(object!.estimatedCostUsd).toBeCloseTo(0.0677);
+    }
   });
   it.each(["auth", "HTTP", "network", "no-image", "invalid-image"])("shows %s errors without changing models or leaking provider data", async failure => {
     if (failure === "auth") getRequestHeaders.mockRejectedValue(new Error("private ADC path"));
